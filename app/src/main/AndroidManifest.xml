@@ -15,13 +15,15 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".MemberJoinActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

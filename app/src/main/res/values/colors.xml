@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="tabMenuBg">#f3f6ff</color>
     <color name="meberJoinBg">#fbfbfb</color>
+    <color name="radioColor">#a5a5a5</color>
 </resources>

@@ -2,5 +2,9 @@
     <string name="app_name">talkstar</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_intro">IntroActivity</string>
-    <string name="memberJoinTitle">가입된 이메일로 로그인</string>
+    <string name="loginTitle">가입된 이메일로 로그인</string>
+    <string name="memberJoinTitle">회원가입</string>
+    <string name="memberJoinAutoLogin">자동로그인</string>
+    <string name="memberJoinTerms">이용약관동의</string>
+    <string name="memberJoinPrivacy">개인정보동의</string>
 </resources>
