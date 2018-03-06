@@ -19,11 +19,12 @@
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".LoginActivity">
+            android:theme="@style/AppTheme" />
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MemberJoinActivity">
 
         </activity>
-        <activity android:name=".MemberJoinActivity">
+        <activity android:name=".MemberJoinFinishActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
