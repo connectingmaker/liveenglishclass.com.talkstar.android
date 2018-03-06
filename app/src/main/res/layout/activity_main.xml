@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,13 +22,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.84">
+            android:layout_weight="0.80">
 
             <FrameLayout
                 android:id="@+id/viewFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
 
         </LinearLayout>
@@ -37,13 +39,25 @@
             android:layout_height="match_parent"
             layout="@layout/include_tabmenu"></include>
             -->
+
+
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:background="@color/tabMenuBg">
+            android:layout_height="wrap_content">
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/tabMenuBg"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -52,15 +66,16 @@
                     android:gravity="center">
 
                     <ImageButton
+                        android:id="@+id/tab01"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
                         android:background="@android:color/transparent"
-                        android:src="@mipmap/tab_button01_off"
-                        android:id="@+id/tab01"
-                        android:onClick="tabClick"/>
+                        android:onClick="tabClick"
+                        android:padding="0dp"
+                        android:src="@mipmap/tab_button01_off" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,13 +83,13 @@
                     android:gravity="center">
 
                     <ImageButton
+                        android:id="@+id/tab02"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
                         android:background="@android:color/transparent"
-                        android:src="@mipmap/tab_button02_off"
-                        android:id="@+id/tab02"
-                        android:onClick="tabClick"/>
+                        android:onClick="tabClick"
+                        android:padding="0dp"
+                        android:src="@mipmap/tab_button02_off" />
 
                 </LinearLayout>
 
@@ -82,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.28">
+
                 </LinearLayout>
 
 
@@ -92,15 +108,16 @@
                     android:gravity="center">
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/tab_button03_off"
                         android:id="@+id/tab03"
-                        android:onClick="tabClick"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:onClick="tabClick"
+                        android:padding="0dp"
+                        android:src="@mipmap/tab_button03_off" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,18 +125,21 @@
                     android:gravity="center">
 
                     <ImageButton
+                        android:id="@+id/tab04"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
                         android:background="@android:color/transparent"
-                        android:src="@mipmap/tab_button04_off"
-                        android:id="@+id/tab04"
-                        android:onClick="tabClick"/>
+                        android:onClick="tabClick"
+                        android:padding="0dp"
+                        android:src="@mipmap/tab_button04_off" />
 
                 </LinearLayout>
 
 
+            </LinearLayout>
         </LinearLayout>
+
+
 
 
     </LinearLayout>

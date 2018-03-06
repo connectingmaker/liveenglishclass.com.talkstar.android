@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">talkstar</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <string name="memberJoinTitle">가입된 이메일로 로그인</string>
 </resources>
