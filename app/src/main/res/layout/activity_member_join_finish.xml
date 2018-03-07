@@ -53,6 +53,7 @@
             android:layout_weight="0.2">
 
                 <ImageButton
+                    android:id="@+id/memberjoinfinish_btn_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -60,6 +61,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
+                    android:onClick="btnEventClick"
                     android:src="@mipmap/memberjoinfinish_btn_start"/>
 
 

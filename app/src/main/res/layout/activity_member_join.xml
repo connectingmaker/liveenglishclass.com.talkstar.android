@@ -195,6 +195,7 @@
                 android:layout_marginTop="20dp">
 
                 <ImageButton
+                    android:id="@+id/memberjoin_btn_complate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -202,6 +203,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
+                    android:onClick="btnClickEvent"
                     android:src="@mipmap/intro_btn_join"/>
 
 

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -12,9 +13,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import liveenglishclass.com.talkstar.core.ApiService;
+import liveenglishclass.com.talkstar.dto.Contributor;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private Retrofit retrofit;
+    ApiService apiService;
+
 
     /******* FRAGMENT ***********/
     private FragmentManager fragmentManager;
@@ -26,15 +45,64 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
     private SpeechRecognizer mRecognizer;
 
+
+    private void sampleNetWork()
+    {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                apiService = retrofit.create(ApiService.class);
+                Call<List<Contributor>> call = apiService.contributors("square", "retrofit");
+
+                call.enqueue(new Callback<List<Contributor>>() {
+                    @Override
+                    public void onResponse(Call<List<Contributor>> call, Response<List<Contributor>> response) {
+                        List<Contributor> contributors = response.body();
+                        // 받아온 리스트를 순회하면서
+                        for (Contributor contributor : contributors) {
+
+                            Log.d("test", contributor.login);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Contributor>> call, Throwable t) {
+
+                    }
+                });
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+        }.execute();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        sampleNetWork();
+
+
+
+
+
+
+
+
+
+
+//        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
 
 
 //        mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
