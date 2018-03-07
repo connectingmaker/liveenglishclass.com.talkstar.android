@@ -17,4 +17,10 @@
 
     <!-- 회원가입 완료 -->
     <string name="memberJoinFinishTxt">톡스타는\n영어 왕초보 분들을 위한\n인공지능 영어수업입니다\n음성으로\n쉽고 재미있게 공부하세요</string>
+
+    <!-- 공지사항 -->
+    <string name="noticeTitle">공지사항</string>
+
+    <!-- 의견보내기 -->
+    <string name="qnaTitle">의견보내기</string>
 </resources>

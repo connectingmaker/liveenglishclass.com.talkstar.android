@@ -8,4 +8,5 @@
     <color name="memberJoinFinishBg">#fbfbfb</color>
     <color name="radioColor">#a5a5a5</color>
     <color name="memberJoinFinishTxtColor">#3788d4</color>
+    <color name="qnaTitle">#3788d4</color>
 </resources>
