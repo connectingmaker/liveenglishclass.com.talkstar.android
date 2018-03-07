@@ -43,6 +43,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:layout_weight="0.30">
             <ImageButton
+                android:id="@+id/intro_btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -51,9 +52,11 @@
                 android:scaleType="fitCenter"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:onClick="btnClickEvent"
                 android:src="@mipmap/intro_btn_login"/>
 
             <ImageButton
+                android:id="@+id/intro_btn_memberjoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -63,6 +66,7 @@
                 android:scaleType="fitCenter"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:onClick="btnClickEvent"
                 android:src="@mipmap/intro_btn_join"/>
 
 
