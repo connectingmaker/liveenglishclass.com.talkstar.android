@@ -23,4 +23,9 @@
 
     <!-- 의견보내기 -->
     <string name="qnaTitle">의견보내기</string>
+
+
+    <!-- PUSH -->
+    <string name="notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notification_channel_name" translatable="true">News</string>
 </resources>

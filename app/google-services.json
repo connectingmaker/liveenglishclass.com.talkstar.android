@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "670090108005",
+    "firebase_url": "https://talkstar-38903.firebaseio.com",
+    "project_id": "talkstar-38903",
+    "storage_bucket": "talkstar-38903.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670090108005:android:33667870d6e79fd6",
+        "android_client_info": {
+          "package_name": "liveenglishclass.com.talkstar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670090108005-mod3qp24vno7jc7116brr1b5hdat91b0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe-2pqwMxiwF0U7WipGE3cTQUQLNy1b-o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

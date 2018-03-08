@@ -1,6 +1,7 @@
 package liveenglishclass.com.talkstar;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,14 +28,15 @@ public class IntroActivity extends AppCompatActivity {
 
         actManager.addActivity(this);
 
-        im_intro_logo = (ImageView) findViewById(R.id.im_intro_logo);
+        //im_intro_logo = (ImageView) findViewById(R.id.im_intro_logo);
 
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.intro_animation);
-        im_intro_logo.startAnimation(animation);
+        //im_intro_logo.startAnimation(animation);
         //view.startAnimation(animation);
     }
 
     public void btnClickEvent(View v) {
+
         switch(v.getId())
         {
             case R.id.intro_btn_login:
@@ -47,6 +49,7 @@ public class IntroActivity extends AppCompatActivity {
 
         }
 
+
         startActivity(intent);
         //overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_slide_down);
         //finish();
@@ -58,5 +61,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onDestroy();
         actManager.removeActivity(this);
     }
+
+
 
 }

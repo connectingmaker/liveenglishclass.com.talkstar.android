@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="liveenglishclass.com.talkstar.IntroActivity">
-    
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.0"
         android:weightSum="1"
         android:background="@mipmap/intro_bg">
 

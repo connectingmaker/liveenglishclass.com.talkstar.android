@@ -3,8 +3,11 @@ package liveenglishclass.com.talkstar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -13,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -30,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private final String degubTag = "MainActivity";
     private Retrofit retrofit;
     ApiService apiService;
 
@@ -88,17 +92,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        notification();
+
 
         sampleNetWork();
-
-
-
-
-
-
-
-
-
 
 //        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 //        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -203,6 +200,26 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
+
+    private void notification()
+    {
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        Log.d("test","token="+token);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = getString(R.string.notification_channel_id);
+            String channelName = getString(R.string.notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+    }
 
 
 
