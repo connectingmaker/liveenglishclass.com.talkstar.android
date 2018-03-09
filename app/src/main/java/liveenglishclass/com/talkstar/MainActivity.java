@@ -15,6 +15,8 @@ import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.GsonBuilder;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     /****** 음성인식 ***************/
     private Intent intent;
     private SpeechRecognizer mRecognizer;
+
+
+    private Button main_btn_mic;
 
 
     private void sampleNetWork()
@@ -143,6 +148,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void micClickEvent(View v) {
+        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+
+
+        mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        mRecognizer.setRecognitionListener(listener);
+        mRecognizer.startListening(intent);
+    }
+
     private void setFragment() {
         Log.d("test", "fragment 변환");
         this.fragmentTransaction.replace(R.id.viewFragment, this.fr);
@@ -187,7 +203,10 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<String> mResult = results.getStringArrayList(key);
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
-            Log.d("test", rs[0]);
+            //Log.d("test", rs[0]);
+
+            Toast toast = Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_LONG); toast.show();
+
         }
 
         @Override

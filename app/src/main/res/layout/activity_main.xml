@@ -96,7 +96,15 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.28">
+                    android:layout_weight="0.28"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/main_btn_mic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="음성인식"
+                        android:onClick="micClickEvent"></Button>
 
                 </LinearLayout>
 
