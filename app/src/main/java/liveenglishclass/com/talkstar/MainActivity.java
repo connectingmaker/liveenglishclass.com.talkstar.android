@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -27,6 +28,9 @@ import java.util.List;
 
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.Contributor;
+import liveenglishclass.com.talkstar.util.Util;
+
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private SpeechRecognizer mRecognizer;
 
 
-    private Button main_btn_mic;
 
+    private boolean mIsRecording = false;
+    private Handler mHandler;
+    private ViewVoice mViewVoice;
 
     private void sampleNetWork()
     {
@@ -100,17 +106,8 @@ public class MainActivity extends AppCompatActivity {
         notification();
 
 
+
         sampleNetWork();
-
-//        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-
-
-//        mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-//        mRecognizer.setRecognitionListener(listener);
-//        mRecognizer.startListening(intent);
-
 
 
 
@@ -149,14 +146,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void micClickEvent(View v) {
+        Log.d("test", "1111");
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "eu-US");
 
 
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
+
     }
 
     private void setFragment() {
@@ -168,32 +167,33 @@ public class MainActivity extends AppCompatActivity {
     private RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
-
+            Log.d("test", "onReadyForSpeech");
         }
 
         @Override
         public void onBeginningOfSpeech() {
-
+            Log.d("test", "onBeginningOfSpeech");
         }
 
         @Override
         public void onRmsChanged(float rmsdB) {
-
+            Log.d("test", "onRmsChanged");
         }
 
         @Override
         public void onBufferReceived(byte[] buffer) {
-
+            Log.d("test", "onBufferReceived");
         }
 
         @Override
         public void onEndOfSpeech() {
-
+            Log.d("test", "onEndOfSpeech");
         }
 
         @Override
         public void onError(int error) {
-
+            Log.d("test", "onError");
+            //Toast toast = Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG); toast.show();
         }
 
         @Override
@@ -203,7 +203,12 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<String> mResult = results.getStringArrayList(key);
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
-            //Log.d("test", rs[0]);
+
+
+            for(int i = 0; i<rs.length; i++) {
+                Log.d("test", rs[i].toString());
+            }
+
 
             Toast toast = Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_LONG); toast.show();
 

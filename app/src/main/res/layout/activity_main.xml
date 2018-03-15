@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:weightSum="10"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.08"
+            android:layout_weight="1"
             android:background="@drawable/gradient">
 
         </LinearLayout>
@@ -22,16 +24,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.80">
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="9">
+
 
             <FrameLayout
                 android:id="@+id/viewFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
+                android:layout_height="wrap_content"></FrameLayout>
 
         </LinearLayout>
+
+
+
+
+
 
         <!--
         <include
@@ -42,9 +51,9 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
+
+
 
 
 
@@ -57,12 +66,14 @@
                 android:background="@color/tabMenuBg"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingTop="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.18"
+                    android:layout_weight="0.15"
                     android:gravity="center">
 
                     <ImageButton
@@ -79,7 +90,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.18"
+                    android:layout_weight="0.15"
                     android:gravity="center">
 
                     <ImageButton
@@ -96,15 +107,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.28"
+                    android:layout_weight="0.30"
                     android:gravity="center">
 
-                    <Button
-                        android:id="@+id/main_btn_mic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="음성인식"
-                        android:onClick="micClickEvent"></Button>
+
+
+
+
+
 
                 </LinearLayout>
 
@@ -112,7 +122,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.18"
+                    android:layout_weight="0.15"
                     android:gravity="center">
 
                     <ImageButton
@@ -129,7 +139,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.18"
+                    android:layout_weight="0.15"
                     android:gravity="center">
 
                     <ImageButton
@@ -145,14 +155,19 @@
 
 
             </LinearLayout>
-        </LinearLayout>
-
 
 
 
     </LinearLayout>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:onClick="micClickEvent"
+        android:background="@drawable/btn_mic" />
 
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
