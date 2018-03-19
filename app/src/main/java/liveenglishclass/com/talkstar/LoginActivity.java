@@ -54,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init()
     {
+        actManager.addActivity(this);
+
+
         activity_login_et_id = (EditText) findViewById(R.id.activity_login_et_id);
         activity_login_et_pwd = (EditText) findViewById(R.id.activity_login_et_pwd);
 
@@ -122,9 +125,13 @@ public class LoginActivity extends AppCompatActivity {
                             Shared.savePreferences(LoginActivity.this, "SESS_TOKEN", finalToken);
                             Shared.savePreferences(LoginActivity.this, "SESS_USEREMAIL", memberLoginDTO.USEREMAIL);
                             Shared.savePreferences(LoginActivity.this, "SESS_USERNAME", memberLoginDTO.USERNAME);
+
+
                             actManager.finishAllActivity();
                             intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+
+
 
                         } else {
                             String ERROR = Util.getStringValue(LoginActivity.this, memberLoginDTO.ERR_CODE);
@@ -162,5 +169,12 @@ public class LoginActivity extends AppCompatActivity {
         View view = getCurrentFocus();
 
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        actManager.removeActivity(this);
     }
 }

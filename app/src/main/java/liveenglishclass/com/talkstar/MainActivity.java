@@ -29,6 +29,7 @@ import java.util.List;
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.Contributor;
+import liveenglishclass.com.talkstar.util.BackPressCloseHandler;
 import liveenglishclass.com.talkstar.util.Util;
 
 
@@ -40,6 +41,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private BackPressCloseHandler backPressCloseHandler;
+
     private ActivityManager actManager = ActivityManager.getInstance();
     private final String degubTag = "MainActivity";
     private Retrofit retrofit;
@@ -75,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
+
         fr = new HomeFragment();
 
         this.fragmentManager = getFragmentManager();
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 fr = new SettingFragment();
                 break;
         }
+
 
 
         this.fragmentManager = getFragmentManager();
@@ -214,6 +221,20 @@ public class MainActivity extends AppCompatActivity {
                     channelName, NotificationManager.IMPORTANCE_LOW));
         }
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        actManager.removeActivity(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+    }
+
 
 
 

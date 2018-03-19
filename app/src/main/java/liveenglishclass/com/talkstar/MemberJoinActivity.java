@@ -302,4 +302,5 @@ public class MemberJoinActivity extends AppCompatActivity {
 
         }.execute();
     }
+
 }
