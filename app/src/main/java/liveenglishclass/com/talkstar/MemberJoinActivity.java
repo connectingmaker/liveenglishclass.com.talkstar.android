@@ -13,9 +13,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.lang.reflect.Member;
+
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
+import liveenglishclass.com.talkstar.util.Shared;
 import liveenglishclass.com.talkstar.util.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -241,24 +244,49 @@ public class MemberJoinActivity extends AppCompatActivity {
 
     private void memberCheck()
     {
+        String Token = "";
+        if(Shared.getPerferences(this,"SESS_TOKEN").equals("") == true) {
+            Token = Util.getToken();
+            Shared.savePreferences(this,"SESS_TOKEN", Token);
+        } else {
+            Token = Shared.getPerferences(this,"SESS_TOKEN");
+        }
+        final String DeviceName = Util.getDeviceName();
+        final String DeviceModel = Util.getDeviceModel();
+        final String OSVersion = Util.getAndroidVersion();
+        final String finalToken = Token;
         /******** 회원가입 네트워크 연동 ************/
+
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                 apiService = retrofit.create(ApiService.class);
-                Call<MemberDTO> call = apiService.MemberDTO_userJoinSuccess(txt_email, txt_username, txt_phone, txt_pwd);
+                Call<MemberDTO> call = apiService.MemberDTO_userJoinSuccess(txt_email, txt_username, txt_phone, txt_pwd, finalToken, DeviceName, DeviceModel, OSVersion);
                 call.enqueue(new Callback<MemberDTO>() {
                     @Override
                     public void onResponse(Call<MemberDTO> call, Response<MemberDTO> response) {
                         MemberDTO memberDTO = response.body();
-                        Log.d(debugTag, memberDTO.ERR_CODE);
-                        Log.d(debugTag, response.body().toString());
+
+                        if(memberDTO.ERR_CODE.equals("000") == true) {
+                            Shared.savePreferences(MemberJoinActivity.this, "SESS_UID", memberDTO.UID);
+                            Shared.savePreferences(MemberJoinActivity.this, "SESS_TOKEN", finalToken);
+                            Shared.savePreferences(MemberJoinActivity.this, "SESS_USEREMAIL", txt_email);
+                            Shared.savePreferences(MemberJoinActivity.this, "SESS_USERNAME", txt_username);
+
+                            intent = new Intent(MemberJoinActivity.this, MemberJoinFinishActivity.class);
+                            startActivity(intent);
+                        } else {
+                            String ERROR = Util.getStringValue(MemberJoinActivity.this, memberDTO.ERR_CODE);
+                            Toast.makeText(MemberJoinActivity.this, ERROR, Toast.LENGTH_LONG).show();
+                        }
+
                     }
 
                     @Override
                     public void onFailure(Call<MemberDTO> call, Throwable t) {
-
+                        Toast.makeText(MemberJoinActivity.this, "네트워크 오류 발생", Toast.LENGTH_LONG).show();
                     }
                 });
 

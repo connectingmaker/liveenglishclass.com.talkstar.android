@@ -1,11 +1,19 @@
 package liveenglishclass.com.talkstar.util;
 
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.util.TypedValue;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import liveenglishclass.com.talkstar.R;
 
 /**
  * Created by kwangheejung on 2018. 3. 8..
@@ -23,17 +31,17 @@ public class Util {
     public static final Pattern VAILD_PHONE_REGEX = Pattern.compile("^01(?:0|1|[6-9]) - (?:\\d{3}|\\d{4}) - \\d{4}$");
 
     /********* 디바이스 명 가져오기 ******/
-    public String getDeviceName() {
+    public static String getDeviceName() {
         return Build.BRAND;
     }
 
     /********* 모델명 가져오기 ******/
-    public String getDeviceModel() {
+    public static String getDeviceModel() {
         return Build.MODEL;
     }
 
     /********* 안드로이드 버전 가져오기 ******/
-    public String getAndroidVersion() {
+    public static String getAndroidVersion() {
         return Build.VERSION.RELEASE;
     }
 
@@ -61,6 +69,31 @@ public class Util {
     public static boolean validatePhone(String number) {
         Matcher matcher = VAILD_PHONE_REGEX.matcher(number);
         return matcher.matches();
+    }
+
+
+    /******* Token 가져오기 *****************/
+    public static String getToken()
+    {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        return token;
+
+    }
+
+
+    public static String getStringValue(Activity activity, String value)
+    {
+
+        String packName = activity.getPackageName();
+        String ActivityName = activity.getLocalClassName();
+        String resName = "@string/"+ActivityName+"_"+value;
+        int resID = activity.getResources().getIdentifier(resName, "string", packName);
+        if(resID == 0) {
+            return "";
+        } else {
+            return activity.getResources().getString(resID);
+        }
+
     }
 
 

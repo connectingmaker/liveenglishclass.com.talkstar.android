@@ -43,19 +43,21 @@
             android:layout_weight="0.70">
 
             <EditText
+                android:id="@+id/activity_login_et_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:padding="15dp"
                 android:drawableLeft="@mipmap/edittext_icon_email"
                 android:drawableStart="@mipmap/edittext_icon_email"
                 android:drawablePadding="8dp"
                 android:background="@drawable/login_edittext"
                 android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:textSize="14dp">
             </EditText>
 
             <EditText
+                android:id="@+id/activity_login_et_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -65,6 +67,7 @@
                 android:drawablePadding="8dp"
                 android:background="@drawable/login_edittext"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textSize="14dp">
 
 
@@ -77,12 +80,14 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="40dp">
                 <ImageButton
+                    android:id="@+id/loginactivity_btn_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:onClick="btnClickEvent"
                     android:src="@mipmap/intro_btn_login"/>
 
                 <ImageButton

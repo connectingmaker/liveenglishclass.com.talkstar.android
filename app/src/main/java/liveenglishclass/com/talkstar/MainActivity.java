@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.util.Util;
@@ -39,7 +40,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-
+    private ActivityManager actManager = ActivityManager.getInstance();
     private final String degubTag = "MainActivity";
     private Retrofit retrofit;
     ApiService apiService;
@@ -61,42 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler;
     private ViewVoice mViewVoice;
 
-    private void sampleNetWork()
-    {
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
-                apiService = retrofit.create(ApiService.class);
-                Call<List<Contributor>> call = apiService.contributors("square", "retrofit");
-
-                call.enqueue(new Callback<List<Contributor>>() {
-                    @Override
-                    public void onResponse(Call<List<Contributor>> call, Response<List<Contributor>> response) {
-                        List<Contributor> contributors = response.body();
-                        // 받아온 리스트를 순회하면서
-                        for (Contributor contributor : contributors) {
-
-                            Log.d("test", contributor.login);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Contributor>> call, Throwable t) {
-
-                    }
-                });
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-            }
-
-        }.execute();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
         notification();
 
 
-
-        sampleNetWork();
+        actManager.addActivity(this);
 
 
 
@@ -226,14 +190,20 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    public void appLogout()
+    {
+        /**** 진행된 Activity 전체 삭제 *****/
+        actManager.finishAllActivity();
+
+
+        intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+
 
     private void notification()
     {
-        String token = FirebaseInstanceId.getInstance().getToken();
-
-        Log.d("test","token="+token);
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
             String channelId  = getString(R.string.notification_channel_id);
