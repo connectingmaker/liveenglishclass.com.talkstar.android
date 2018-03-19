@@ -5,6 +5,8 @@ import java.util.List;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -20,8 +22,8 @@ public interface ApiService {
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
 
-
+    @FormUrlEncoded
     @POST("member/userJoinSuccess")
-    Call<MemberDTO> MemberDTO_userJoinSuccess();
+    Call<MemberDTO> MemberDTO_userJoinSuccess(@Field("email") String email, @Field("username") String username, @Field("phone_number") String phone_number, @Field("pwd") String pwd);
 
 }
