@@ -117,7 +117,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void micClickEvent(View v) {
-        Log.d("test", "1111");
+        fr = new VoiceFragment();
+        this.fragmentManager = getFragmentManager();
+        this.fragmentTransaction = this.fragmentManager.beginTransaction();
+
+        this.setFragment();
+
+
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "eu-US");

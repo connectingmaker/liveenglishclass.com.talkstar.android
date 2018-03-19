@@ -15,6 +15,7 @@
     <string name="memberJoinPrivacy">개인정보동의</string>
 
 
+
     <!-- 회원가입 완료 -->
     <string name="memberJoinFinishTxt">톡스타는\n영어 왕초보 분들을 위한\n인공지능 영어수업입니다\n음성으로\n쉽고 재미있게 공부하세요</string>
 
@@ -23,6 +24,12 @@
 
     <!-- 의견보내기 -->
     <string name="qnaTitle">의견보내기</string>
+
+    <!-- HOME -->
+    <string name="mainfragmentTitle01">학습과정</string>
+    <string name="mainfragmentTitle02">학습과정</string>
+    <string name="mainfragmentTitle03">학습과정</string>
+    <string name="mainfragmentTitle04">학습과정</string>
 
 
     <!-- PUSH -->
