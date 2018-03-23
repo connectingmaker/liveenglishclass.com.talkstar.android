@@ -12,94 +12,314 @@
         android:weightSum="1"
         android:orientation="vertical"
         android:padding="20dp">
+
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/homefragmentTitle"
-                    android:text="@string/mainfragmentTitle01"
-                    android:textStyle="bold">
-
-                </TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="right|center_vertical">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/small_round_btn">
-
+                    android:layout_weight="0.5">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="3dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="3dp"
-                        android:text="학습히스토리"
+                        android:textSize="14dp"
                         android:textColor="@color/homefragmentTitle"
-                        android:textSize="8dp">
+                        android:text="@string/mainfragmentTitle01"
+                        android:textStyle="bold">
 
                     </TextView>
                 </LinearLayout>
-            </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/notice_round">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="기초문장편"></TextView>
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                    </Button>
+                </LinearLayout>
+
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dbdbdb"></LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
-                <TextView
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dbdbdb"></LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="진행사항"></TextView>
-                <TextView
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/homefragmentTitle"
+                        android:text="@string/mainfragmentTitle02"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="진행사항"></TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="진행사항"></TextView>
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle02_01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                    </Button>
+                </LinearLayout>
+
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/homefragmentTitle"
+                        android:text="@string/mainfragmentTitle03"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle02_01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                    </Button>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/homefragmentTitle"
+                        android:text="@string/mainfragmentTitle04"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle02_01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                    </Button>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

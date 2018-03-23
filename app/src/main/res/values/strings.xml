@@ -27,9 +27,12 @@
 
     <!-- HOME -->
     <string name="mainfragmentTitle01">학습과정</string>
-    <string name="mainfragmentTitle02">학습과정</string>
-    <string name="mainfragmentTitle03">학습과정</string>
-    <string name="mainfragmentTitle04">학습과정</string>
+    <string name="mainfragmentTitle01_btn">학습히스토리</string>
+    <string name="mainfragmentTitle02">학습 크레딧</string>
+    <string name="mainfragmentTitle02_01_btn">크레딧구매내역</string>
+    <string name="mainfragmentTitle02_02_btn">추가구매하기</string>
+    <string name="mainfragmentTitle03">최근 학습내용</string>
+    <string name="mainfragmentTitle04">나의 랭킹</string>
 
 
     <!-- PUSH -->
