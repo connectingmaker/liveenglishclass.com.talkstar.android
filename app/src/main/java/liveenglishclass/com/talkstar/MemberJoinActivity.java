@@ -2,6 +2,7 @@ package liveenglishclass.com.talkstar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.lang.reflect.Member;
+import java.util.regex.Pattern;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
@@ -63,11 +65,13 @@ public class MemberJoinActivity extends AppCompatActivity {
 
     private void init()
     {
-        memberjoin_et_email = (EditText) findViewById(R.id.memberjoin_et_email);
-        memberjoin_et_username = (EditText) findViewById(R.id.memberjoin_et_username);
-        memberjoin_et_phone = (EditText) findViewById(R.id.memberjoin_et_phone);
-        memberjoin_et_pw = (EditText) findViewById(R.id.memberjoin_et_pw);
-        memberjoin_et_pw2 = (EditText) findViewById(R.id.memberjoin_et_pw2);
+        memberjoin_et_email = (EditText)findViewById(R.id.memberjoin_et_email);
+        memberjoin_et_username = (EditText)findViewById(R.id.memberjoin_et_username);
+        memberjoin_et_phone = (EditText)findViewById(R.id.memberjoin_et_phone);
+        memberjoin_et_pw = (EditText)findViewById(R.id.memberjoin_et_pw);
+        memberjoin_et_pw2 = (EditText)findViewById(R.id.memberjoin_et_pw2);
+
+        memberjoin_et_email.setNextFocusDownId(R.id.memberjoin_et_username);
 
         memberjoin_layout = (LinearLayout) findViewById(R.id.memberjoin_layout);
         memberjoin_layout.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +107,7 @@ public class MemberJoinActivity extends AppCompatActivity {
             }
         });
 
-        /*** 이름 엔터 ***********/
+        /*** 핸드폰 엔터 ***********/
         memberjoin_et_phone.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -115,7 +119,7 @@ public class MemberJoinActivity extends AppCompatActivity {
             }
         });
 
-        /*** 이름 엔터 ***********/
+        /*** 비밀번호 엔터 ***********/
         memberjoin_et_pw.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -127,16 +131,18 @@ public class MemberJoinActivity extends AppCompatActivity {
             }
         });
 
-        /*** 이름 엔터 ***********/
+        /*** 비밀번호2 엔터 ***********/
         memberjoin_et_pw2.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == event.KEYCODE_ENTER) {
+                    keyboardHide();
                     return true;
                 }
                 return false;
             }
         });
+
     }
 
 

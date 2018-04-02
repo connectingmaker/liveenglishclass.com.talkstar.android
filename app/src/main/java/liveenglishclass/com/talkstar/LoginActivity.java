@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         activity_login_et_id.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //Log.d(keyCode);
                 if(keyCode == event.KEYCODE_ENTER) {
                     keyboardHide();
                     activity_login_et_pwd.requestFocus();

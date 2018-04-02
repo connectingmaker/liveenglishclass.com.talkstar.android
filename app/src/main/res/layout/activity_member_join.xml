@@ -54,11 +54,13 @@
                 android:background="@drawable/login_edittext"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
                 android:textSize="14dp">
             </EditText>
 
             <EditText
                 android:id="@+id/memberjoin_et_username"
+                android:nextFocusDown="@id/memberjoin_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -67,6 +69,8 @@
                 android:drawableStart="@mipmap/edittext_icon_people"
                 android:drawablePadding="8dp"
                 android:background="@drawable/login_edittext"
+                android:inputType="text"
+                android:imeOptions="actionNext"
                 android:hint="이름"
                 android:textSize="14dp">
 
@@ -85,6 +89,7 @@
                 android:background="@drawable/login_edittext"
                 android:hint="핸드폰번호"
                 android:inputType="number"
+                android:imeOptions="actionNext"
                 android:textSize="14dp">
 
 
@@ -102,6 +107,7 @@
                 android:background="@drawable/login_edittext"
                 android:hint="패스워드"
                 android:inputType="textPassword"
+                android:imeOptions="actionNext"
                 android:textSize="14dp">
 
 
@@ -119,6 +125,7 @@
                 android:background="@drawable/login_edittext"
                 android:hint="패스워드 확인"
                 android:inputType="textPassword"
+                android:imeOptions="actionNext"
                 android:textSize="14dp">
 
 
