@@ -174,7 +174,7 @@ public class MemberJoinActivity extends AppCompatActivity {
 
                 break;
 
-            case R.id.activity_member_privact:
+            case R.id.activity_member_privacy:
                 intent = new Intent(MemberJoinActivity.this, WebViewActivity.class);
                 intent.putExtra("URL", "member/privacy");
                 startActivity(intent);

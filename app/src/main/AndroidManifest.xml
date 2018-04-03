@@ -30,7 +30,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MemberJoinActivity"></activity>
         <activity android:name=".MemberJoinFinishActivity"></activity>
-        <activity android:name=".NoticeActivity" />
+        <activity android:name=".NoticeActivity"></activity>
+        <activity android:name=".QnaActivity"></activity>
 
         <service android:name=".util.FirebaseMessagingService">
             <intent-filter>

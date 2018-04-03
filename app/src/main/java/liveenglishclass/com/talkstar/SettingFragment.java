@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
@@ -21,7 +22,12 @@ import liveenglishclass.com.talkstar.util.Shared;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
-    private LinearLayout setting_logout;
+    private LinearLayout setting_logout, fragment_setting_privacy, fragment_setting_term, fragment_setting_qna, fragment_setting_notice;
+    private Intent intent;
+
+
+
+    private final String debugTag = "SettingFragment";
 
 
     @Override
@@ -50,14 +56,57 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         setting_logout = (LinearLayout) getActivity().findViewById(R.id.setting_logout);
         setting_logout.setOnClickListener(this);
 
+        fragment_setting_privacy = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_privacy);
+        fragment_setting_privacy.setOnClickListener(this);
+
+        fragment_setting_term = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_term);
+        fragment_setting_term.setOnClickListener(this);
+
+        fragment_setting_qna = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_qna);
+        fragment_setting_qna.setOnClickListener(this);
+
+        fragment_setting_notice = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_notice);
+        fragment_setting_notice.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        Shared.removePrefercences(getActivity(), "SESS_UID");
-        Shared.removePrefercences(getActivity(), "SESS_USEREMAIL");
-        Shared.removePrefercences(getActivity(), "SESS_USERNAME");
 
-        ((MainActivity)getActivity()).appLogout();
+        switch(v.getId()) {
+            case R.id.setting_logout:
+
+                Shared.removePrefercences(getActivity(), "SESS_UID");
+                Shared.removePrefercences(getActivity(), "SESS_USEREMAIL");
+                Shared.removePrefercences(getActivity(), "SESS_USERNAME");
+
+                ((MainActivity)getActivity()).appLogout();
+
+                break;
+            case R.id.fragment_setting_privacy:
+                Log.d(debugTag, "OK");
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("URL", "member/privacy");
+                startActivity(intent);
+                break;
+
+            case R.id.fragment_setting_term:
+                intent = new Intent(getActivity(),WebViewActivity.class);
+                intent.putExtra("URL","member/agree");
+                startActivity(intent);
+                break;
+
+            case R.id.fragment_setting_qna:
+                Log.d(debugTag,"qna");
+                intent = new Intent(getActivity(),QnaActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.fragment_setting_notice:
+                intent = new Intent(getActivity(),NoticeActivity.class);
+                startActivity(intent);
+                break;
+        }
+
     }
+
 }
