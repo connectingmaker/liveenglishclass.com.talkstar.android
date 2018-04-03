@@ -11,6 +11,7 @@
 
 
         <LinearLayout
+            android:id="@+id/fragment_setting_qna"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
@@ -22,13 +23,14 @@
                 android:layout_height="50dp"
                 android:padding="15dp"
                 android:drawablePadding="8dp"
-                android:drawableEnd="@mipmap/common_btn_next"
+                android:drawableRight="@mipmap/common_btn_next"
                 android:background="@drawable/notice_round"
                 android:hint="의견보내기"
                 android:textSize="14dp">
             </TextView>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fragment_setting_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
@@ -40,7 +42,7 @@
                 android:layout_height="50dp"
                 android:padding="15dp"
                 android:drawablePadding="8dp"
-                android:drawableEnd="@mipmap/common_btn_next"
+                android:drawableRight="@mipmap/common_btn_next"
                 android:background="@drawable/notice_round"
                 android:hint="공지사항"
                 android:textSize="14dp">
@@ -68,6 +70,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fragment_setting_term"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
@@ -79,7 +82,7 @@
                 android:layout_height="50dp"
                 android:padding="15dp"
                 android:drawablePadding="8dp"
-                android:drawableEnd="@mipmap/common_btn_next"
+                android:drawableRight="@mipmap/common_btn_next"
                 android:background="@drawable/notice_round"
                 android:hint="서비스이용약관"
                 android:textSize="14dp">
@@ -88,6 +91,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fragment_setting_privacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
@@ -99,7 +103,7 @@
                 android:layout_height="50dp"
                 android:padding="15dp"
                 android:drawablePadding="8dp"
-                android:drawableEnd="@mipmap/common_btn_next"
+                android:drawableRight="@mipmap/common_btn_next"
                 android:background="@drawable/notice_round"
                 android:hint="개인정보처리방침"
                 android:textSize="14dp">
@@ -121,7 +125,7 @@
                 android:layout_height="50dp"
                 android:padding="15dp"
                 android:drawablePadding="8dp"
-                android:drawableEnd="@mipmap/common_btn_next"
+                android:drawableRight="@mipmap/common_btn_next"
                 android:background="@drawable/notice_round"
                 android:hint="로그아웃"
                 android:textSize="14dp">

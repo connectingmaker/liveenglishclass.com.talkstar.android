@@ -41,7 +41,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            android:onClick="tabClick"
+                            android:onClick="btnClickEvent"
                             android:padding="0dp"
                             android:src="@mipmap/common_btn_pre" />
 
