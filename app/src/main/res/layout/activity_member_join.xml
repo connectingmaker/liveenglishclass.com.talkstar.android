@@ -164,6 +164,7 @@
 
 
                 <ImageButton
+                    android:id="@+id/activity_member_agree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -171,6 +172,7 @@
                     android:adjustViewBounds="true"
                     android:layout_marginLeft="10dp"
                     android:scaleType="fitCenter"
+                    android:onClick="btnClickEvent"
                     android:src="@mipmap/memberjoin_btn_view"/>
 
 
@@ -192,6 +194,7 @@
 
 
                 <ImageButton
+                    android:id="@+id/activity_member_privact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -199,6 +202,7 @@
                     android:adjustViewBounds="true"
                     android:layout_marginLeft="10dp"
                     android:scaleType="fitCenter"
+                    android:onClick="btnClickEvent"
                     android:src="@mipmap/memberjoin_btn_view"/>
 
 

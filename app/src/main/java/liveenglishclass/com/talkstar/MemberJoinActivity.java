@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -172,10 +173,24 @@ public class MemberJoinActivity extends AppCompatActivity {
 
 
                 break;
+
+            case R.id.activity_member_privact:
+                intent = new Intent(MemberJoinActivity.this, WebViewActivity.class);
+                intent.putExtra("URL", "member/privacy");
+                startActivity(intent);
+                break;
+
+
+            case R.id.activity_member_agree:
+                intent = new Intent(MemberJoinActivity.this, WebViewActivity.class);
+                intent.putExtra("URL", "member/agree");
+                startActivity(intent);
+                break;
         }
 
 
     }
+
 
     @Override
     protected void onDestroy()

@@ -15,11 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
@@ -30,29 +26,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".MemberJoinActivity">
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MemberJoinActivity"></activity>
+        <activity android:name=".MemberJoinFinishActivity"></activity>
+        <activity android:name=".NoticeActivity" />
 
-        </activity>
-        <activity android:name=".MemberJoinFinishActivity">
-
-        </activity>
-        <activity android:name=".NoticeActivity"></activity>
-
-
-        <service
-            android:name=".util.FirebaseMessagingService">
+        <service android:name=".util.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".util.FirebaseInstanceIDService" >
+        <service android:name=".util.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
+        <activity android:name=".WebViewActivity"></activity>
     </application>
 
 </manifest>
