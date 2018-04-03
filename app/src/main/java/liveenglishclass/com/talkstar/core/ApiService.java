@@ -5,12 +5,15 @@ import java.util.List;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
+import liveenglishclass.com.talkstar.dto.StudyDTO;
+import liveenglishclass.com.talkstar.dto.StudyList;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by kwangheejung on 2018. 3. 7..
@@ -46,4 +49,9 @@ public interface ApiService {
 
 
     Call<MemberLoginDTO> MemberLogin_Process(String login_et_id, String login_et_pw);
+
+
+    @GET("study/list")
+    //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
+    Call<StudyList> StudyList(@Query("uid") String uid);
 }
