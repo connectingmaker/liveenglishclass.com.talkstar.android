@@ -5,6 +5,7 @@ import java.util.List;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
+import liveenglishclass.com.talkstar.dto.NoticeList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
@@ -24,7 +25,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = " http://192.168.0.10:7890/";
+    public static final String API_URL = " http://192.168.0.11:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -73,5 +74,10 @@ public interface ApiService {
 
     @GET("voice/search")
     Call<VoiceSearchDTO> voiceSearch(@Query("uid") String uid, @Query("searchName") String searchName);
+
+
+    /*********** 공지사항 ******************/
+    @GET("member/noticeList")
+    Call<NoticeList> NoticeList();
 
 }
