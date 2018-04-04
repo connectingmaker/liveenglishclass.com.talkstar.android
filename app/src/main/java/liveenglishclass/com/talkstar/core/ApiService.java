@@ -8,6 +8,7 @@ import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
+import liveenglishclass.com.talkstar.dto.QnaDTO;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -22,7 +23,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = " http://192.168.0.10:7890/";
+    public static final String API_URL = " http://192.168.0.11:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -48,6 +49,14 @@ public interface ApiService {
             ,@Field("token") String token
     );
 
+    @FormUrlEncoded
+    @POST("member/qnaProcess")
+    Call<QnaDTO> Qna_Process(
+            @Field("uid") String uid
+            ,@Field("question") String question
+
+    );
+
 
     Call<MemberLoginDTO> MemberLogin_Process(String login_et_id, String login_et_pw);
 
@@ -60,4 +69,5 @@ public interface ApiService {
     @GET("study/chapter")
         //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
     Call<StudyChapterList> StudyChapterList(@Query("uid") String uid, @Query("classes_code") String classes_code);
+
 }

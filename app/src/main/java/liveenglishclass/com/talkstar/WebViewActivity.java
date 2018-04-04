@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import liveenglishclass.com.talkstar.core.ApiService;
+import liveenglishclass.com.talkstar.util.Util;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -29,12 +30,11 @@ public class WebViewActivity extends AppCompatActivity {
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
 
+
         if(b!=null)
         {
             String url =(String) b.get("URL");
             Log.d("test", ApiService.API_URL + url);
-
-
 
             webviewactivity_view.loadUrl(ApiService.API_URL + url);
         } else {

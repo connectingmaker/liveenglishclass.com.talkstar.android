@@ -98,29 +98,36 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp">
 
-                <TextView
+                <EditText
+                    android:id="@+id/activity_qna_et_q"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:padding="15dp"
                     android:drawablePadding="8dp"
                     android:background="@drawable/notice_round"
-                    android:textSize="14dp">
-                </TextView>
+                    android:textSize="14dp"
+                    android:gravity="top"
+                    android:lines="10">
+                </EditText>
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="10dp">
+                android:orientation="vertical">
+
                 <ImageButton
+                    android:id="@+id/qnaactivity_btn"
+                    android:onClick="btnClickEvent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/qna_btn_send"/>
+                    android:src="@mipmap/qna_btn_send" />
             </LinearLayout>
         </LinearLayout>
 
