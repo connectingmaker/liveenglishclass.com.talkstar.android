@@ -5,6 +5,7 @@ import java.util.List;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
+import liveenglishclass.com.talkstar.dto.NoticeList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
@@ -69,5 +70,10 @@ public interface ApiService {
     @GET("study/chapter")
         //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
     Call<StudyChapterList> StudyChapterList(@Query("uid") String uid, @Query("classes_code") String classes_code);
+
+
+    /*********** 공지사항 ******************/
+    @GET("member/noticeList")
+    Call<NoticeList> NoticeList();
 
 }
