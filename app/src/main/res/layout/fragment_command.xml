@@ -10,81 +10,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:weightSum="1"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:textSize="14dp"
-                        android:textColor="@color/homefragmentTitle"
-                        android:text="다시 듣고 싶을 때"
-                        android:textStyle="bold">
-
-                    </TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="right|center_vertical">
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/notice_round">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="다시 들려줘"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="다시 듣고 싶어요"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="또 듣고 싶어"></TextView>
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-
-
-
-
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:footerDividersEnabled="false"
+            android:listSelector="@android:color/transparent"
+            android:divider="@null"/>
 
     </LinearLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

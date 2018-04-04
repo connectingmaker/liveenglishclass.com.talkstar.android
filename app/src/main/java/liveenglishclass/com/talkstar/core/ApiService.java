@@ -2,6 +2,8 @@ package liveenglishclass.com.talkstar.core;
 
 import java.util.List;
 
+import liveenglishclass.com.talkstar.dto.CommandDTO;
+import liveenglishclass.com.talkstar.dto.CommandList;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
@@ -75,5 +77,9 @@ public interface ApiService {
     /*********** 공지사항 ******************/
     @GET("member/noticeList")
     Call<NoticeList> NoticeList();
+
+    /************ 명령어 *****************/
+    @GET("command/list")
+    Call<CommandList> CommandList();
 
 }
