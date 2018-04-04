@@ -29,7 +29,10 @@ import java.util.List;
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.Contributor;
+import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
+import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import liveenglishclass.com.talkstar.util.BackPressCloseHandler;
+import liveenglishclass.com.talkstar.util.Shared;
 import liveenglishclass.com.talkstar.util.Util;
 
 
@@ -81,17 +84,20 @@ public class MainActivity extends AppCompatActivity {
         backPressCloseHandler = new BackPressCloseHandler(this);
 
 
-        fr = new HomeFragment();
+        fr = new VoiceFragment();
 
         this.fragmentManager = getFragmentManager();
         this.fragmentTransaction = fragmentManager.beginTransaction();
         this.setFragment();
+
+
+
     }
 
     public void tabClick(View v) {
         switch(v.getId()) {
             case R.id.tab01:
-                fr = new HomeFragment();
+                fr = new VoiceFragment();
                 break;
 
             case R.id.tab02:
@@ -141,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         this.fragmentTransaction.commit();
     }
 
-    private RecognitionListener listener = new RecognitionListener() {
+    public RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
             Log.d("test", "onReadyForSpeech");
@@ -181,13 +187,70 @@ public class MainActivity extends AppCompatActivity {
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
 
+            final String searchName = rs[0];
 
-            for(int i = 0; i<rs.length; i++) {
-                Log.d("test", rs[i].toString());
-            }
+            Log.d("test", searchName);
 
 
-            Toast toast = Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_LONG); toast.show();
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                    apiService = retrofit.create(ApiService.class);
+
+                    Call<VoiceSearchDTO> call = apiService.voiceSearch("1111", searchName);
+                    call.enqueue(new Callback<VoiceSearchDTO>() {
+                        @Override
+                        public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
+                            VoiceSearchDTO voiceSearchDTO = response.body();
+
+                            switch(voiceSearchDTO.ACTION_CODE) {
+                                case "A001":
+                                    Toast.makeText(MainActivity.this, "반복", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "A002":
+                                    Toast.makeText(MainActivity.this, "다음 프로세스 진행", Toast.LENGTH_LONG).show();
+                                    break;
+
+
+
+                                case "A003":
+                                    Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.ENGLISH, Toast.LENGTH_LONG).show();
+                                break;
+
+                                case "A004":
+                                    Toast.makeText(MainActivity.this, "수업중단", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "A005":
+                                    Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<VoiceSearchDTO> call, Throwable t) {
+
+                        }
+                    });
+
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                }
+
+            }.execute();
+
+
+            //mRecognizer.startListening(intent);
+
+
+            //Toast toast = Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_LONG); toast.show();
 
         }
 
@@ -201,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
 
 
     public void appLogout()
