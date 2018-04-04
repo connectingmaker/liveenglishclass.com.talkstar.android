@@ -16,7 +16,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MemberJoinActivity"></activity>
-        <activity android:name=".MemberJoinFinishActivity"></activity>
-        <activity android:name=".NoticeActivity"></activity>
-        <activity android:name=".QnaActivity"></activity>
+        <activity android:name=".MemberJoinActivity" />
+        <activity android:name=".MemberJoinFinishActivity" />
+        <activity android:name=".NoticeActivity" />
+        <activity android:name=".QnaActivity" />
 
         <service android:name=".util.FirebaseMessagingService">
             <intent-filter>
@@ -44,7 +44,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".StudyChapterActivity"></activity>
     </application>
 
 </manifest>

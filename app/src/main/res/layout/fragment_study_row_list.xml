@@ -5,10 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="0dp"
-    android:paddingBottom="10dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +22,7 @@
             android:paddingRight="15dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/notice_round">
+            android:background="@drawable/study_round">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -69,6 +67,7 @@
 
 
                         <TextView
+                            android:id="@+id/classes_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16dp"
@@ -76,6 +75,15 @@
                             android:textColor="#404040"
                             android:letterSpacing="-0.1"
                             android:text="기초문장"/>
+
+                        <RatingBar
+                            android:id="@+id/classes_level"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:rating="1" />
 
 
                     </LinearLayout>
@@ -93,16 +101,15 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:gravity="center_vertical">
+                        android:layout_weight="0.5">
 
                         <TextView
                             android:id="@+id/question_cnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:letterSpacing="-0.8"
-                            android:textSize="10dp">
+                            android:layout_gravity="bottom"
+                            android:text="1111"
+                            android:textSize="20dp">
 
 
 
@@ -118,6 +125,7 @@
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:layout_weight="0.5">
 
                         <LinearLayout
@@ -127,19 +135,23 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textSize="10dp"
+                                android:textColor="#5d78eb"
                                 android:text="20%"/>
 
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp">
 
                             <ProgressBar
                                 style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="10dp"
+                                android:progressDrawable="@drawable/custom_progressbar"
                                 android:progress="90" />
 
 

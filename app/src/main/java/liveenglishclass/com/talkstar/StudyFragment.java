@@ -2,8 +2,6 @@ package liveenglishclass.com.talkstar;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,21 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import liveenglishclass.com.talkstar.adapter.StudyAdapter;
 import liveenglishclass.com.talkstar.core.ApiService;
-import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
-import liveenglishclass.com.talkstar.util.Shared;
-import liveenglishclass.com.talkstar.util.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +40,9 @@ public class StudyFragment extends Fragment {
     private StudyAdapter study_adapter;
 
 
+    private Intent intent;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +57,18 @@ public class StudyFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         _studyLists = new ArrayList<>();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String classesCode = _studyLists.get(position).getClassName();
+
+                intent = new Intent(getActivity(), StudyChapterActivity.class);
+                intent.putExtra("classesCode", classesCode);
+                startActivity(intent);
+                //Log.d(debugTag, _studyLists.get(position).getClassName());
+            }
+        });
         //this._dataList();
 
 
