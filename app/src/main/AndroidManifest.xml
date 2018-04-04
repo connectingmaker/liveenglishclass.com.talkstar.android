@@ -45,7 +45,12 @@
         </service>
 
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".StudyChapterActivity"></activity>
+        <activity android:name=".StudyChapterActivity" />
+        <activity android:name=".StudyChapterStartActivity" />
+        <activity
+            android:name=".StudyChapterQuestionActivity"
+            android:label="@string/title_activity_study_chapter_question"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

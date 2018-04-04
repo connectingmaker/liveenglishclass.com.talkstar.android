@@ -37,6 +37,10 @@
     <string name="mainfragmentTitle04">나의 랭킹</string>
     <string name="mainfragmentTitle04_01_btn">전체순위보기</string>
 
+
+    <string name="studychapterQuestion">문제만 복습하기</string>
+    <string name="studychapterQuestionSkip">시험보고 건너뛰기</string>
+
     <!-- PUSH -->
     <string name="notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="notification_channel_name" translatable="true">News</string>
@@ -55,4 +59,7 @@
     <string name="MemberJoinActivity_000">성공</string>
     <string name="MemberJoinActivity_E01">이메일이 존재합니다.</string>
     <string name="MemberJoinActivity_E02">핸드폰번호가 존재합니다.</string>
+    <string name="title_activity_study_chapter_question">StudyChapterQuestionActivity</string>
+
+
 </resources>

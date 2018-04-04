@@ -47,7 +47,7 @@ public class StudyChapterAdapter extends ArrayAdapter<StudyChapterDTO> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.fragment_study_row_list, parent, false);
+            convertView = inflater.inflate(R.layout.activity_study_chapter_row_list, parent, false);
 
             //convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_study_row_list, parent, false);
         }
