@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="10">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +15,40 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="50dp"
             android:background="@drawable/gradient">
+
+            <LinearLayout
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical|center_horizontal">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical|center_horizontal">
+
+                <TextView
+                    android:id="@+id/activity_studypart_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="-0.1"
+                    android:text="TALK STAR"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical|center_horizontal"></LinearLayout>
 
         </LinearLayout>
 
@@ -27,7 +58,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_weight="9">
+            android:layout_weight="10">
 
 
             <FrameLayout
@@ -50,111 +81,96 @@
             -->
 
 
-
-
-
-
-
-
-
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tabMenuBg"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/tabMenuBg"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="15dp">
+                android:layout_weight="0.15"
+                android:gravity="center">
 
-                <LinearLayout
+                <ImageButton
+                    android:id="@+id/tab01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:gravity="center">
+                    android:background="@android:color/transparent"
+                    android:onClick="tabClick"
+                    android:padding="0dp"
+                    android:src="@mipmap/tab_button01_off" />
 
-                    <ImageButton
-                        android:id="@+id/tab01"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:onClick="tabClick"
-                        android:padding="0dp"
-                        android:src="@mipmap/tab_button01_off" />
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center">
 
-                <LinearLayout
+                <ImageButton
+                    android:id="@+id/tab02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:gravity="center">
+                    android:background="@android:color/transparent"
+                    android:onClick="tabClick"
+                    android:padding="0dp"
+                    android:src="@mipmap/tab_button02_off" />
 
-                    <ImageButton
-                        android:id="@+id/tab02"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:onClick="tabClick"
-                        android:padding="0dp"
-                        android:src="@mipmap/tab_button02_off" />
+            </LinearLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
-                    android:gravity="center">
-
-
-
-
-
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/tab03"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:onClick="tabClick"
-                        android:padding="0dp"
-                        android:src="@mipmap/tab_button03_off" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/tab04"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:onClick="tabClick"
-                        android:padding="0dp"
-                        android:src="@mipmap/tab_button04_off" />
-
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:gravity="center">
 
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/tab03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:onClick="tabClick"
+                    android:padding="0dp"
+                    android:src="@mipmap/tab_button03_off" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/tab04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:onClick="tabClick"
+                    android:padding="0dp"
+                    android:src="@mipmap/tab_button04_off" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
 
 

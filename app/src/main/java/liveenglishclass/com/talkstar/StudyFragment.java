@@ -61,10 +61,12 @@ public class StudyFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String classesCode = _studyLists.get(position).getClassName();
+                String classesCode = _studyLists.get(position).getClassCode();
+                String classesName = _studyLists.get(position).getClassName();
 
                 intent = new Intent(getActivity(), StudyChapterActivity.class);
                 intent.putExtra("classesCode", classesCode);
+                intent.putExtra("classesName", classesName);
                 startActivity(intent);
                 //Log.d(debugTag, _studyLists.get(position).getClassName());
             }
