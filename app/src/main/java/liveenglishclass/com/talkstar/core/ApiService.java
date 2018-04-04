@@ -12,6 +12,7 @@ import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
 import liveenglishclass.com.talkstar.dto.QnaDTO;
+import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -72,6 +73,9 @@ public interface ApiService {
     @GET("study/chapter")
         //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
     Call<StudyChapterList> StudyChapterList(@Query("uid") String uid, @Query("classes_code") String classes_code);
+
+    @GET("voice/search")
+    Call<VoiceSearchDTO> voiceSearch(@Query("uid") String uid, @Query("searchName") String searchName);
 
 
     /*********** 공지사항 ******************/
