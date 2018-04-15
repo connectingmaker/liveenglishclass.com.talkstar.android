@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,8 +25,10 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
 
     Context context;
 
-    private TextView classes_name, question_cnt;
+    private TextView classes_name, question_cnt, study_progressTxt;
     private RatingBar classes_level;
+
+    private ProgressBar pg;
 
     // Constructors
     public StudyAdapter(Context context, List<StudyDTO> objects) {
@@ -59,10 +62,15 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
         question_cnt = (TextView) convertView.findViewById(R.id.question_cnt);
         classes_level = (RatingBar) convertView.findViewById(R.id.classes_level);
 
+        pg = (ProgressBar) convertView.findViewById(R.id.study_progressbar);
+        study_progressTxt = (TextView) convertView.findViewById(R.id.study_progressTxt);
+
 
         Log.d("test", item.getClassName());
         classes_name.setText(item.getClassName());
         classes_level.setRating(Float.parseFloat(item.getClassLevel()));
+        pg.setProgress(item.getTotalPer());
+        study_progressTxt.setText(item.getTotalPer().toString() + "%");
         question_cnt.setText(Html.fromHtml("<span color='#404040'><font size='30'>"+item.getUserQCnt().toString()+"</font><small>/"+item.getPartCnt().toString()+"</small></span>"));
 
 

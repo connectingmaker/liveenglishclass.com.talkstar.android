@@ -1,11 +1,13 @@
 package liveenglishclass.com.talkstar;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +27,13 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
+import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
@@ -43,7 +49,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private BackPressCloseHandler backPressCloseHandler;
 
     private ActivityManager actManager = ActivityManager.getInstance();
@@ -69,6 +75,19 @@ public class MainActivity extends AppCompatActivity {
     private ViewVoice mViewVoice;
 
 
+    private TextToSpeech myTTS_EN;
+    private TextToSpeech myTTS_KR;
+
+    private VoiceFragment voiceFragment;
+    private StudyFragment studyFragment;
+    private CommandFragment commandFragment;
+    private SettingFragment settingFragment;
+
+    private String fragmentCheck = "";
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +109,24 @@ public class MainActivity extends AppCompatActivity {
         this.fragmentTransaction = fragmentManager.beginTransaction();
         this.setFragment();
 
+        myTTS_EN=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    myTTS_EN.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+
+        myTTS_KR=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    myTTS_KR.setLanguage(Locale.KOREAN);
+                }
+            }
+        });
+
 
 
     }
@@ -97,19 +134,23 @@ public class MainActivity extends AppCompatActivity {
     public void tabClick(View v) {
         switch(v.getId()) {
             case R.id.tab01:
-                fr = new VoiceFragment();
+                voiceFragment = new VoiceFragment();
+                fragmentCheck = "voice";
                 break;
 
             case R.id.tab02:
-                fr = new StudyFragment();
+                studyFragment = new StudyFragment();
+                fragmentCheck = "study";
                 break;
 
             case R.id.tab03:
-                fr = new CommandFragment();
+                commandFragment = new CommandFragment();
+                fragmentCheck = "command";
                 break;
 
             case R.id.tab04:
-                fr = new SettingFragment();
+                settingFragment = new SettingFragment();
+                fragmentCheck = "setting";
                 break;
         }
 
@@ -130,9 +171,12 @@ public class MainActivity extends AppCompatActivity {
         this.setFragment();
 
 
+        Log.d("test", Locale.US.toString());
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "eu-US");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
+        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
+        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.US.toString());
 
 
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -143,8 +187,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void setFragment() {
         Log.d("test", "fragment 변환");
-        this.fragmentTransaction.replace(R.id.viewFragment, this.fr);
-        this.fragmentTransaction.commit();
+        switch(fragmentCheck) {
+            case "voice":
+                this.fragmentTransaction.replace(R.id.viewFragment, this.voiceFragment);
+                this.fragmentTransaction.commit();
+                break;
+            case "study":
+                this.fragmentTransaction.replace(R.id.viewFragment, this.studyFragment);
+                this.fragmentTransaction.commit();
+                break;
+            case "command":
+                this.fragmentTransaction.replace(R.id.viewFragment, this.commandFragment);
+                this.fragmentTransaction.commit();
+                break;
+            case "setting":
+                this.fragmentTransaction.replace(R.id.viewFragment, this.settingFragment);
+                this.fragmentTransaction.commit();
+                break;
+        }
+
     }
 
     public RecognitionListener listener = new RecognitionListener() {
@@ -188,8 +249,11 @@ public class MainActivity extends AppCompatActivity {
             mResult.toArray(rs);
 
             final String searchName = rs[0];
-
             Log.d("test", searchName);
+
+//            final CustormLoadingDialog loading = new CustormLoadingDialog(MainActivity.this);
+//            loading.show();
+
 
 
             new AsyncTask<Void, Void, String>() {
@@ -198,11 +262,18 @@ public class MainActivity extends AppCompatActivity {
                     retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                     apiService = retrofit.create(ApiService.class);
 
+                    //loading.show();
+                    Log.d("test", "전송");
+
                     Call<VoiceSearchDTO> call = apiService.voiceSearch("1111", searchName);
                     call.enqueue(new Callback<VoiceSearchDTO>() {
                         @Override
                         public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
+
                             VoiceSearchDTO voiceSearchDTO = response.body();
+                            //loading.dismiss();
+
+                            Log.d("test", voiceSearchDTO.ACTION_CODE);
 
                             switch(voiceSearchDTO.ACTION_CODE) {
                                 case "A001":
@@ -216,22 +287,58 @@ public class MainActivity extends AppCompatActivity {
 
 
                                 case "A003":
+                                    /*
+                                    if (voiceSearchDTO.ENGLISH_FILE.equals("TTS")) {
+
+                                    } else {
+                                        myTTS.
+                                    }
+                                    */
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21(voiceSearchDTO.ENGLISH);
+                                    } else {
+                                        ttsUnder20(voiceSearchDTO.ENGLISH);
+                                    }
+
                                     Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.ENGLISH, Toast.LENGTH_LONG).show();
                                 break;
 
                                 case "A004":
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                    } else {
+                                        ttsUnder20_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                    }
                                     Toast.makeText(MainActivity.this, "수업중단", Toast.LENGTH_LONG).show();
                                     break;
 
                                 case "A005":
-                                    Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                    } else {
+                                        ttsUnder20_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                    }
+                                    //Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "A999":
+                                    String voiceReturn = voiceSearchDTO.RETURN_MSG;
+                                    String username = Shared.getPerferences(MainActivity.this, "SESS_USERNAME");
+                                    voiceReturn = voiceReturn.replace("[_NAME_]", username);
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21_KR(voiceReturn);
+                                    } else {
+                                        ttsUnder20_KR(voiceReturn);
+                                    }
                                     break;
                             }
                         }
 
                         @Override
                         public void onFailure(Call<VoiceSearchDTO> call, Throwable t) {
-
+                            Log.d("test", "실패");
                         }
                     });
 
@@ -306,6 +413,32 @@ public class MainActivity extends AppCompatActivity {
         backPressCloseHandler.onBackPressed();
     }
 
+
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        myTTS_EN.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21(String text) {
+        String utteranceId=this.hashCode() + "";
+        myTTS_EN.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20_KR(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        myTTS_KR.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21_KR(String text) {
+        String utteranceId=this.hashCode() + "";
+        myTTS_KR.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+    }
 
 
 

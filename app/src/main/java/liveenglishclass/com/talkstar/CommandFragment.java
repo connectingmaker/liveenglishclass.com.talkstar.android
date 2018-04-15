@@ -88,7 +88,6 @@ public class CommandFragment extends Fragment {
                         String err_code = response.body().err_code;
                         if(err_code.equals("000")) {
 
-                            Log.d("test", "OK2");
                             _commandLists = response.body().getDatas();
 
 

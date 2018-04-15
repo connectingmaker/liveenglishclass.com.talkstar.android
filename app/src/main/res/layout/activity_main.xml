@@ -181,9 +181,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="0dp"
         android:onClick="micClickEvent"
-        android:background="@drawable/btn_mic" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/btn_mic" />
 
 
 </RelativeLayout>

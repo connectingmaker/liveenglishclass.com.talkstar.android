@@ -70,14 +70,14 @@
 
 
                         <TextView
-                            android:id="@+id/classes_name"
+                            android:id="@+id/chapter_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:textColor="#404040"
                             android:letterSpacing="-0.1"
-                            android:text="나는 학생입니다"/>
+                            android:text="나는 학생입니다"
+                            android:textColor="#404040"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
@@ -93,7 +93,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/question_cnt"
+                        android:id="@+id/chapter_sentence"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
@@ -101,22 +101,16 @@
                         android:textSize="11dp">
 
 
-
-
-
                     </TextView>
 
                     <TextView
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/question_cnt2"
+                        android:id="@+id/chapter_learning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:layout_marginTop="10dp"
                         android:text="be 동사 ~입니다"
                         android:textSize="11dp">
-
-
-
 
 
                     </TextView>
@@ -129,7 +123,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="right|center_vertical|center_horizontal">

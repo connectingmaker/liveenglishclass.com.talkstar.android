@@ -133,6 +133,7 @@
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:id="@+id/study_progressTxt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="10dp"
@@ -148,6 +149,7 @@
                             android:paddingTop="5dp">
 
                             <ProgressBar
+                                android:id="@+id/study_progressbar"
                                 style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"

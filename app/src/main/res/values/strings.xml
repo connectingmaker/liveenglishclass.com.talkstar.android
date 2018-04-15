@@ -62,4 +62,8 @@
     <string name="title_activity_study_chapter_question">StudyChapterQuestionActivity</string>
 
 
+    <!-- 명령어 모음 -->
+    <string name="NOT_STUDY_ANSWER">해당 명령어는 수업진행시에만 가능합니다.</string>
+
+
 </resources>

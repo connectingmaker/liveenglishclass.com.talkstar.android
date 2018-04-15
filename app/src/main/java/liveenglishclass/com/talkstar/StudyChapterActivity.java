@@ -35,7 +35,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     ApiService apiService;
 
 
-    private TextView activity_studypart_title, activity_studychapter_question, activity_studychapter_question_skip;
+    private TextView activity_studypart_title, activity_studychapter_question, activity_studychapter_question_skip, chapter_title;
     private ListView activity_studypart_list;
 
     private ArrayList<StudyChapterDTO> _studyLists;
@@ -45,6 +45,9 @@ public class StudyChapterActivity extends AppCompatActivity {
     private Intent intent;
     private String classesName;
     private String classesCode;
+    private String chapterCode;
+    private String chapterName;
+    private String chapterLearning;
 
 
     @Override
@@ -58,7 +61,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     private void _init()
     {
 
-        //activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
+        activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
         activity_studychapter_question = (TextView) findViewById(R.id.activity_studychapter_question);
         activity_studychapter_question_skip = (TextView) findViewById(R.id.activity_studychapter_question_skip);
         activity_studypart_list = (ListView) findViewById(R.id.activity_studypart_list);
@@ -76,7 +79,7 @@ public class StudyChapterActivity extends AppCompatActivity {
             classesCode =(String) b.get("classesCode");
             classesName = (String) b.get("classesName");
 
-            //activity_studypart_title.setText(classesName);
+            activity_studypart_title.setText(classesName);
 
 
 
@@ -88,6 +91,8 @@ public class StudyChapterActivity extends AppCompatActivity {
 
 
         final View header = getLayoutInflater().inflate(R.layout.activity_study_chapter_header, null, false) ;
+
+        chapter_title = header.findViewById(R.id.chapter_title);
 
 
 
@@ -118,6 +123,9 @@ public class StudyChapterActivity extends AppCompatActivity {
                             activity_studypart_list.addHeaderView(header);
                             activity_studypart_list.setAdapter(study_adapter);
                             activity_studypart_list.setOnItemClickListener(mItemClickListener);
+
+
+                            chapter_title.setText(_studyLists.size() + " LESSONS");
 
                             //ArrayAdapter study_adapter = new ArrayAdapter(getActivity(), android.R.layout.activity_list_item, _studyLists);
                             //listView.setAdapter(study_adapter);
@@ -163,11 +171,30 @@ public class StudyChapterActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long l_position) {
 
+
+
+            chapterCode = _studyLists.get(position-1).getChapterCode();
+            chapterName = _studyLists.get(position-1).getChapterName();
+            chapterLearning = _studyLists.get(position-1).getLearningNotes();
+
+
             intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+            intent.putExtra("classesCode", classesCode);
+            intent.putExtra("chapterCode", chapterCode);
+            intent.putExtra("chapterName", chapterName);
+            intent.putExtra("chapterLearning", chapterLearning);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        Log.d("test", "BACK");
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+    }
 
 
 

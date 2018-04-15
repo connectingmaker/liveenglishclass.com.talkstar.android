@@ -16,10 +16,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MemberJoinActivity" />
-        <activity android:name=".MemberJoinFinishActivity" />
-        <activity android:name=".NoticeActivity" />
-        <activity android:name=".QnaActivity" />
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".MemberJoinActivity" android:screenOrientation="portrait" />
+        <activity android:name=".MemberJoinFinishActivity" android:screenOrientation="portrait" />
+        <activity android:name=".NoticeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".QnaActivity" android:screenOrientation="portrait" />
 
         <service android:name=".util.FirebaseMessagingService">
             <intent-filter>
@@ -44,12 +46,13 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".WebViewActivity" />
-        <activity android:name=".StudyChapterActivity" />
-        <activity android:name=".StudyChapterStartActivity" />
+        <activity android:name=".WebViewActivity" android:screenOrientation="portrait" />
+        <activity android:name=".StudyChapterActivity" android:screenOrientation="portrait" />
+        <activity android:name=".StudyChapterStartActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".StudyChapterQuestionActivity"
             android:label="@string/title_activity_study_chapter_question"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>
 

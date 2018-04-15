@@ -67,7 +67,9 @@ public class StudyFragment extends Fragment {
                 intent = new Intent(getActivity(), StudyChapterActivity.class);
                 intent.putExtra("classesCode", classesCode);
                 intent.putExtra("classesName", classesName);
+
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 //Log.d(debugTag, _studyLists.get(position).getClassName());
             }
         });

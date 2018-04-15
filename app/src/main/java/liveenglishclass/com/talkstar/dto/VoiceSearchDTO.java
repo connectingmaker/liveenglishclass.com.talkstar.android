@@ -42,5 +42,8 @@ public class VoiceSearchDTO {
     @SerializedName("ENGLISH_FILE")
     public String ENGLISH_FILE = "";
 
+    @SerializedName("RETURN_MSG")
+    public String RETURN_MSG = "";
+
 
 }

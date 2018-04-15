@@ -32,7 +32,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
+                        android:letterSpacing="-0.1"
                         android:textColor="@color/homefragmentTitle"
                         android:textStyle="bold">
 
@@ -53,15 +54,19 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/notice_round">
+                android:layout_marginTop="5dp"
+                android:background="@drawable/study_round">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:padding="15dp">
                     <TextView
                         android:id="@+id/command_name"
+                        android:textSize="16dp"
+                        android:letterSpacing="-0.1"
+                        android:lineSpacingExtra="7dp"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 

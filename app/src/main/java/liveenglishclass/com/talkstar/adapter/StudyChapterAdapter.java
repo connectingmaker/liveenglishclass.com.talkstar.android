@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import liveenglishclass.com.talkstar.R;
@@ -23,7 +25,7 @@ public class StudyChapterAdapter extends ArrayAdapter<StudyChapterDTO> {
 
     Context context;
 
-    private TextView classes_name, question_cnt;
+    private TextView chapter_name, chapter_sentence, chapter_learning;
     private RatingBar classes_level;
 
     // Constructors
@@ -52,7 +54,15 @@ public class StudyChapterAdapter extends ArrayAdapter<StudyChapterDTO> {
             //convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_study_row_list, parent, false);
         }
 
+        chapter_name = (TextView) convertView.findViewById(R.id.chapter_name);
+        chapter_sentence = (TextView) convertView.findViewById(R.id.chapter_sentence);
+        chapter_learning = (TextView) convertView.findViewById(R.id.chapter_learning);
+
         StudyChapterDTO item = getItem(position);
+
+        chapter_name.setText(item.getChapterName());
+        chapter_sentence.setText(item.getSentence());
+        chapter_learning.setText(item.getLearningNotes());
 
 
         return convertView;

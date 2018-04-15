@@ -68,4 +68,17 @@ public class StudyDTO {
         this.PART_CNT = PART_CNT;
     }
 
+
+    public Integer getTotalPer()
+    {
+        return this.TOTAL_PER;
+    }
+
+    public void setTotalPer(Integer PARTOTAL_PERT_CNT)
+    {
+        this.TOTAL_PER = TOTAL_PER;
+    }
+
+
+
 }

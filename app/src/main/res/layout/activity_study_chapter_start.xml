@@ -39,6 +39,7 @@
 
 
             <TextView
+                android:id="@+id/activity_study_chapter_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SPEAKING PRACTICE"
@@ -48,6 +49,7 @@
 
 
             <TextView
+                android:id="@+id/activity_study_chapter_learning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

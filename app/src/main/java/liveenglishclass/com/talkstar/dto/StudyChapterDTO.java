@@ -28,6 +28,31 @@ public class StudyChapterDTO {
     private String LEARNING_NOTES = "";
 
 
+    public String getClassName() {
+        return this.CLASSES_NAME;
+    }
+
+    public String getClassLevel() {
+        return this.CLASSES_LEVEL;
+    }
+
+    public String getChapterCode(){
+        return this.CHAPTER_CODE;
+    }
+
+    public String getChapterName() {
+        return this.CHAPTER_NAME;
+    }
+
+    public String getSentence(){
+        return this.SENTENCE;
+    }
+
+    public String getLearningNotes()
+    {
+        return this.LEARNING_NOTES;
+    }
+
 
 
 

@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -30,6 +32,9 @@ public class IntroActivity extends AppCompatActivity {
 
     private String debugTag = "introActivity";
 
+    private LinearLayout intro_button_layout;
+    private ImageButton intro_btn_login, intro_btn_memberjoin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,9 @@ public class IntroActivity extends AppCompatActivity {
         tokenUpdate();
 
         im_intro_logo = (ImageView) findViewById(R.id.im_intro_logo);
+        intro_btn_login = (ImageButton) findViewById(R.id.intro_btn_login);
+        intro_btn_memberjoin = (ImageButton) findViewById(R.id.intro_btn_memberjoin);
+        intro_button_layout = (LinearLayout) findViewById(R.id.intro_button_layout);
 
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.intro_animation);
         im_intro_logo.startAnimation(animation);
@@ -58,7 +66,11 @@ public class IntroActivity extends AppCompatActivity {
                     intent = new Intent(IntroActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+                } else {
+                    intro_button_layout.setVisibility(View.VISIBLE);
                 }
+
+
             }
 
             @Override
