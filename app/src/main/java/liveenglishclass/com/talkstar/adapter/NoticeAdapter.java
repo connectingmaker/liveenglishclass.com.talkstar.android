@@ -25,7 +25,7 @@ public class NoticeAdapter extends ArrayAdapter<NoticeDTO> {
 
     Context context;
 
-    private TextView notice_title, notice_content;
+    private TextView seq,notice_title, notice_content;
 
     // Constructors
     public NoticeAdapter(Context context, List<NoticeDTO> objects) {
@@ -55,12 +55,13 @@ public class NoticeAdapter extends ArrayAdapter<NoticeDTO> {
             //convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_study_row_list, parent, false);
         }
 
-
+//        seq = (TextView) convertView.findViewById(R.id.seq);
         notice_title = (TextView) convertView.findViewById(R.id.notice_title);
         notice_content = (TextView) convertView.findViewById(R.id.notice_content);
 
         NoticeDTO item = getItem(position);
 
+//        seq.setText(item.getSEQ_SEQ());
         notice_title.setText(item.getNOTICE_TITLE());
         notice_content.setText(item.getNOTICE_CONTENT());
 

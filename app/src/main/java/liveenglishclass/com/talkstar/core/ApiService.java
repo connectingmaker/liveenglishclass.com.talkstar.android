@@ -27,7 +27,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = " http://192.168.0.10:7890/";
+    public static final String API_URL = " http://192.168.0.11:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
