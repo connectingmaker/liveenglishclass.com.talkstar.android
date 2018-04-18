@@ -4,12 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class NoticeDTO {
 
+    @SerializedName("SEQ")
+    private String SEQ = "";
+
     @SerializedName("NOTICE_TITLE")
     private String NOTICE_TITLE = "";
 
     @SerializedName("NOTICE_CONTENT")
     private String NOTICE_CONTENT = "";
 
+    public String getSEQ()
+    {
+        return this.SEQ;
+    }
+    public void setSEQ(String SEQ)
+    {
+        this.SEQ = SEQ;
+    }
 
     public String getNOTICE_TITLE()
     {

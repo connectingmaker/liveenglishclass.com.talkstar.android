@@ -32,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:onClick="btnClickEvent"
                 android:padding="0dp"
                 android:src="@mipmap/common_btn_pre" />
 
@@ -66,19 +65,13 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="9">
+            android:layout_height="wrap_content">
 
 
             <ListView
                 android:id="@+id/notice_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></ListView>
-
-
 
         </LinearLayout>
 

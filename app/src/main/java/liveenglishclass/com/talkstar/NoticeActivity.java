@@ -4,11 +4,13 @@ package liveenglishclass.com.talkstar;
  * Created by jccho on 2018. 3. 6..
  */
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,11 +47,13 @@ public class NoticeActivity extends AppCompatActivity implements AdapterView.OnI
         _init();
     }
 
+
     public void btnClickEvent(View v) {
         switch (v.getId()) {
             case R.id.preview:
                 onBackPressed();
                 break;
+
         }
     }
 
@@ -81,7 +85,6 @@ public class NoticeActivity extends AppCompatActivity implements AdapterView.OnI
                             notice_adapter = new NoticeAdapter(getBaseContext(), _noticeLists);
                             notice_list.setAdapter(notice_adapter);
 
-
                         } else {
                         }
                     }
@@ -108,8 +111,22 @@ public class NoticeActivity extends AppCompatActivity implements AdapterView.OnI
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LinearLayout linear_notice_contents = view.findViewById(R.id.notice_content);
-        //linear_notice_contents.setVisibility(View.VISIBLE);
+ public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Log.d("test","ok2222");
+     //   LinearLayout linear_notice_contents = view.findViewById(R.id.notice_content);
+     //   linear_notice_contents.setVisibility(View.VISIBLE);
+        //notice_adapterNoticeAdapter noticeAdapter = new NoticeAdapter();
+        //notice_adapter.getItem(position);
+
+
+        NoticeDTO item = notice_adapter.getItem(position);
+
+
+        Intent intent = new Intent(NoticeActivity.this, WebViewActivity.class);
+        intent.putExtra("URL", "member/noticeContent?seq="+item.getSEQ());
+        startActivity(intent);
     }
+
+
 }

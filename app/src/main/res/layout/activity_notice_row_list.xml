@@ -33,9 +33,9 @@
             android:layout_height="50dp"
             android:padding="15dp"
             android:drawablePadding="8dp"
-            android:drawableRight="@mipmap/common_btn_down"
-            android:background="@drawable/notice_round"
-            android:textSize="14dp">
+            android:drawableRight="@mipmap/common_btn_next2"
+            android:textSize="15dp"
+            android:textStyle="bold">
             </TextView>
             </LinearLayout>
 
@@ -54,7 +54,6 @@
                     android:layout_height="50dp"
                     android:padding="15dp"
                     android:drawablePadding="8dp"
-                    android:background="@drawable/notice_round"
                     android:textSize="14dp">
                 </TextView>
             </LinearLayout>
