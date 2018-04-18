@@ -7,6 +7,8 @@ import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,7 +21,9 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -86,6 +90,9 @@ public class MainActivity extends AppCompatActivity  {
     private String fragmentCheck = "";
 
 
+    private ImageButton tab01, tab02, tab03, tab04;
+
+
 
 
     @Override
@@ -99,15 +106,32 @@ public class MainActivity extends AppCompatActivity  {
         actManager.addActivity(this);
 
 
+        tab01 = (ImageButton) findViewById(R.id.tab01);
+        tab02 = (ImageButton) findViewById(R.id.tab02);
+        tab03 = (ImageButton) findViewById(R.id.tab03);
+        tab04 = (ImageButton) findViewById(R.id.tab04);
+
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
 
-        fr = new VoiceFragment();
+        voiceFragment = new VoiceFragment();
+        studyFragment = new StudyFragment();
+        commandFragment = new CommandFragment();
+        settingFragment = new SettingFragment();
+
+
+        fragmentCheck = "voice";
 
         this.fragmentManager = getFragmentManager();
         this.fragmentTransaction = fragmentManager.beginTransaction();
         this.setFragment();
+
+
+        tab01.setImageResource(R.mipmap.tab_button01_on);
+        tab02.setImageResource(R.mipmap.tab_button02_off);
+        tab03.setImageResource(R.mipmap.tab_button03_off);
+        tab04.setImageResource(R.mipmap.tab_button04_off);
 
         myTTS_EN=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -134,23 +158,46 @@ public class MainActivity extends AppCompatActivity  {
     public void tabClick(View v) {
         switch(v.getId()) {
             case R.id.tab01:
-                voiceFragment = new VoiceFragment();
                 fragmentCheck = "voice";
+                tab01.setImageResource(R.mipmap.tab_button01_on);
+                tab02.setImageResource(R.mipmap.tab_button02_off);
+                tab03.setImageResource(R.mipmap.tab_button03_off);
+                tab04.setImageResource(R.mipmap.tab_button04_off);
                 break;
 
             case R.id.tab02:
-                studyFragment = new StudyFragment();
+
                 fragmentCheck = "study";
+
+                tab01.setImageResource(R.mipmap.tab_button01_off);
+                tab02.setImageResource(R.mipmap.tab_button02_on);
+                tab03.setImageResource(R.mipmap.tab_button03_off);
+                tab04.setImageResource(R.mipmap.tab_button04_off);
                 break;
 
             case R.id.tab03:
-                commandFragment = new CommandFragment();
+
                 fragmentCheck = "command";
+
+                tab01.setImageResource(R.mipmap.tab_button01_off);
+                tab02.setImageResource(R.mipmap.tab_button02_off);
+                tab03.setImageResource(R.mipmap.tab_button03_on);
+                tab04.setImageResource(R.mipmap.tab_button04_off);
+
+
                 break;
 
             case R.id.tab04:
-                settingFragment = new SettingFragment();
+
                 fragmentCheck = "setting";
+
+
+                tab01.setImageResource(R.mipmap.tab_button01_off);
+                tab02.setImageResource(R.mipmap.tab_button02_off);
+                tab03.setImageResource(R.mipmap.tab_button03_off);
+                tab04.setImageResource(R.mipmap.tab_button04_on);
+
+
                 break;
         }
 
@@ -187,6 +234,9 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setFragment() {
         Log.d("test", "fragment 변환");
+
+
+
         switch(fragmentCheck) {
             case "voice":
                 this.fragmentTransaction.replace(R.id.viewFragment, this.voiceFragment);
@@ -205,6 +255,7 @@ public class MainActivity extends AppCompatActivity  {
                 this.fragmentTransaction.commit();
                 break;
         }
+
 
     }
 
@@ -270,10 +321,13 @@ public class MainActivity extends AppCompatActivity  {
                         @Override
                         public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
 
-                            VoiceSearchDTO voiceSearchDTO = response.body();
-                            //loading.dismiss();
 
-                            Log.d("test", voiceSearchDTO.ACTION_CODE);
+                            VoiceSearchDTO voiceSearchDTO = response.body();
+
+                            if(fragmentCheck.equals("voice")) {
+                                voiceFragment.addItem(voiceSearchDTO.SEQ, voiceSearchDTO.ACTION_CODE, voiceSearchDTO.COMMAND_VOICE, voiceSearchDTO.COMMAND_RETURN);
+                            }
+
 
                             switch(voiceSearchDTO.ACTION_CODE) {
                                 case "A001":
@@ -296,12 +350,12 @@ public class MainActivity extends AppCompatActivity  {
                                     */
 
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        ttsGreater21(voiceSearchDTO.ENGLISH);
+                                        ttsGreater21(voiceSearchDTO.COMMAND_RETURN);
                                     } else {
-                                        ttsUnder20(voiceSearchDTO.ENGLISH);
+                                        ttsUnder20(voiceSearchDTO.COMMAND_RETURN);
                                     }
 
-                                    Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.ENGLISH, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.COMMAND_RETURN, Toast.LENGTH_LONG).show();
                                 break;
 
                                 case "A004":
@@ -323,7 +377,7 @@ public class MainActivity extends AppCompatActivity  {
                                     break;
 
                                 case "A999":
-                                    String voiceReturn = voiceSearchDTO.RETURN_MSG;
+                                    String voiceReturn = voiceSearchDTO.COMMAND_RETURN;
                                     String username = Shared.getPerferences(MainActivity.this, "SESS_USERNAME");
                                     voiceReturn = voiceReturn.replace("[_NAME_]", username);
 
@@ -331,6 +385,16 @@ public class MainActivity extends AppCompatActivity  {
                                         ttsGreater21_KR(voiceReturn);
                                     } else {
                                         ttsUnder20_KR(voiceReturn);
+                                    }
+                                    break;
+
+
+                                default:
+                                    String voiceReturn2 = voiceSearchDTO.COMMAND_RETURN;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21_KR(voiceReturn2);
+                                    } else {
+                                        ttsUnder20_KR(voiceReturn2);
                                     }
                                     break;
                             }

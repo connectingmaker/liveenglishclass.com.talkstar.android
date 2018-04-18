@@ -62,8 +62,8 @@ public class StudyChapterActivity extends AppCompatActivity {
     {
 
         activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
-        activity_studychapter_question = (TextView) findViewById(R.id.activity_studychapter_question);
-        activity_studychapter_question_skip = (TextView) findViewById(R.id.activity_studychapter_question_skip);
+        //activity_studychapter_question = (TextView) findViewById(R.id.activity_studychapter_question);
+        //activity_studychapter_question_skip = (TextView) findViewById(R.id.activity_studychapter_question_skip);
         activity_studypart_list = (ListView) findViewById(R.id.activity_studypart_list);
 
 

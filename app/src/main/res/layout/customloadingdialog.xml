@@ -3,17 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical|center_horizontal"
-    android:orientation="vertical"
-    android:background="#F2FFFFFF">
+    android:background="#E6FFFFFF"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:background="#F2FFFFFF"
-        >
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +26,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5sp"
                 android:src="@mipmap/loading_logo" />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/loading_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/anim_loading"/>
 
         </LinearLayout>
 

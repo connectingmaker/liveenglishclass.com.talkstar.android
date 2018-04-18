@@ -82,21 +82,22 @@
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:onClick="chapterOnClick"
-                android:src="@mipmap/study_chapter_start_btn" />
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/btn_studychapterstart" />
 
-            <TextView
-                android:id="@+id/activity_studychapter_question"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/studychapterQuestion"
-                android:textColor="#616161" />
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/study_chapter_start_btn1"/>
 
-            <TextView
-                android:id="@+id/activity_studychapter_question_skip"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/studychapterQuestionSkip"
-                android:textColor="#616161" />
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/study_chapter_start_btn2"/>
 
         </LinearLayout>
 

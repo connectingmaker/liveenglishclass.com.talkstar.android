@@ -2,13 +2,17 @@ package liveenglishclass.com.talkstar;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import liveenglishclass.com.talkstar.adapter.CommandAdapter;
 
 import liveenglishclass.com.talkstar.core.ApiService;
+import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
 
@@ -40,6 +45,9 @@ public class CommandFragment extends Fragment {
     private ListView listView;
     private ArrayList<CommandDTO> _commandLists;
     private CommandAdapter command_adapter;
+
+    private Handler mHandler;
+    private Runnable mRunnable;
 
 
     private Intent intent;
@@ -73,6 +81,13 @@ public class CommandFragment extends Fragment {
 
     private void _dataList()
     {
+
+        final CustormLoadingDialog dialog = new CustormLoadingDialog(getActivity());
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -84,6 +99,18 @@ public class CommandFragment extends Fragment {
 
                     @Override
                     public void onResponse(Call<CommandList> call, Response<CommandList> response) {
+
+                        mRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                            }
+                        };
+
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mRunnable, 1000);
+
+
 
                         String err_code = response.body().err_code;
                         if(err_code.equals("000")) {

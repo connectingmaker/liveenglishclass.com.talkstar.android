@@ -10,4 +10,5 @@
     <color name="memberJoinFinishTxtColor">#3788d4</color>
     <color name="qnaTitle">#3788d4</color>
     <color name="homefragmentTitle">#3788d4</color>
+    <color name="voicefragmentTitle">#3788d4</color>
 </resources>

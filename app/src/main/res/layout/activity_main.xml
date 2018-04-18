@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.1"
+                android:layout_weight="0.2"
                 android:gravity="center_vertical|center_horizontal">
 
             </LinearLayout>
@@ -29,17 +29,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:gravity="center_vertical|center_horizontal">
 
-                <TextView
-                    android:id="@+id/activity_studypart_title"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="-0.1"
-                    android:text="TALK STAR"
-                    android:textColor="#ffffff"
-                    android:textSize="18dp" />
+                    android:src="@mipmap/top_header_logo"/>
 
             </LinearLayout>
 
@@ -47,8 +43,16 @@
 
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.1"
-                android:gravity="center_vertical|center_horizontal"></LinearLayout>
+                android:layout_weight="0.2"
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/btn_mainactivity_mypage"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -137,7 +141,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.15"
                 android:gravity="center">
 
@@ -184,7 +188,8 @@
         android:layout_marginBottom="0dp"
         android:onClick="micClickEvent"
         android:background="@android:color/transparent"
-        android:src="@drawable/btn_mic" />
+        android:src="@drawable/btn_mic"
+        android:paddingBottom="10dp"/>
 
 
 </RelativeLayout>

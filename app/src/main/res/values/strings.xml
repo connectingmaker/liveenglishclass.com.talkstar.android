@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">talkstar</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_intro">IntroActivity</string>
+    <string name="title_activity_intro">톡스타</string>
 
 
     <!-- 로그인 -->

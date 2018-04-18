@@ -18,32 +18,18 @@ public class VoiceSearchDTO {
     public final String ENGLISH_FILE;
     */
 
-    @SerializedName("GROUP_CODE")
-    public String GROUP_CODE = "";
+    @SerializedName("SEQ")
+    public Integer SEQ;
+
 
     @SerializedName("ACTION_CODE")
     public String ACTION_CODE = "";
 
-    @SerializedName("ACTION_NAME")
-    public String ACTION_NAME = "";
+    @SerializedName("COMMAND_VOICE")
+    public String COMMAND_VOICE = "";
 
-    @SerializedName("COMMAND_CODE")
-    public String COMMAND_CODE = "";
-
-    @SerializedName("COMMAND_NAME")
-    public String COMMAND_NAME = "";
-
-    @SerializedName("score")
-    public String score = "";
-
-    @SerializedName("ENGLISH")
-    public String ENGLISH = "";
-
-    @SerializedName("ENGLISH_FILE")
-    public String ENGLISH_FILE = "";
-
-    @SerializedName("RETURN_MSG")
-    public String RETURN_MSG = "";
+    @SerializedName("COMMAND_RETURN")
+    public String COMMAND_RETURN = "";
 
 
 }

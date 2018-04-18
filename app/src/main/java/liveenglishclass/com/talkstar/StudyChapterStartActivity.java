@@ -17,6 +17,9 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     private String chapterLearning = "";
 
 
+
+
+
     private TextView activity_study_chapter_title, activity_study_chapter_learning;
 
     @Override
@@ -55,6 +58,10 @@ public class StudyChapterStartActivity extends AppCompatActivity {
         switch(v.getId()) {
             case R.id.activity_studychapterstart_start_btn:
                 intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity.class);
+
+                intent.putExtra("classesCode", classesCode);
+                intent.putExtra("chapterCode", chapterCode);
+
                 startActivity(intent);
                 break;
         }

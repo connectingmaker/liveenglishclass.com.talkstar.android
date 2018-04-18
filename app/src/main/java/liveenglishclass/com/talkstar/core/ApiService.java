@@ -5,6 +5,7 @@ import java.util.List;
 import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
 import liveenglishclass.com.talkstar.dto.Contributor;
+import liveenglishclass.com.talkstar.dto.MemberCommandList;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.NoticeList;
@@ -12,6 +13,8 @@ import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
 import liveenglishclass.com.talkstar.dto.QnaDTO;
+import liveenglishclass.com.talkstar.dto.StudyNextDTO;
+import liveenglishclass.com.talkstar.dto.StudyStartDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -86,4 +89,14 @@ public interface ApiService {
     @GET("command/list")
     Call<CommandList> CommandList();
 
+
+    @GET("command/memberCommand")
+    Call<MemberCommandList> MemberCommandList(@Query("uid") String uid);
+
+    @GET("study/start")
+    Call<StudyStartDTO> StudyStart(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
+
+
+    @GET("study/next")
+    Call<StudyStartDTO> StudyNext(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid);
 }
