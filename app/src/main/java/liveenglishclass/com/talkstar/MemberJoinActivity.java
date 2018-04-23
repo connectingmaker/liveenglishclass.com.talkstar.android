@@ -176,6 +176,7 @@ public class MemberJoinActivity extends AppCompatActivity {
 
             case R.id.activity_member_privacy:
                 intent = new Intent(MemberJoinActivity.this, WebViewActivity.class);
+                intent.putExtra("TITLE", "개인정보");
                 intent.putExtra("URL", "member/privacy");
                 startActivity(intent);
                 break;
@@ -183,6 +184,7 @@ public class MemberJoinActivity extends AppCompatActivity {
 
             case R.id.activity_member_agree:
                 intent = new Intent(MemberJoinActivity.this, WebViewActivity.class);
+                intent.putExtra("TITLE", "이용약관");
                 intent.putExtra("URL", "member/agree");
                 startActivity(intent);
                 break;

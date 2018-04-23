@@ -124,6 +124,7 @@ public class NoticeActivity extends AppCompatActivity implements AdapterView.OnI
 
 
         Intent intent = new Intent(NoticeActivity.this, WebViewActivity.class);
+        intent.putExtra("TITLE", "공지사항");
         intent.putExtra("URL", "member/noticeContent?seq="+item.getSEQ());
         startActivity(intent);
     }

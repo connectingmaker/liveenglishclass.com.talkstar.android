@@ -1,12 +1,14 @@
 package liveenglishclass.com.talkstar.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -27,6 +29,7 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
 
     private TextView classes_name, question_cnt, study_progressTxt;
     private RatingBar classes_level;
+    private ImageView fragment_study_icon;
 
     private ProgressBar pg;
 
@@ -61,6 +64,7 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
         classes_name = (TextView) convertView.findViewById(R.id.classes_name);
         question_cnt = (TextView) convertView.findViewById(R.id.question_cnt);
         classes_level = (RatingBar) convertView.findViewById(R.id.classes_level);
+        fragment_study_icon = (ImageView) convertView.findViewById(R.id.fragment_study_icon);
 
         pg = (ProgressBar) convertView.findViewById(R.id.study_progressbar);
         study_progressTxt = (TextView) convertView.findViewById(R.id.study_progressTxt);
@@ -71,6 +75,13 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
         classes_level.setRating(Float.parseFloat(item.getClassLevel()));
         pg.setProgress(item.getTotalPer());
         study_progressTxt.setText(item.getTotalPer().toString() + "%");
+
+        if(item.getPartCnt() == 100) {
+            fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+        } else {
+            fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+        }
+
         question_cnt.setText(Html.fromHtml("<span color='#404040'><font size='30'>"+item.getUserQCnt().toString()+"</font><small>/"+item.getPartCnt().toString()+"</small></span>"));
 
 

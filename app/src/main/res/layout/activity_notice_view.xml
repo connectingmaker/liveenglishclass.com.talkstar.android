@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".WebViewActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,74 +14,68 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/gradient">
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:weightSum="1"
+            android:background="@drawable/gradient"
+            android:gravity="center_vertical|center_horizontal">
 
             <LinearLayout
-                android:id="@+id/activity_webview_prev_btn"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.1"
-                android:gravity="center_vertical|center_horizontal"
-                android:onClick="webviewClickEvent">
+                android:layout_weight="0.08"
+                android:gravity="center_vertical|center_horizontal">
 
                 <ImageButton
+                    android:id="@+id/preview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:src="@mipmap/top_left_btn_off" />
+                    android:padding="0dp"
+                    android:src="@mipmap/common_btn_pre" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.82"
                 android:gravity="center_vertical|center_horizontal">
 
                 <TextView
-                    android:id="@+id/webview_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.1"
-                    android:text="타이틀"
+                    android:text="공지사항"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
 
             </LinearLayout>
 
             <LinearLayout
-
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center"></LinearLayout>
 
 
-
-            </LinearLayout>
 
         </LinearLayout>
-
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10">
+            android:layout_height="wrap_content">
 
 
-            <WebView
-                android:id="@+id/webviewactivity_view"
+            <ListView
+                android:id="@+id/notice_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:footerDividersEnabled="false"
+                android:listSelector="@android:color/transparent"
+                android:divider="@null"></ListView>
 
         </LinearLayout>
-
-
-
-
-
-
 
     </LinearLayout>
 
@@ -91,8 +83,4 @@
 
 
 
-</LinearLayout>
-
-
-
-
+</android.support.constraint.ConstraintLayout>

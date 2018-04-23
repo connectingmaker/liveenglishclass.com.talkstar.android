@@ -28,11 +28,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
-        <activity android:name=".MemberJoinActivity" android:screenOrientation="portrait" />
-        <activity android:name=".MemberJoinFinishActivity" android:screenOrientation="portrait" />
-        <activity android:name=".NoticeActivity" android:screenOrientation="portrait" />
-        <activity android:name=".QnaActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MemberJoinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MemberJoinFinishActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QnaActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".util.FirebaseMessagingService">
             <intent-filter>
@@ -45,14 +55,21 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".WebViewActivity" android:screenOrientation="portrait" />
-        <activity android:name=".StudyChapterActivity" android:screenOrientation="portrait" />
-        <activity android:name=".StudyChapterStartActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StudyChapterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StudyChapterStartActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StudyChapterQuestionActivity"
             android:label="@string/title_activity_study_chapter_question"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".NoticeViewActivity"></activity>
     </application>
 
 </manifest>

@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 import liveenglishclass.com.talkstar.adapter.StudyAdapter;
 import liveenglishclass.com.talkstar.adapter.StudyChapterAdapter;
+import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.StudyChapterDTO;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyList;
+import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudyChapterActivity extends AppCompatActivity {
+    private ActivityManager actManager = ActivityManager.getInstance();
+
     private final String debugTag = "StudyChapterActivity";
     private Retrofit retrofit;
     ApiService apiService;
@@ -48,12 +52,16 @@ public class StudyChapterActivity extends AppCompatActivity {
     private String chapterCode;
     private String chapterName;
     private String chapterLearning;
+    private String UID = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_chapter);
+
+        actManager.addActivity(this);
+
 
         _init();
     }
@@ -66,7 +74,7 @@ public class StudyChapterActivity extends AppCompatActivity {
         //activity_studychapter_question_skip = (TextView) findViewById(R.id.activity_studychapter_question_skip);
         activity_studypart_list = (ListView) findViewById(R.id.activity_studypart_list);
 
-
+        UID = Shared.getPerferences(this, "SESS_UID");
 
 
 
@@ -107,7 +115,7 @@ public class StudyChapterActivity extends AppCompatActivity {
                 retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                 apiService = retrofit.create(ApiService.class);
 
-                Call<StudyChapterList> call = apiService.StudyChapterList("11111", classesCode);
+                Call<StudyChapterList> call = apiService.StudyChapterList(UID, classesCode);
                 call.enqueue(new Callback<StudyChapterList>() {
 
                     @Override
@@ -156,14 +164,14 @@ public class StudyChapterActivity extends AppCompatActivity {
 
     public void studyClickEvent(View v) {
         Log.d("test", "OK");
-        /*
+
         switch(v.getId()) {
             case R.id.activity_study_topLeft_btn:
             case R.id.activity_stidy_topleft_image_btn:
-                finish();
+                onBackPressed();
                 break;
         }
-        */
+
     }
 
     private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
@@ -194,6 +202,13 @@ public class StudyChapterActivity extends AppCompatActivity {
         Log.d("test", "BACK");
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        actManager.removeActivity(this);
     }
 
 

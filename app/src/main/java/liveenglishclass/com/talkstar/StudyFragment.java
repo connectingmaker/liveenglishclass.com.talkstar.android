@@ -24,6 +24,7 @@ import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
+import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,7 +111,7 @@ public class StudyFragment extends Fragment {
                 retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                 apiService = retrofit.create(ApiService.class);
 
-                Call<StudyList> call = apiService.StudyList("11111");
+                Call<StudyList> call = apiService.StudyList(Shared.getPerferences(getActivity(), "SESS_UID"));
                 call.enqueue(new Callback<StudyList>() {
                     @Override
                     public void onResponse(Call<StudyList> call, Response<StudyList> response) {

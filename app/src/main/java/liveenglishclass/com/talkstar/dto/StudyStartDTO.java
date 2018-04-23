@@ -46,6 +46,9 @@ public class StudyStartDTO {
     @SerializedName("NEXT_STUDY")
     public String NEXT_STUDY = "";
 
+    @SerializedName("ANSWER_ENGLISH")
+    public String ANSWER_ENGLISH = "";
+
 
 
 }

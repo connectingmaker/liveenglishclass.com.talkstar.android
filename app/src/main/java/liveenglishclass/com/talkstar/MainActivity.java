@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity  {
     private StudyFragment studyFragment;
     private CommandFragment commandFragment;
     private SettingFragment settingFragment;
+    private HomeFragment homeFragment;
 
     private String fragmentCheck = "";
 
@@ -119,19 +120,26 @@ public class MainActivity extends AppCompatActivity  {
         studyFragment = new StudyFragment();
         commandFragment = new CommandFragment();
         settingFragment = new SettingFragment();
+        homeFragment = new HomeFragment();
+
 
 
         fragmentCheck = "voice";
 
         this.fragmentManager = getFragmentManager();
         this.fragmentTransaction = fragmentManager.beginTransaction();
-        this.setFragment();
-
-
         tab01.setImageResource(R.mipmap.tab_button01_on);
         tab02.setImageResource(R.mipmap.tab_button02_off);
         tab03.setImageResource(R.mipmap.tab_button03_off);
         tab04.setImageResource(R.mipmap.tab_button04_off);
+
+        this.setFragment();
+
+
+
+
+
+
 
         myTTS_EN=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -150,10 +158,65 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
+    }
+
+    @Override
+
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+        if (null != intent) {
 
 
+
+
+            fragmentCheck = intent.getStringExtra("fragment_move");
+
+
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            voiceFragment = new VoiceFragment();
+            studyFragment = new StudyFragment();
+            commandFragment = new CommandFragment();
+            settingFragment = new SettingFragment();
+            homeFragment = new HomeFragment();
+
+            switch(fragmentCheck) {
+                case "voice":
+                    fragmentTransaction.replace(R.id.viewFragment, this.voiceFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+                case "study":
+                    fragmentTransaction.replace(R.id.viewFragment, this.studyFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+                case "command":
+                    fragmentTransaction.replace(R.id.viewFragment, this.commandFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+                case "setting":
+                    fragmentTransaction.replace(R.id.viewFragment, this.settingFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+
+                case "mypage":
+                    this.fragmentTransaction.replace(R.id.viewFragment, this.homeFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+            }
+
+
+        }
 
     }
+
+
 
     public void tabClick(View v) {
         switch(v.getId()) {
@@ -199,6 +262,19 @@ public class MainActivity extends AppCompatActivity  {
 
 
                 break;
+
+            case R.id.mypage_btn:
+
+                fragmentCheck = "mypage";
+
+
+                tab01.setImageResource(R.mipmap.tab_button01_off);
+                tab02.setImageResource(R.mipmap.tab_button02_off);
+                tab03.setImageResource(R.mipmap.tab_button03_off);
+                tab04.setImageResource(R.mipmap.tab_button04_off);
+
+
+                break;
         }
 
 
@@ -233,7 +309,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void setFragment() {
-        Log.d("test", "fragment 변환");
+        Log.d("test", "fragment 변환 /// "+fragmentCheck);
 
 
 
@@ -252,6 +328,11 @@ public class MainActivity extends AppCompatActivity  {
                 break;
             case "setting":
                 this.fragmentTransaction.replace(R.id.viewFragment, this.settingFragment);
+                this.fragmentTransaction.commit();
+                break;
+
+            case "mypage":
+                this.fragmentTransaction.replace(R.id.viewFragment, this.homeFragment);
                 this.fragmentTransaction.commit();
                 break;
         }
@@ -316,7 +397,7 @@ public class MainActivity extends AppCompatActivity  {
                     //loading.show();
                     Log.d("test", "전송");
 
-                    Call<VoiceSearchDTO> call = apiService.voiceSearch("1111", searchName);
+                    Call<VoiceSearchDTO> call = apiService.voiceSearch(Shared.getPerferences(MainActivity.this, "SESS_UID"), searchName);
                     call.enqueue(new Callback<VoiceSearchDTO>() {
                         @Override
                         public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
@@ -335,7 +416,17 @@ public class MainActivity extends AppCompatActivity  {
                                     break;
 
                                 case "A002":
-                                    Toast.makeText(MainActivity.this, "다음 프로세스 진행", Toast.LENGTH_LONG).show();
+                                    if(voiceSearchDTO.COMMAND_RETURN.equals("진행가능한 수업이 없습니다")) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                        } else {
+                                            ttsUnder20_KR("해당 명령어를 수업진행시만 가능합니다.");
+                                        }
+                                    } else {
+                                        
+                                    }
+                                    //Toast.makeText(MainActivity.this, "다음 프로세스 진행", Toast.LENGTH_LONG).show();
+
                                     break;
 
 

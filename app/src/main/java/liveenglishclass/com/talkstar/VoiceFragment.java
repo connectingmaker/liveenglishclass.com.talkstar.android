@@ -24,6 +24,7 @@ import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
 import liveenglishclass.com.talkstar.dto.MemberCommandDTO;
 import liveenglishclass.com.talkstar.dto.MemberCommandList;
+import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,11 +50,16 @@ public class VoiceFragment extends Fragment {
     private Runnable mRunnable;
 
 
+    private String UID;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
+        UID = Shared.getPerferences(getActivity(), "SESS_UID");
 
 
     }
@@ -94,7 +100,7 @@ public class VoiceFragment extends Fragment {
 
 
 
-                Call<MemberCommandList> call = apiService.MemberCommandList("1111");
+                Call<MemberCommandList> call = apiService.MemberCommandList(UID);
                 call.enqueue(new Callback<MemberCommandList>() {
                     @Override
                     public void onResponse(Call<MemberCommandList> call, Response<MemberCommandList> response) {

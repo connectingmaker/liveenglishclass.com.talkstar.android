@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
@@ -94,6 +96,18 @@ public class Util {
             return activity.getResources().getString(resID);
         }
 
+    }
+
+    public static String getAppVersion(Context ctx)
+    {
+        String version = "";
+        try {
+            version = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("tag", e.getMessage());
+        }
+
+        return version;
     }
 
 

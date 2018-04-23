@@ -226,7 +226,7 @@
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:onClick="btnClickEvent"
-                    android:src="@mipmap/intro_btn_join"/>
+                    android:src="@mipmap/memberjoin_btn_join"/>
 
 
 

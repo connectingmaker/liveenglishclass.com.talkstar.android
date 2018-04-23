@@ -1,6 +1,7 @@
 package liveenglishclass.com.talkstar;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
@@ -33,10 +34,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
 import liveenglishclass.com.talkstar.adapter.StudyChapterAdapter;
+import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialog;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialogX;
@@ -47,6 +50,7 @@ import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyNextDTO;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
+import liveenglishclass.com.talkstar.util.PlayAudioManager;
 import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +59,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudyChapterQuestionActivity extends AppCompatActivity {
-
+    private ActivityManager actManager = ActivityManager.getInstance();
     private final String debugTag = "StudyChapterActivity";
     private Retrofit retrofit;
     ApiService apiService;
@@ -78,12 +82,14 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     private LinearLayout line;
 
     private Integer QuestionAnsWerCnt = 0;
+    private Integer QuestionAllAnswerCnt = 0;
     private Boolean nextVoice = false;
     private Boolean questionVoice = false;
 
     /****** 음성인식 ***************/
     private Intent intent;
     private SpeechRecognizer mRecognizer;
+    private SpeechRecognizer mRecognizerCnt;
 
     private Button answerBtn;
 
@@ -97,12 +103,26 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
     private Handler mHandler;
     private Runnable mRunnable;
+    private HashMap<String, String> questionData;
+
+    private String _voiceType = "";
+    private String _voiceString ="";
+    private String _voiceFile ="";
+
+
+    private String UID;
+
+    private Boolean ynBool = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_chapter_question);
+
+
+
+        actManager.addActivity(this);
 
 
         cacd = new CustomAnswerCheckDialog(this);
@@ -112,6 +132,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
         cacdx = new CustomAnswerCheckDialogX(this);
         cacdx.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         cacdx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        UID = Shared.getPerferences(this, "SESS_UID");
+        Log.d("test", UID);
 
 
         Intent iin= getIntent();
@@ -164,14 +188,20 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
     private void _dataSend()
     {
+        myTTS_KR.stop();
+        myTTS_EN.stop();
+        PlayAudioManager.killMediaPlayer();
 
+
+        questionData = new HashMap<>();
+        //HashMap<String, String> map = new HashMap<>();
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                 apiService = retrofit.create(ApiService.class);
 
-                Call<StudyStartDTO> call = apiService.StudyStart("1111", classesCode, chapterCode);
+                Call<StudyStartDTO> call = apiService.StudyStart(UID, classesCode, chapterCode);
                 call.enqueue(new Callback<StudyStartDTO>() {
 
                     @Override
@@ -180,40 +210,62 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         StudyStartDTO studyDTO = response.body();
 
 
+
+                        Log.d("test", "데이터 ===== " + studyDTO.ANSWER_ENGLISH);
+
                         String voiceType = studyDTO.VOICE_TYPE;
                         String voice = studyDTO.VOICE;
+                        String voiceFile = studyDTO.VOICE_FILE;
                         String temp[] = studyDTO.NEXT_STUDY.split("///");
                         questionType = studyDTO.QUESTION_TYPE;
+
+                        qc.set_nextStudy(studyDTO.NEXT_STUDY);
+                        qc.set_quetionValue("");
+                        qc.set_answerValue(studyDTO.ANSWER_ENGLISH);
 
                         partCode = temp[0];
                         orderId = Integer.parseInt(temp[1]);
                         tv_explanation.setText(voice);
 
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            switch (voiceType) {
-                                case "KR":
-                                    Log.d("test", "OK");
-                                    ttsGreater21_KR(voice);
-                                    break;
-                                case "EN":
-                                    ttsGreater21(voice);
-                                    break;
+                        _voiceType = voiceType;
+                        _voiceString = voice;
+                        _voiceFile = voiceFile;
+                        if(voiceFile.equals("")) {
+
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                switch (voiceType) {
+                                    case "KR":
+                                        Log.d("test", "OK");
+                                        ttsGreater21_KR(voice);
+                                        break;
+                                    case "EN":
+                                        ttsGreater21(voice);
+                                        break;
+
+                                }
+
+                            } else {
+
+                                switch (voiceType) {
+                                    case "KR":
+                                        ttsUnder20_KR(voice);
+                                        break;
+                                    case "EN":
+                                        ttsUnder20(voice);
+                                        break;
+
+                                }
 
                             }
-
                         } else {
+                            try {
 
-                            switch (voiceType) {
-                                case "KR":
-                                    ttsUnder20_KR(voice);
-                                    break;
-                                case "EN":
-                                    ttsUnder20(voice);
-                                    break;
-
+                                PlayAudioManager.playAudio(getApplication(), ApiService.API_URL + voiceFile);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
                         }
 
 
@@ -244,8 +296,16 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     }
 
 
+
     public void _nextSend()
     {
+        myTTS_KR.stop();
+        myTTS_EN.stop();
+
+        PlayAudioManager.killMediaPlayer();
+
+        Log.d(debugTag, "_nextSend = " + orderId + "=" + partCode);
+
         final CustormLoadingDialog dialog = new CustormLoadingDialog(this);
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -256,12 +316,14 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                 retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                 apiService = retrofit.create(ApiService.class);
 
-                Call<StudyStartDTO> call = apiService.StudyNext("1111", classesCode, chapterCode, partCode, orderId);
+                Call<StudyStartDTO> call = apiService.StudyNext(UID, classesCode, chapterCode, partCode, orderId, questionData);
+                questionData = new HashMap<>();
                 call.enqueue(new Callback<StudyStartDTO>() {
 
                     @Override
                     public void onResponse(Call<StudyStartDTO> call, Response<StudyStartDTO> response) {
                         //Log.d(debugTag, response.body().)
+                        questionData = new HashMap<>();
                         dialog.dismiss();
                         StudyStartDTO studyDTO = response.body();
 
@@ -269,21 +331,41 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
                         String voiceType = studyDTO.VOICE_TYPE;
                         String voice = studyDTO.VOICE;
-                        String temp[] = studyDTO.NEXT_STUDY.split("///");
+                        String voiceFile = studyDTO.VOICE_FILE;
+
                         questionType = studyDTO.QUESTION_TYPE;
                         String english_string = studyDTO.ENGLISH_STRING;
 
                         QuestionAnsWerCnt = 0;
 
 
+                        Log.d("test", "데이터 ===== " + studyDTO.ANSWER_ENGLISH);
+
+
                         qc.set_nextStudy(studyDTO.NEXT_STUDY);
                         qc.set_quetionValue(english_string);
+                        qc.set_answerValue(studyDTO.ANSWER_ENGLISH);
 
-                        partCode = temp[0];
+                        _voiceType = voiceType;
+                        _voiceString = voice;
+                        _voiceFile = voiceFile;
+
+//                        String temp[] = studyDTO.NEXT_STUDY.split("///");
+//                        partCode = temp[0];
+//                        orderId = Integer.parseInt(temp[1]);
+
+                        String temp[] = studyDTO.NEXT_STUDY.split("///");
+                        if(studyDTO.NEXT_STUDY.equals("") != true) {
+                            partCode = temp[0];
+                            orderId = Integer.parseInt(temp[1]);
+                        }
+                        Log.d(debugTag, orderId + "///" + partCode);
+                        Log.d(debugTag, voice + "///" + english_string);
 
                         if(questionType.equals("Q")) {
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
+                            tv_answer.setVisibility(View.VISIBLE);
                             answerBtn.setVisibility(View.VISIBLE);
 
                             QuestionAnsWerCnt = 0;
@@ -291,63 +373,70 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             tv_answer.setText("발음평가 해주세요.");
                         } else {
                             answerBtn.setVisibility(View.GONE);
+                            answerBtn.setVisibility(View.GONE);
+                            tv_answer.setVisibility(View.GONE);
+                            line.setVisibility(View.GONE);
                         }
 
-                        orderId = Integer.parseInt(temp[1]);
+
                         tv_explanation.setText(voice);
 
 
+                        if(voiceFile.equals("")) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                switch (voiceType) {
+                                    case "KR":
+                                        if(questionType.equals("Q")) {
+                                            ttsGreater21(english_string);
+                                        } else {
+                                            ttsGreater21_KR(voice);
+                                        }
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            switch (voiceType) {
-                                case "KR":
-                                    if(questionType.equals("Q")) {
-                                        ttsGreater21(english_string);
-                                    } else {
-                                        ttsGreater21_KR(voice);
-                                    }
+                                        break;
+                                    case "EN":
+                                        if(questionType.equals("Q")) {
+                                            ttsGreater21(english_string);
+                                        } else {
+                                            ttsGreater21(voice);
+                                        }
+                                        //ttsGreater21(voice);
+                                        break;
 
-                                    break;
-                                case "EN":
-                                    if(questionType.equals("Q")) {
-                                        ttsGreater21(english_string);
-                                    } else {
-                                        ttsGreater21(voice);
-                                    }
-                                    //ttsGreater21(voice);
-                                    break;
+                                }
+
+                            } else {
+
+                                switch (voiceType) {
+                                    case "KR":
+
+                                        if(questionType.equals("Q")) {
+                                            ttsUnder20(english_string);
+                                        } else {
+                                            ttsUnder20_KR(voice);
+                                        }
+
+
+                                        break;
+                                    case "EN":
+                                        if(questionType.equals("Q")) {
+                                            ttsUnder20(english_string);
+                                        } else {
+                                            ttsUnder20(voice);
+                                        }
+                                        //ttsUnder20(voice);
+                                        break;
+
+                                }
 
                             }
-
                         } else {
+                            try {
 
-                            switch (voiceType) {
-                                case "KR":
-
-                                    if(questionType.equals("Q")) {
-                                        ttsUnder20(english_string);
-                                    } else {
-                                        ttsUnder20_KR(voice);
-                                    }
-
-
-                                    break;
-                                case "EN":
-                                    if(questionType.equals("Q")) {
-                                        ttsUnder20(english_string);
-                                    } else {
-                                        ttsUnder20(voice);
-                                    }
-                                    //ttsUnder20(voice);
-                                    break;
-
+                                PlayAudioManager.playAudio(getApplication(), ApiService.API_URL + voiceFile);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
                         }
-
-                        //dialog.dismiss();
-
-
 
                     }
 
@@ -372,26 +461,40 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     }
 
     private void NextQuestion() {
-        if(QuestionAnsWerCnt < 3) {
+        //this._nextSend();
+
+
+        if(QuestionAnsWerCnt == -1) {
+        //if(QuestionAnsWerCnt < 3) {
             Toast.makeText(this, "3번 발음평가를 맞춰 주세요.", Toast.LENGTH_LONG).show();
         } else {
             if(qc.get_nextStudy().equals("")) {
-                //학습 완료
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("fragment_move", "study");
+                startActivity(intent);
+                finish();
+
             } else {
                 //다음학습
+
                 String temp[] = qc.get_nextStudy().split("///");
                 partCode = temp[0];
                 orderId = Integer.parseInt(temp[1]);
                 this._nextSend();
             }
 
-            //this._nextSend();
         }
     }
 
     public void SkipQuetion() {
         if(qc.get_nextStudy().equals("")) {
-            //학습 완료
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("fragment_move", "study");
+            startActivity(intent);
+            finish();
         } else {
             //다음학습
             String temp[] = qc.get_nextStudy().split("///");
@@ -477,10 +580,169 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
 
+
+
         v = v;
     }
 
+    public void micBtn(View v) {
+
+        myTTS_KR.stop();
+        myTTS_EN.stop();
+
+
+        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
+
+
+        mRecognizerCnt = SpeechRecognizer.createSpeechRecognizer(this);
+        mRecognizerCnt.setRecognitionListener(mic_listener);
+        mRecognizerCnt.startListening(intent);
+    }
+
     public RecognitionListener listener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            Log.d("test", "onReadyForSpeech");
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+            Log.d("test", "onBeginningOfSpeech");
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB) {
+            Log.d("test", "onRmsChanged");
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer) {
+            Log.d("test", "onBufferReceived");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            Log.d("test", "onEndOfSpeech");
+        }
+
+        @Override
+        public void onError(int error) {
+            Log.d("test", "onError");
+            //Toast toast = Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG); toast.show();
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            String key = "";
+            Boolean answerCheck = false;
+            key = SpeechRecognizer.RESULTS_RECOGNITION;
+            ArrayList<String> mResult = results.getStringArrayList(key);
+            String[] rs = new String[mResult.size()];
+            mResult.toArray(rs);
+
+            String searchName = rs[0];
+            QuestionAllAnswerCnt++;
+            Log.d("test", searchName);
+            Log.d("test", "결과 === " + qc.get_answerValue());
+
+
+
+
+            String questionAnswer = "";
+            String questionAnswerData = "";
+            //questionData.put("english_string", qc.get_quetionValue());
+            //questionData.put("user_english", searchName);
+
+            if(questionVoice == true) {
+                for(int i=0;i<mResult.size();i++) {
+
+
+                    if(qc.get_answerValue().matches(".*"+mResult.get(i)+".*")) {
+                    //if(mResult.get(i).matches(".*"+qc.get_answerValue()+".*")) {
+                        //searchName = mResult.get(i);
+
+                        Log.d("test", "정답 데이터 ====== " + qc.get_answerValue() + "///" + mResult.get(i));
+
+                        questionAnswer = mResult.get(i);
+                        searchName = mResult.get(i);
+                        answerCheck = true;
+                        break;
+                    }
+                }
+
+                if (answerCheck == true) {
+//                if(Arrays.asList(answerArray).contains(searchName)){
+//                if(qc.get_quetionValue().equals(searchName)) {
+                    questionAnswer = qc.get_quetionValue() + "///" + questionAnswer + "///O";
+
+                    QuestionAnsWerCnt = QuestionAnsWerCnt + 1;
+                    questionData.put("data"+QuestionAllAnswerCnt, questionAnswer);
+                    cacd.show();
+
+
+
+
+
+                    mRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            cacd.dismiss();
+
+
+                            if(QuestionAnsWerCnt < 3) {
+
+
+                                intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
+
+
+                                questionVoice = true;
+                                mRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplication());
+                                mRecognizer.setRecognitionListener(listener);
+                                mRecognizer.startListening(intent);
+                            } else {
+                                NextQuestion();
+                            }
+                        }
+                    };
+
+                    mHandler = new Handler();
+                    mHandler.postDelayed(mRunnable, 1000);
+                } else {
+                    questionAnswer = qc.get_quetionValue() + "///" + searchName + "///X";
+                    questionData.put("data"+QuestionAllAnswerCnt, questionAnswer);
+                    cacdx.show();
+                }
+
+
+                tv_answer.setText(String.valueOf(QuestionAnsWerCnt) + " = " + searchName);
+                questionVoice = false;
+
+
+
+
+
+            }
+
+
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults) {
+
+        }
+
+        @Override
+        public void onEvent(int eventType, Bundle params) {
+
+        }
+    };
+
+
+    public RecognitionListener mic_listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
             Log.d("test", "onReadyForSpeech");
@@ -521,55 +783,199 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
             mResult.toArray(rs);
 
             final String searchName = rs[0];
-
             Log.d("test", searchName);
 
-            if(questionVoice == true) {
-                if(qc.get_quetionValue().equals(searchName)) {
-                    QuestionAnsWerCnt = QuestionAnsWerCnt + 1;
-                    //cacd.answer("o");
-                    cacd.show();
+//            final CustormLoadingDialog loading = new CustormLoadingDialog(MainActivity.this);
+//            loading.show();
 
-                    mRunnable = new Runnable() {
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                    apiService = retrofit.create(ApiService.class);
+
+                    //loading.show();
+                    Log.d("test", "전송");
+
+                    Call<VoiceSearchDTO> call = apiService.voiceSearch(UID, searchName);
+                    call.enqueue(new Callback<VoiceSearchDTO>() {
                         @Override
-                        public void run() {
-                            cacd.dismiss();
+                        public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
 
 
-                            if(QuestionAnsWerCnt < 3) {
+                            VoiceSearchDTO voiceSearchDTO = response.body();
+                            Log.d("test", voiceSearchDTO.ACTION_CODE);
 
 
-                                intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
 
 
-                                questionVoice = true;
-                                mRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplication());
-                                mRecognizer.setRecognitionListener(listener);
-                                mRecognizer.startListening(intent);
-                            } else {
-                                NextQuestion();
+                            switch(voiceSearchDTO.ACTION_CODE) {
+                                case "A001":
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        switch (_voiceType) {
+                                            case "KR":
+                                                Log.d("test", "OK");
+                                                ttsGreater21_KR(_voiceString);
+                                                break;
+                                            case "EN":
+                                                ttsGreater21(_voiceString);
+                                                break;
+
+                                        }
+
+                                    } else {
+
+                                        switch (_voiceType) {
+                                            case "KR":
+                                                ttsUnder20_KR(_voiceString);
+                                                break;
+                                            case "EN":
+                                                ttsUnder20(_voiceString);
+                                                break;
+
+                                        }
+
+                                    }
+                                    break;
+
+                                case "A002":
+                                    SkipQuetion();
+
+                                    break;
+
+
+
+                                case "A003":
+                                    /*
+                                    if (voiceSearchDTO.ENGLISH_FILE.equals("TTS")) {
+
+                                    } else {
+                                        myTTS.
+                                    }
+                                    */
+
+                                    Log.d("test", voiceSearchDTO.COMMAND_RETURN);
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        ttsGreater21(voiceSearchDTO.COMMAND_RETURN);
+                                    } else {
+                                        ttsUnder20(voiceSearchDTO.COMMAND_RETURN);
+                                    }
+
+                                    //Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.COMMAND_RETURN, Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "A004":
+
+                                    ynBool = false;
+                                    ynBool = true;
+
+
+                                    finish();
+
+
+
+
+                                    break;
+
+                                case "A005":
+                                    Log.d("test", "2222");
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        switch (_voiceType) {
+                                            case "KR":
+                                                if(questionType.equals("Q")) {
+                                                    ttsGreater21(_voiceString);
+                                                } else {
+                                                    ttsGreater21_KR(_voiceString);
+                                                }
+
+                                                break;
+                                            case "EN":
+                                                if(questionType.equals("Q")) {
+                                                    ttsGreater21(_voiceString);
+                                                } else {
+                                                    ttsGreater21(_voiceString);
+                                                }
+                                                //ttsGreater21(voice);
+                                                break;
+
+                                        }
+
+                                    } else {
+
+                                        switch (_voiceType) {
+                                            case "KR":
+
+                                                if(questionType.equals("Q")) {
+                                                    ttsUnder20(_voiceString);
+                                                } else {
+                                                    ttsUnder20_KR(_voiceString);
+                                                }
+
+
+                                                break;
+                                            case "EN":
+                                                if(questionType.equals("Q")) {
+                                                    ttsUnder20(_voiceString);
+                                                } else {
+                                                    ttsUnder20(_voiceString);
+                                                }
+                                                //ttsUnder20(voice);
+                                                break;
+
+                                        }
+
+                                    }
+                                    //Toast.makeText(getApplication(), "A005", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "A999":
+//                                    String voiceReturn = voiceSearchDTO.COMMAND_RETURN;
+//                                    String username = Shared.getPerferences(getApplication(), "SESS_USERNAME");
+//                                    voiceReturn = voiceReturn.replace("[_NAME_]", username);
+//
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                        ttsGreater21_KR(voiceReturn);
+//                                    } else {
+//                                        ttsUnder20_KR(voiceReturn);
+//                                    }
+                                    break;
+
+
+                                default:
+//                                    String voiceReturn2 = voiceSearchDTO.COMMAND_RETURN;
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                        ttsGreater21_KR(voiceReturn2);
+//                                    } else {
+//                                        ttsUnder20_KR(voiceReturn2);
+//                                    }
+                                    break;
                             }
                         }
-                    };
 
-                    mHandler = new Handler();
-                    mHandler.postDelayed(mRunnable, 1000);
-                } else {
-                    cacdx.show();
+                        @Override
+                        public void onFailure(Call<VoiceSearchDTO> call, Throwable t) {
+                            Log.d("test", "실패");
+                        }
+                    });
+
+
+                    return null;
                 }
 
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                }
 
-                tv_answer.setText(String.valueOf(QuestionAnsWerCnt) + " = " + searchName);
-                questionVoice = false;
+            }.execute();
 
 
+            //mRecognizer.startListening(intent);
 
 
-
-            }
-
+            //Toast toast = Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_LONG); toast.show();
 
         }
 
@@ -583,4 +989,61 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
         }
     };
+
+    public void speakBtn(View v) {
+        if(_voiceFile.equals("")) {
+            try {
+                PlayAudioManager.killMediaPlayer();
+                PlayAudioManager.playAudio(getApplication(), ApiService.API_URL + _voiceFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                switch (_voiceType) {
+                    case "KR":
+                        Log.d("test", "OK");
+                        ttsGreater21_KR(_voiceString);
+                        break;
+                    case "EN":
+                        ttsGreater21(_voiceString);
+                        break;
+
+                }
+
+            } else {
+
+                switch (_voiceType) {
+                    case "KR":
+                        ttsUnder20_KR(_voiceString);
+                        break;
+                    case "EN":
+                        ttsUnder20(_voiceString);
+                        break;
+
+                }
+
+            }
+        }
+
+    }
+
+    public void studyClickEvent(View v) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("test", "BACK");
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        actManager.removeActivity(this);
+    }
+
 }

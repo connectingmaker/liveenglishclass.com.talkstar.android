@@ -88,7 +88,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:onClick="btnClickEvent"
-                    android:src="@mipmap/intro_btn_login"/>
+                    android:src="@mipmap/memberjoin_btn_login"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -96,9 +96,10 @@
                     android:background="@android:color/transparent"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/intro_btn_join"/>
+                    android:src="@mipmap/memberjoin_btn_join"/>
 
 
 

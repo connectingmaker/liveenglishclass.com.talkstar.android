@@ -1,17 +1,21 @@
 package liveenglishclass.com.talkstar;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
+import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.QnaDTO;
 import liveenglishclass.com.talkstar.util.Shared;
 import liveenglishclass.com.talkstar.util.Util;
@@ -69,6 +73,12 @@ public class QnaActivity extends AppCompatActivity {
 
         final String qna_q = activity_qna_et_q.getText().toString();
 
+
+        final CustormLoadingDialog dialog = new CustormLoadingDialog(this);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -82,15 +92,19 @@ public class QnaActivity extends AppCompatActivity {
                         QnaDTO QnaDTO = response.body();
                         Log.d("ERR_CODE", QnaDTO.ERR_CODE);
 
+                        dialog.dismiss();
+
                         //actManager.finishAllActivity();
                         //intent = new Intent(QnaActivity.this, SettingFragment.class);
                         //startActivity(intent);
+                        Toast.makeText(getApplication(), "정상적으로 접수되었습니다.", Toast.LENGTH_LONG).show();
                         finish();
                     }
 
                     @Override
                     public void onFailure(Call<QnaDTO> call, Throwable t) {
                         Toast.makeText(QnaActivity.this, "네트워크 오류 발생", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
                     }
                 });
 
@@ -107,5 +121,13 @@ public class QnaActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("test", "BACK");
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+    }
+
 
 }

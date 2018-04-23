@@ -1,6 +1,9 @@
 package liveenglishclass.com.talkstar.core;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
+import java.util.Map;
 
 import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
@@ -8,6 +11,7 @@ import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberCommandList;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
+import liveenglishclass.com.talkstar.dto.MypageDTO;
 import liveenglishclass.com.talkstar.dto.NoticeList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
@@ -17,7 +21,9 @@ import liveenglishclass.com.talkstar.dto.StudyNextDTO;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -30,7 +36,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = " http://192.168.0.11:7890/";
+    public static final String API_URL = "http://119.197.84.203:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -93,10 +99,21 @@ public interface ApiService {
     @GET("command/memberCommand")
     Call<MemberCommandList> MemberCommandList(@Query("uid") String uid);
 
+    /********** 수업시작 ******************/
     @GET("study/start")
     Call<StudyStartDTO> StudyStart(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
 
+    /********** 수업다음진행 ***************/
+    @FormUrlEncoded
+    @POST("study/next")
+    Call<StudyStartDTO> StudyNext(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid, @FieldMap Map<String, String> fields);
 
-    @GET("study/next")
-    Call<StudyStartDTO> StudyNext(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid);
+
+    @GET("member/mypage")
+    Call<MypageDTO> Mypage(@Query("uid") String uid);
+
+
+//    @FormUrlEncoded
+//    @POST("study/next")
+//    Call<StudyStartDTO> StudyNext2(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid, @FieldMap Map<String, String> fields);
 }

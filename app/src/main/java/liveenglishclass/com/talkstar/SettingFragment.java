@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.util.Shared;
+import liveenglishclass.com.talkstar.util.Util;
 
 /**
  * Created by kwangheejung on 2018. 3. 5..
@@ -22,7 +24,7 @@ import liveenglishclass.com.talkstar.util.Shared;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
-    private LinearLayout setting_logout, fragment_setting_privacy, fragment_setting_term, fragment_setting_qna, fragment_setting_notice;
+    private LinearLayout setting_logout, fragment_setting_privacy, fragment_setting_term, fragment_setting_qna, fragment_setting_notice, fragment_setting_version;
     private Intent intent;
 
 
@@ -67,6 +69,10 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
         fragment_setting_notice = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_notice);
         fragment_setting_notice.setOnClickListener(this);
+
+
+        fragment_setting_version = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_version);
+        fragment_setting_version.setOnClickListener(this);
     }
 
     @Override
@@ -84,13 +90,16 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fragment_setting_privacy:
                 Log.d(debugTag, "OK");
+
                 intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("TITLE", "개인정보");
                 intent.putExtra("URL", "member/privacy");
                 startActivity(intent);
                 break;
 
             case R.id.fragment_setting_term:
                 intent = new Intent(getActivity(),WebViewActivity.class);
+                intent.putExtra("TITLE", "이용약관");
                 intent.putExtra("URL","member/agree");
                 startActivity(intent);
                 break;
@@ -99,11 +108,19 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 Log.d(debugTag,"qna");
                 intent = new Intent(getActivity(),QnaActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+
                 break;
 
             case R.id.fragment_setting_notice:
                 intent = new Intent(getActivity(),NoticeActivity.class);
+
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                break;
+            case R.id.fragment_setting_version:
+                String version = Util.getAppVersion(getActivity());
+                Toast.makeText(getActivity(), "버전 = " + version, Toast.LENGTH_LONG).show();
                 break;
         }
 
