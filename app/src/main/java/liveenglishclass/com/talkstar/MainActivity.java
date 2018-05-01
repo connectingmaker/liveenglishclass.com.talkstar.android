@@ -6,7 +6,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -18,6 +20,9 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -160,6 +165,57 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1000: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! do the
+                    // calendar task you need to do.
+                    //callPhone();
+
+                    fr = new VoiceFragment();
+                    this.fragmentManager = getFragmentManager();
+                    this.fragmentTransaction = this.fragmentManager.beginTransaction();
+
+                    this.setFragment();
+
+                    Log.d("test", Locale.US.toString());
+                    intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
+                    //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
+                    //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.US.toString());
+
+
+                    mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+                    mRecognizer.setRecognitionListener(listener);
+                    mRecognizer.startListening(intent);
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "권한을 승인해주세요.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'switch' lines to check for other
+            // permissions this app might request
+        }
+
+
+
+
+
+    }
+
+
+
+
     @Override
 
     protected void onNewIntent(Intent intent) {
@@ -286,6 +342,7 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void micClickEvent(View v) {
         fr = new VoiceFragment();
         this.fragmentManager = getFragmentManager();
@@ -293,18 +350,26 @@ public class MainActivity extends AppCompatActivity  {
 
         this.setFragment();
 
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[] { android.Manifest.permission.RECORD_AUDIO },
+                    1000);
+            return;
+        } else {
+            Log.d("test", Locale.US.toString());
+            intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
+            //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
+            //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.US.toString());
 
-        Log.d("test", Locale.US.toString());
-        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
-        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
-        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.US.toString());
 
+            mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+            mRecognizer.setRecognitionListener(listener);
+            mRecognizer.startListening(intent);
+        }
 
-        mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        mRecognizer.setRecognitionListener(listener);
-        mRecognizer.startListening(intent);
 
     }
 

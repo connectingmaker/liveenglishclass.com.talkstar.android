@@ -92,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.loginactivity_btn_login:
                 loginProcess();
                 break;
+            case R.id.loginactivity_btn_join:
+                intent = new Intent(LoginActivity.this, MemberJoinActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 

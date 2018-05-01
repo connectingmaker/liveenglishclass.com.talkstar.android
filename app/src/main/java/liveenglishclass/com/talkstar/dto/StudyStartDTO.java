@@ -49,6 +49,9 @@ public class StudyStartDTO {
     @SerializedName("ANSWER_ENGLISH")
     public String ANSWER_ENGLISH = "";
 
+    @SerializedName("PER")
+    public Integer PER = 0;
+
 
 
 }

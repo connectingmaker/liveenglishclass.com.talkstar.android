@@ -57,6 +57,14 @@
                 android:background="@android:color/transparent"
                 android:src="@mipmap/answer_x_next_btn" />
 
+            <ImageButton
+                android:id="@+id/answer_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/retry_btn" />
+
         </LinearLayout>
     </LinearLayout>
 

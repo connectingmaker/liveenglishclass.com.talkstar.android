@@ -4,6 +4,7 @@ public class QuestionClass {
     private String questionValue;
     private String nextStudy;
     private String answerValue;
+    private Boolean voiceCheck = false;
 
     public String get_quetionValue() {
         return this.questionValue;
@@ -32,5 +33,10 @@ public class QuestionClass {
     }
 
 
-
+    public void set_voiceCheck(Boolean voiceCheck) {
+        this.voiceCheck = voiceCheck;
+    }
+    public Boolean get_voiceCheck() {
+        return this.voiceCheck;
+    }
 }

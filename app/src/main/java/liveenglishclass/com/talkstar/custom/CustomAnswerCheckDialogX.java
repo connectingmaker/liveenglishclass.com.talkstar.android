@@ -2,6 +2,7 @@ package liveenglishclass.com.talkstar.custom;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -9,6 +10,7 @@ import android.media.Image;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import liveenglishclass.com.talkstar.R;
+import liveenglishclass.com.talkstar.StudyChapterActivity;
 import liveenglishclass.com.talkstar.StudyChapterQuestionActivity;
 
 public class CustomAnswerCheckDialogX extends Dialog implements View.OnClickListener {
@@ -41,7 +44,7 @@ public class CustomAnswerCheckDialogX extends Dialog implements View.OnClickList
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.customanswercheckdialogx);
         answer_x_close = (ImageButton) findViewById(R.id.answer_x_close);
-        answer_x_close.setOnClickListener(this);
+//        answer_x_close.setOnClickListener(this);
 
 
 
@@ -53,6 +56,8 @@ public class CustomAnswerCheckDialogX extends Dialog implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.answer_x_close:
+                //Intent intent = new Intent(context, );
+//                ((StudyChapterQuestionActivity)this.context).SkipQuetion();
                 this.dismiss();
                 break;
         }
