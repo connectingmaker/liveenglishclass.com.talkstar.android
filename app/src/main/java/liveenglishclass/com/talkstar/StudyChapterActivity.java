@@ -1,7 +1,12 @@
 package liveenglishclass.com.talkstar;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import liveenglishclass.com.talkstar.adapter.StudyAdapter;
 import liveenglishclass.com.talkstar.adapter.StudyChapterAdapter;
@@ -53,6 +59,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     private String chapterName;
     private String chapterLearning;
     private String UID = "";
+    private Integer positionData = 0;
 
 
     @Override
@@ -127,6 +134,7 @@ public class StudyChapterActivity extends AppCompatActivity {
 
                             //getContext
 
+
                             study_adapter = new StudyChapterAdapter(getBaseContext(), _studyLists);
                             activity_studypart_list.addHeaderView(header);
                             activity_studypart_list.setAdapter(study_adapter);
@@ -175,6 +183,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     }
 
     private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long l_position) {
@@ -185,17 +194,70 @@ public class StudyChapterActivity extends AppCompatActivity {
             chapterName = _studyLists.get(position-1).getChapterName();
             chapterLearning = _studyLists.get(position-1).getLearningNotes();
 
+            if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[] { android.Manifest.permission.RECORD_AUDIO },
+                        1000);
+                return;
+            } else {
 
-            intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
-            intent.putExtra("classesCode", classesCode);
-            intent.putExtra("chapterCode", chapterCode);
-            intent.putExtra("chapterName", chapterName);
-            intent.putExtra("chapterLearning", chapterLearning);
-            startActivity(intent);
-            overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                positionData = position;
+                intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                intent.putExtra("classesCode", classesCode);
+                intent.putExtra("chapterCode", chapterCode);
+                intent.putExtra("chapterName", chapterName);
+                intent.putExtra("chapterLearning", chapterLearning);
+
+//                intent.putExtra("chapterOrder", positionData.toString());
+
+                intent.putExtra("chapterOrder", "1");
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+
+
+            }
+
+
+
 
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1000: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                    intent.putExtra("classesCode", classesCode);
+                    intent.putExtra("chapterCode", chapterCode);
+                    intent.putExtra("chapterName", chapterName);
+                    intent.putExtra("chapterLearning", chapterLearning);
+//                    intent.putExtra("chapterOrder", positionData.toString());
+                    intent.putExtra("chapterOrder", "1");
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "권한을 승인해주세요.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'switch' lines to check for other
+            // permissions this app might request
+        }
+
+
+
+
+
+    }
 
     @Override
     public void onBackPressed() {

@@ -45,7 +45,7 @@ public class IntroActivity extends AppCompatActivity {
         Log.d("test", "intro");
         Util.getStringValue(this, "E01");
 
-        tokenUpdate();
+        //tokenUpdate();
 
         im_intro_logo = (ImageView) findViewById(R.id.im_intro_logo);
         intro_btn_login = (ImageButton) findViewById(R.id.intro_btn_login);

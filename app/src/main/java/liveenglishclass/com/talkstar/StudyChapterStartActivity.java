@@ -15,6 +15,7 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     private String chapterCode = "";
     private String chapterName = "";
     private String chapterLearning = "";
+    private String chapterOrder = "";
 
 
 
@@ -40,6 +41,7 @@ public class StudyChapterStartActivity extends AppCompatActivity {
             chapterCode = (String) b.get("chapterCode");
             chapterName = (String) b.get("chapterName");
             chapterLearning = (String) b.get("chapterLearning");
+            chapterOrder = (String) b.get("chapterOrder");
 
             activity_study_chapter_title.setText(chapterName);
             activity_study_chapter_learning.setText(chapterLearning);
@@ -57,10 +59,11 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     public void chapterOnClick(View v) {
         switch(v.getId()) {
             case R.id.activity_studychapterstart_start_btn:
-                intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity.class);
+                intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity_New.class);
 
                 intent.putExtra("classesCode", classesCode);
                 intent.putExtra("chapterCode", chapterCode);
+                intent.putExtra("chapterOrder", chapterOrder);
 
                 startActivity(intent);
                 break;

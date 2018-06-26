@@ -3,6 +3,7 @@ package liveenglishclass.com.talkstar.dto;
 public class QuestionClass {
     private String questionValue;
     private String nextStudy;
+    private String prevStudy;
     private String answerValue;
     private Boolean voiceCheck = false;
 
@@ -23,6 +24,16 @@ public class QuestionClass {
     public void set_nextStudy(String nextStudy)
     {
         this.nextStudy = nextStudy;
+    }
+
+    public String get_prevStudy()
+    {
+        return this.prevStudy;
+    }
+
+    public void set_prevStudy(String prevStudy)
+    {
+        this.prevStudy = prevStudy;
     }
 
     public void set_answerValue(String answerValue) { this.answerValue = answerValue; }

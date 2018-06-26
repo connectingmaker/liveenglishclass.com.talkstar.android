@@ -37,4 +37,8 @@ public class StudyNextDTO {
 
     @SerializedName("NEXT_STEP")
     public String NEXT_STEP = "";
+
+    @SerializedName("PREV_STUDY")
+    public String PREV_STUDY = "";
+
 }

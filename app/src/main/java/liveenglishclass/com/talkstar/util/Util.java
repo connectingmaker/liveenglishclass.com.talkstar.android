@@ -77,9 +77,12 @@ public class Util {
     /******* Token 가져오기 *****************/
     public static String getToken()
     {
-        String token = FirebaseInstanceId.getInstance().getToken();
-        return token;
-
+        try {
+            String token = FirebaseInstanceId.getInstance().getToken();
+            return token;
+        } catch(Exception e) {
+            return "";
+        }
     }
 
 

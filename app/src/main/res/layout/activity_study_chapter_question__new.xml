@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
     android:baselineAligned="false">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="10"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,6 +19,7 @@
             android:background="@drawable/gradient"
             android:baselineAligned="false"
             android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="0.1"
             android:weightSum="1">
 
 
@@ -37,7 +36,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="studyClickEvent"
                     android:src="@mipmap/top_left_btn_off" />
 
             </LinearLayout>
@@ -73,7 +71,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="0.80"
+            android:weightSum="1"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
@@ -81,7 +80,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp">
 
                 <ProgressBar
                     android:id="@+id/studyProgressBar"
@@ -98,16 +99,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:background="@drawable/study_round">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -129,22 +130,26 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/add_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8">
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.80"
+                    android:orientation="vertical">
 
+                    <!--
                     <ScrollView
+                        android:id="@+id/scrollView_answer"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.20">
 
 
                         <LinearLayout
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.20"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/tv_explanation"
@@ -154,13 +159,14 @@
                                 android:textColor="#404040"
                                 android:textSize="24dp"
                                 android:textStyle="bold" />
+
                             <LinearLayout
                                 android:id="@+id/line"
                                 android:layout_width="match_parent"
                                 android:layout_height="2dp"
                                 android:background="#5b76eb"
-                                android:visibility="gone"
-                                android:orientation="horizontal"></LinearLayout>
+                                android:orientation="horizontal"
+                                android:visibility="gone"></LinearLayout>
 
 
                         </LinearLayout>
@@ -168,42 +174,33 @@
 
 
                     <LinearLayout
-
+                        android:id="@+id/linearLayout_tv_answer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.60"
+                        android:layout_weight="0.80"
                         android:gravity="center_vertical|center_horizontal">
 
 
-
-
-                            <TextView
-                                android:id="@+id/tv_answer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="false"
-                                android:textColor="#7491f3"
-                                android:textSize="24dp"
-                                android:text=""
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:id="@+id/et_answer"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone"/>
-
-
+                        <TextView
+                            android:id="@+id/tv_answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="false"
+                            android:text=""
+                            android:textColor="#7491f3"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
+                    -->
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -211,9 +208,8 @@
                         android:id="@+id/answerBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="voiceAnswer"
-                        android:visibility="gone"
-                        android:text="눌러서 영어로 발음하기">
+                        android:text="눌러서 영어로 발음하기"
+                        android:visibility="gone">
 
                     </Button>
 
@@ -230,12 +226,12 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_weight="0.1"
+            android:paddingBottom="20dp"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:weightSum="10"
-            android:layout_weight="1">
+            android:weightSum="10">
 
 
             <LinearLayout
@@ -258,7 +254,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="studyChapterQuestionOnClick"
                     android:src="@mipmap/activity_study_chapter_question_prev_btn_off" />
 
 
@@ -274,9 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="micBtn"
-                    android:src="@mipmap/activity_study_chapter_question_mic_off"
-                    />
+                    android:src="@mipmap/activity_study_chapter_question_mic_off" />
 
 
             </LinearLayout>
@@ -285,15 +278,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:paddingTop="15dp">
 
                 <ImageButton
                     android:id="@+id/next_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="studyChapterQuestionOnClick"
                     android:src="@mipmap/activity_study_chapter_question_next_btn_off" />
 
 

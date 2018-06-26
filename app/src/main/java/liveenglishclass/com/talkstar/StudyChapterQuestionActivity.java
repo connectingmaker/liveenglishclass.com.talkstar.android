@@ -37,6 +37,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -83,6 +85,8 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
     private TextView tv_explanation;
     private TextView tv_answer;
+    private TextView question_random_command;
+    private TextView activity_studypart_title;
     private ImageButton next_btn;
     private ProgressBar studyProgressBar;
 
@@ -94,6 +98,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     private Boolean questionVoice = false;
 
     /****** 음성인식 ***************/
+
     private Intent intent;
     private SpeechRecognizer mRecognizer;
     private SpeechRecognizer mRecognizerCnt;
@@ -130,6 +135,13 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     private Thread thread;
     private Boolean popupCheck = false;
     private MediaPlayer mediaPlayer;
+    private Boolean activity_finish = false;
+    private Boolean question_next = false;
+    private Boolean question_prev = false;
+    private String retry_voice = "";
+    private String chapterOrder = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +181,8 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
         next_btn = (ImageButton) findViewById(R.id.next_btn);
         tv_answer = (TextView) findViewById(R.id.tv_answer);
         line = (LinearLayout) findViewById(R.id.line);
+        question_random_command = (TextView) findViewById(R.id.question_random_command);
+        activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
 
         qc = new QuestionClass();
 
@@ -237,15 +251,9 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
         {
             classesCode =(String) b.get("classesCode");
             chapterCode = (String) b.get("chapterCode");
+            chapterOrder = (String) b.get("chapterOrder");
 
-
-
-
-
-
-
-
-
+            activity_studypart_title.setText("CHAPTER " + chapterOrder);
 
         } else {
 
@@ -367,10 +375,28 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                 _nextSend();
 
                             }
+
+                            if(activity_finish == true) {
+                                finish();
+                            }
+
+                            if(question_next == true) {
+                                question_next = false;
+                                SkipQuetion();
+                            }
+
+                            if(question_prev == true) {
+                                question_prev = false;
+                                Log.d("test", "이전으로 돌아감");
+                                prevQuetion();
+                            }
                             voiceFinish = false;
 
 
+
                         }
+
+
 
                         sleep(2000);
                     }
@@ -418,8 +444,11 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         questionType = studyDTO.QUESTION_TYPE;
 
                         qc.set_nextStudy(studyDTO.NEXT_STUDY);
+
                         qc.set_quetionValue("");
                         qc.set_answerValue(studyDTO.ANSWER_ENGLISH);
+
+                        question_random_command.setText(studyDTO.COMMAND_NAME);
 
                         partCode = temp[0];
                         orderId = Integer.parseInt(temp[1]);
@@ -560,10 +589,13 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         qc.set_nextStudy(studyDTO.NEXT_STUDY);
                         qc.set_quetionValue(english_string);
                         qc.set_answerValue(studyDTO.ANSWER_ENGLISH);
+                        qc.set_prevStudy(studyDTO.PREV_STUDY);
 
                         _voiceType = voiceType;
                         _voiceString = voice;
                         _voiceFile = voiceFile;
+
+                        question_random_command.setText(studyDTO.COMMAND_NAME);
 
 //                        String temp[] = studyDTO.NEXT_STUDY.split("///");
 //                        partCode = temp[0];
@@ -587,6 +619,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             QuestionAnsWerCnt = 0;
                             tv_explanation.setText(studyDTO.ENGLISH_STRING);
                             tv_answer.setText(_voiceString);
+
+                            _voiceString = studyDTO.ENGLISH_STRING;
+                            _voiceType = "EN";
+
                         } else if(questionType.equals("Q2")) {
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
@@ -597,6 +633,11 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             tv_explanation.setText(voice);
                             tv_answer.setText(studyDTO.ENGLISH_STRING);
                             answerBtn.setVisibility(View.GONE);
+
+                            _voiceString = studyDTO.ENGLISH_STRING;
+                            _voiceType = "EN";
+
+
                         } else if(questionType.equals("E")) {
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
@@ -606,6 +647,12 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             QuestionAnsWerCnt = 0;
                             tv_explanation.setText(voice);
                             tv_answer.setText("영어로 발음해 주세요.");
+
+
+                            _voiceString = studyDTO.VOICE;
+                            _voiceType = "KR";
+
+
                         } else {
                             answerBtn.setVisibility(View.GONE);
                             answerBtn.setVisibility(View.GONE);
@@ -613,10 +660,14 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             line.setVisibility(View.GONE);
 
                             tv_explanation.setText(voice);
+
+                            _voiceString = studyDTO.VOICE;
+                            _voiceType = "KR";
                         }
 
 
                         Log.d("test", "파일로드==="+ApiService.API_URL + voiceFile);
+                        Log.d("test", "음성READ ====="+voiceType + "///" + _voiceString);
 
 
                         if(voiceFile.equals("")) {
@@ -625,20 +676,20 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                     case "KR":
                                         if(questionType.equals("Q")) {
                                             _voiceSend = english_string;
-                                            ttsGreater21(english_string);
+                                            ttsGreater21(_voiceString);
                                         } else {
                                             _voiceSend = voice;
-                                            ttsGreater21_KR(voice);
+                                            ttsGreater21_KR(_voiceString);
                                         }
 
                                         break;
                                     case "EN":
                                         if(questionType.equals("Q")) {
                                             _voiceSend = english_string;
-                                            ttsGreater21(english_string);
+                                            ttsGreater21(_voiceString);
                                         } else {
                                             _voiceSend = voice;
-                                            ttsGreater21(voice);
+                                            ttsGreater21(_voiceString);
                                         }
                                         //ttsGreater21(voice);
                                         break;
@@ -652,10 +703,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
                                         if(questionType.equals("Q")) {
                                             _voiceSend = english_string;
-                                            ttsUnder20(english_string);
+                                            ttsUnder20(_voiceString);
                                         } else {
                                             _voiceSend = voice;
-                                            ttsUnder20_KR(voice);
+                                            ttsUnder20_KR(_voiceString);
                                         }
 
 
@@ -663,10 +714,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                     case "EN":
                                         if(questionType.equals("Q")) {
                                             _voiceSend = english_string;
-                                            ttsUnder20(english_string);
+                                            ttsUnder20(_voiceString);
                                         } else {
                                             _voiceSend = voice;
-                                            ttsUnder20(voice);
+                                            ttsUnder20(_voiceString);
                                         }
                                         //ttsUnder20(voice);
                                         break;
@@ -783,16 +834,26 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         Log.d("test", "질문지 타입 == " +questionType);
 
                         if(questionType.equals("Q")) {
-                            Log.d("test", "수업");
+
+
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
                             tv_answer.setVisibility(View.VISIBLE);
                             answerBtn.setVisibility(View.VISIBLE);
 
                             QuestionAnsWerCnt = 0;
+
+
                             tv_explanation.setText(studyDTO.ENGLISH_STRING);
                             tv_answer.setText(_voiceString);
+
+
+                            _voiceString = studyDTO.ENGLISH_STRING;
+
+
                         } else if(questionType.equals("Q2")) {
+
+
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
                             tv_answer.setVisibility(View.VISIBLE);
@@ -800,9 +861,17 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
                             QuestionAnsWerCnt = 0;
                             tv_explanation.setText(voice);
+
+
                             tv_answer.setText(studyDTO.ENGLISH_STRING);
                             answerBtn.setVisibility(View.GONE);
+
+                            _voiceString = voice;
+
+
                         } else if(questionType.equals("E")) {
+
+
                             line.setVisibility(View.VISIBLE);
                             nextVoice = true;
                             tv_answer.setVisibility(View.VISIBLE);
@@ -811,6 +880,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             QuestionAnsWerCnt = 0;
                             tv_explanation.setText(voice);
                             tv_answer.setText("발음평가 해주세요.");
+
+                            _voiceString = voice;
+
+
                         } else {
                             answerBtn.setVisibility(View.GONE);
                             answerBtn.setVisibility(View.GONE);
@@ -818,6 +891,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             line.setVisibility(View.GONE);
 
                             tv_explanation.setText(voice);
+
+                            _voiceString = voice;
+
+
                         }
 
 
@@ -829,17 +906,20 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                 switch (voiceType) {
                                     case "KR":
                                         if(questionType.equals("Q")) {
-                                            ttsGreater21(english_string);
+                                            ttsGreater21(_voiceString);
+
                                         } else {
-                                            ttsGreater21_KR(voice);
+                                            ttsGreater21_KR(_voiceString);
                                         }
+
+
 
                                         break;
                                     case "EN":
                                         if(questionType.equals("Q")) {
-                                            ttsGreater21(english_string);
+                                            ttsGreater21(_voiceString);
                                         } else {
-                                            ttsGreater21(voice);
+                                            ttsGreater21(_voiceString);
                                         }
                                         //ttsGreater21(voice);
                                         break;
@@ -852,18 +932,18 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                     case "KR":
 
                                         if(questionType.equals("Q")) {
-                                            ttsUnder20(english_string);
+                                            ttsUnder20(_voiceString);
                                         } else {
-                                            ttsUnder20_KR(voice);
+                                            ttsUnder20_KR(_voiceString);
                                         }
 
 
                                         break;
                                     case "EN":
                                         if(questionType.equals("Q")) {
-                                            ttsUnder20(english_string);
+                                            ttsUnder20(_voiceString);
                                         } else {
-                                            ttsUnder20(voice);
+                                            ttsUnder20(_voiceString);
                                         }
                                         //ttsUnder20(voice);
                                         break;
@@ -920,7 +1000,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
 //        if(QuestionAnsWerCnt == -1) {
         if(questionType.equals("Q") || questionType.equals("Q2")) {
-            if(QuestionAnsWerCnt < 3) {
+            if(QuestionAnsWerCnt < -1) {
                 Toast.makeText(this, "3번 따라 읽어주세요.", Toast.LENGTH_LONG).show();
             } else {
                 if(qc.get_nextStudy().equals("")) {
@@ -951,7 +1031,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
             }
         } else if(questionType.equals("E")) {
-            if(QuestionAnsWerCnt < 1) {
+            if(QuestionAnsWerCnt < -1) {
                 Toast.makeText(this, "1번 발음평가를 맞춰 주세요.", Toast.LENGTH_LONG).show();
             } else {
                 if(qc.get_nextStudy().equals("")) {
@@ -972,6 +1052,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
                     Log.d("test", "reject="+reject);
 
+                    //_nextSend();
                     if(reject.equals("R")) {
                         this._nextSend_reject();;
 
@@ -1064,6 +1145,32 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
         }
     }
 
+    public void prevQuetion() {
+        if(qc.get_prevStudy().equals("")) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("fragment_move", "study");
+            startActivity(intent);
+            finish();
+        } else {
+            //다음학습
+
+            Log.d("test", "실행 ===== " + qc.get_prevStudy());
+            String temp[] = qc.get_prevStudy().split("///");
+            partCode = temp[0];
+            orderId = Integer.parseInt(temp[1]);
+            reject = temp[2];
+
+
+            if(reject.equals("R")) {
+                this._nextSend_reject();;
+
+            } else {
+                this._nextSend();
+            }
+        }
+    }
+
     public void studyChapterQuestionOnClick(View v) {
         Log.d("test", "OK");
         Log.d("test", questionType);
@@ -1090,6 +1197,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         break;
                 }
 
+                break;
+
+            case R.id.prev_btn:
+                prevQuetion();
                 break;
         }
     }
@@ -1269,7 +1380,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                             cacd.dismiss();
 
                             if(questionType.equals("Q") || questionType.equals("Q2")) {
-                                if(QuestionAnsWerCnt < 3) {
+                                if(QuestionAnsWerCnt < -1) {
 
 
                                     intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -1288,7 +1399,7 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                     NextQuestion();
                                 }
                             } else if(questionType.equals("E")) {
-                                if(QuestionAnsWerCnt < 1) {
+                                if(QuestionAnsWerCnt < -1) {
 
 
                                     intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -1443,49 +1554,59 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                         public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
 
 
-                            VoiceSearchDTO voiceSearchDTO = response.body();
-                            Log.d("test", voiceSearchDTO.ACTION_CODE);
+                            try {
+                                VoiceSearchDTO voiceSearchDTO = response.body();
 
 
 
 
-                            switch(voiceSearchDTO.ACTION_CODE) {
-                                case "A001":
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        switch (_voiceType) {
-                                            case "KR":
-                                                Log.d("test", "OK");
-                                                ttsGreater21_KR(_voiceString);
-                                                break;
-                                            case "EN":
-                                                ttsGreater21(_voiceString);
-                                                break;
+                                switch(voiceSearchDTO.ACTION_CODE) {
+                                    case "A001":
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            switch (_voiceType) {
+                                                case "KR":
+                                                    Log.d("test", "OK");
+                                                    ttsGreater21_KR(_voiceString);
+                                                    break;
+                                                case "EN":
+                                                    ttsGreater21(_voiceString);
+                                                    break;
+
+                                            }
+
+                                        } else {
+
+                                            switch (_voiceType) {
+                                                case "KR":
+                                                    ttsUnder20_KR(_voiceString);
+                                                    break;
+                                                case "EN":
+                                                    ttsUnder20(_voiceString);
+                                                    break;
+
+                                            }
 
                                         }
+                                        break;
 
-                                    } else {
+                                    case "A002":
 
-                                        switch (_voiceType) {
-                                            case "KR":
-                                                ttsUnder20_KR(_voiceString);
-                                                break;
-                                            case "EN":
-                                                ttsUnder20(_voiceString);
-                                                break;
+                                        ynBool = false;
+                                        ynBool = true;
+                                        question_next = true;
 
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21_KR("네 알겠습니다.");
+                                        } else {
+                                            ttsUnder20_KR("네 알겠습니다.");
                                         }
 
-                                    }
-                                    break;
 
-                                case "A002":
-                                    SkipQuetion();
-
-                                    break;
+                                        break;
 
 
 
-                                case "A003":
+                                    case "A003":
                                     /*
                                     if (voiceSearchDTO.ENGLISH_FILE.equals("TTS")) {
 
@@ -1494,83 +1615,99 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
                                     }
                                     */
 
-                                    Log.d("test", voiceSearchDTO.COMMAND_RETURN);
+                                        Log.d("test", voiceSearchDTO.COMMAND_RETURN);
 
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        ttsGreater21(voiceSearchDTO.COMMAND_RETURN);
-                                    } else {
-                                        ttsUnder20(voiceSearchDTO.COMMAND_RETURN);
-                                    }
-
-                                    //Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.COMMAND_RETURN, Toast.LENGTH_LONG).show();
-                                    break;
-
-                                case "A004":
-
-                                    ynBool = false;
-                                    ynBool = true;
-
-
-                                    finish();
-
-
-
-
-                                    break;
-
-                                case "A005":
-                                    Log.d("test", "2222");
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        switch (_voiceType) {
-                                            case "KR":
-                                                if(questionType.equals("Q")) {
-                                                    ttsGreater21(_voiceString);
-                                                } else {
-                                                    ttsGreater21_KR(_voiceString);
-                                                }
-
-                                                break;
-                                            case "EN":
-                                                if(questionType.equals("Q")) {
-                                                    ttsGreater21(_voiceString);
-                                                } else {
-                                                    ttsGreater21(_voiceString);
-                                                }
-                                                //ttsGreater21(voice);
-                                                break;
-
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21(voiceSearchDTO.COMMAND_RETURN);
+                                        } else {
+                                            ttsUnder20(voiceSearchDTO.COMMAND_RETURN);
                                         }
 
-                                    } else {
+                                        //Toast.makeText(MainActivity.this, "영어 = " + voiceSearchDTO.COMMAND_RETURN, Toast.LENGTH_LONG).show();
+                                        break;
 
-                                        switch (_voiceType) {
-                                            case "KR":
+                                    case "A004":
 
-                                                if(questionType.equals("Q")) {
-                                                    ttsUnder20(_voiceString);
-                                                } else {
-                                                    ttsUnder20_KR(_voiceString);
-                                                }
+                                        ynBool = false;
+                                        ynBool = true;
+                                        activity_finish = true;
 
-
-                                                break;
-                                            case "EN":
-                                                if(questionType.equals("Q")) {
-                                                    ttsUnder20(_voiceString);
-                                                } else {
-                                                    ttsUnder20(_voiceString);
-                                                }
-                                                //ttsUnder20(voice);
-                                                break;
-
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21_KR("네 알겠습니다.");
+                                        } else {
+                                            ttsUnder20_KR("네 알겠습니다.");
                                         }
 
-                                    }
-                                    //Toast.makeText(getApplication(), "A005", Toast.LENGTH_LONG).show();
-                                    //Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
-                                    break;
 
-                                case "A999":
+                                        //finish();
+
+
+
+
+                                        break;
+
+                                    case "A005":
+                                        Log.d("test", "2222");
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            switch (_voiceType) {
+                                                case "KR":
+                                                    if(questionType.equals("Q")) {
+                                                        ttsGreater21(_voiceString);
+                                                    } else {
+                                                        ttsGreater21_KR(_voiceString);
+                                                    }
+
+                                                    break;
+                                                case "EN":
+                                                    if(questionType.equals("Q")) {
+                                                        ttsGreater21(_voiceString);
+                                                    } else {
+                                                        ttsGreater21(_voiceString);
+                                                    }
+                                                    //ttsGreater21(voice);
+                                                    break;
+
+                                            }
+
+                                        } else {
+
+                                            switch (_voiceType) {
+                                                case "KR":
+
+                                                    if(questionType.equals("Q")) {
+                                                        ttsUnder20(_voiceString);
+                                                    } else {
+                                                        ttsUnder20_KR(_voiceString);
+                                                    }
+
+
+                                                    break;
+                                                case "EN":
+                                                    if(questionType.equals("Q")) {
+                                                        ttsUnder20(_voiceString);
+                                                    } else {
+                                                        ttsUnder20(_voiceString);
+                                                    }
+                                                    //ttsUnder20(voice);
+                                                    break;
+
+                                            }
+
+                                        }
+                                        //Toast.makeText(getApplication(), "A005", Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                        break;
+
+                                    case "A008":
+                                        question_prev = true;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21_KR("네 알겠습니다.");
+                                        } else {
+                                            ttsUnder20_KR("네 알겠습니다.");
+                                        }
+                                        break;
+
+                                    case "A999":
 //                                    String voiceReturn = voiceSearchDTO.COMMAND_RETURN;
 //                                    String username = Shared.getPerferences(getApplication(), "SESS_USERNAME");
 //                                    voiceReturn = voiceReturn.replace("[_NAME_]", username);
@@ -1580,23 +1717,36 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 //                                    } else {
 //                                        ttsUnder20_KR(voiceReturn);
 //                                    }
-                                    break;
+                                        break;
 
 
-                                default:
-//                                    String voiceReturn2 = voiceSearchDTO.COMMAND_RETURN;
-//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                                        ttsGreater21_KR(voiceReturn2);
-//                                    } else {
-//                                        ttsUnder20_KR(voiceReturn2);
-//                                    }
-                                    break;
+                                    default:
+                                        String voiceReturn2 = voiceSearchDTO.COMMAND_RETURN;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+                                        } else {
+                                            ttsUnder20_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+                                        }
+                                        break;
+                                }
+
+                            } catch (Exception e) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    ttsGreater21_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+                                } else {
+                                    ttsUnder20_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+                                }
                             }
+
                         }
 
                         @Override
                         public void onFailure(Call<VoiceSearchDTO> call, Throwable t) {
-                            Log.d("test", "실패");
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+////                                ttsGreater21_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+////                            } else {
+////                                ttsUnder20_KR("그건 제가 아직 알아들을 수 없지만 곧 배우게 될거예요.");
+////                            }
                         }
                     });
 
@@ -1633,14 +1783,40 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
     public void speakBtn(View v) {
         Log.d("test", _voiceFile +"///" + _voiceType + "///" + _voiceString);
         if(_voiceFile.equals("")) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                switch (_voiceType) {
+//                    case "KR":
+//                        //Log.d("test", "OK");
+//                        ttsGreater21_KR(_voiceSend);
+//                        break;
+//                    case "EN":
+//                        ttsGreater21(_voiceSend);
+//                        break;
+//
+//                }
+//
+//            } else {
+//
+//                switch (_voiceType) {
+//                    case "KR":
+//                        ttsUnder20_KR(_voiceSend);
+//                        break;
+//                    case "EN":
+//                        ttsUnder20(_voiceSend);
+//                        break;
+//
+//                }
+//
+//            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 switch (_voiceType) {
                     case "KR":
                         //Log.d("test", "OK");
-                        ttsGreater21_KR(_voiceSend);
+                        ttsGreater21_KR(_voiceString);
                         break;
                     case "EN":
-                        ttsGreater21(_voiceSend);
+                        ttsGreater21(_voiceString);
                         break;
 
                 }
@@ -1649,10 +1825,10 @@ public class StudyChapterQuestionActivity extends AppCompatActivity {
 
                 switch (_voiceType) {
                     case "KR":
-                        ttsUnder20_KR(_voiceSend);
+                        ttsUnder20_KR(_voiceString);
                         break;
                     case "EN":
-                        ttsUnder20(_voiceSend);
+                        ttsUnder20(_voiceString);
                         break;
 
                 }

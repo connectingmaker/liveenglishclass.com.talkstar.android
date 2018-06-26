@@ -47,10 +47,12 @@ import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import liveenglishclass.com.talkstar.util.BackPressCloseHandler;
+import liveenglishclass.com.talkstar.util.ScreenUtils;
 import liveenglishclass.com.talkstar.util.Shared;
 import liveenglishclass.com.talkstar.util.Util;
 
 
+import liveenglishclass.com.talkstar.util.VoiceView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +60,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private BackPressCloseHandler backPressCloseHandler;
 
     private ActivityManager actManager = ActivityManager.getInstance();
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     private ImageButton tab01, tab02, tab03, tab04;
+    private VoiceView mVoiceView;
 
 
 
@@ -409,6 +412,7 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public void onReadyForSpeech(Bundle params) {
             Log.d("test", "onReadyForSpeech");
+
         }
 
         @Override

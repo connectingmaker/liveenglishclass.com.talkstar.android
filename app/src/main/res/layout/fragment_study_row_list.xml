@@ -22,7 +22,7 @@
             android:paddingRight="15dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/study_round">
+            android:background="@drawable/study_round_btn">
 
             <LinearLayout
                 android:layout_width="wrap_content"

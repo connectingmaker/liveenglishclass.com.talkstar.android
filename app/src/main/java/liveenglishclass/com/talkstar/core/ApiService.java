@@ -15,10 +15,12 @@ import liveenglishclass.com.talkstar.dto.MypageDTO;
 import liveenglishclass.com.talkstar.dto.NoticeList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
+import liveenglishclass.com.talkstar.dto.StudyFinish;
 import liveenglishclass.com.talkstar.dto.StudyList;
 import liveenglishclass.com.talkstar.dto.QnaDTO;
 import liveenglishclass.com.talkstar.dto.StudyNextDTO;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
+import liveenglishclass.com.talkstar.dto.StudyStartDTO_20180620;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,8 +38,8 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-//    public static final String API_URL = "http://119.197.84.203:7890/";
-    public static final String API_URL = "http://www.brs.kr:7890/";
+    public static final String API_URL = "http://192.168.0.10:7890/";
+    //public static final String API_URL = "http://www.brs.kr:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -104,9 +106,18 @@ public interface ApiService {
     @GET("study/start")
     Call<StudyStartDTO> StudyStart(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
 
+    @GET("study/start_20180620")
+    Call<StudyStartDTO_20180620> StudyStart_20180620(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId, @Query("studyCode") String studyCode, @Query("questionAnswer") String questionAnswer);
+
+
+    /********** 수업다음진행 ***************/
+    @GET("study/finish")
+    Call<StudyFinish> StudyFinish(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
+
+
     /********** 수업다음진행 ***************/
     @FormUrlEncoded
-    @POST("study/next")
+    @GET("study/next")
     Call<StudyStartDTO> StudyNext(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid, @FieldMap Map<String, String> fields);
 
 

@@ -6,8 +6,8 @@ android {
         applicationId "liveenglishclass.com.talkstar"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 6
-        versionName "0.71"
+        versionCode 9
+        versionName "0.72.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,6 +47,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
 
     implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+
+
+    implementation 'pl.bclogic:pulsator4droid:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
