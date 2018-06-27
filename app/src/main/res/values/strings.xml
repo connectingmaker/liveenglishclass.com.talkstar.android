@@ -24,22 +24,22 @@
     <!-- 의견보내기 -->
     <string name="qnaTitle">의견보내기</string>
 
-    <!-- HOME -->
-    <string name="mainfragmentTitle01">학습과정</string>
-    <string name="mainfragmentTitle01_btn">학습히스토리</string>
-    <string name="mainfragmentTitle02">학습 크레딧</string>
-    <string name="mainfragmentTitle02_01_btn">크레딧구매내역</string>
-    <string name="mainfragmentTitle02_02_btn">추가구매하기</string>
-    <string name="mainfragmentTitle03">최근 학습내용</string>
-    <string name="mainfragmentTitle03_01_btn">전체보기</string>
+    <!-- MYPAGE -->
+    <string name="mainfragmentTitle01">LESSON RESULT</string>
+    <!--<string name="mainfragmentTitle01_btn"></string>-->
+    <string name="mainfragmentTitle02">학습 문장</string>
+    <!--<string name="mainfragmentTitle02_01_btn">크레딧구매내역</string>-->
+    <!--<string name="mainfragmentTitle02_02_btn">추가구매하기</string>-->
+    <string name="mainfragmentTitle03">전체 학습시간</string>
+    <!--<string name="mainfragmentTitle03_01_btn">전체보기</string>-->
 
 
-    <string name="mainfragmentTitle04">나의 랭킹</string>
-    <string name="mainfragmentTitle04_01_btn">전체순위보기</string>
+    <!--<string name="mainfragmentTitle04">나의 랭킹</string>-->
+    <!--<string name="mainfragmentTitle04_01_btn">전체순위보기</string>-->
 
 
-    <string name="studychapterQuestion">문제만 복습하기</string>
-    <string name="studychapterQuestionSkip">시험보고 건너뛰기</string>
+    <!--<string name="studychapterQuestion">문제만 복습하기</string>-->
+    <!--<string name="studychapterQuestionSkip">시험보고 건너뛰기</string>-->
 
     <!-- PUSH -->
     <string name="notification_channel_id" translatable="false">fcm_default_channel</string>

@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     private String UID;
 
 
-    private TextView  fragment_main_classes_name;
+    private TextView  fragment_main_classes_time,fragment_main_recommand_time;
     private TextView fragment_main_ing_study;
     private TextView english_1, english_2;
 
@@ -64,11 +64,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        fragment_main_classes_name = (TextView) view.findViewById(R.id.fragment_main_classes_name);
-        fragment_main_ing_study = (TextView) view.findViewById(R.id.fragment_main_ing_study);
-        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-        english_1 = (TextView) view.findViewById(R.id.english_1);
-        english_2 = (TextView) view.findViewById(R.id.english_2);
+        fragment_main_classes_time = (TextView) view.findViewById(R.id.fragment_main_classes_time);
+        fragment_main_recommand_time = (TextView) view.findViewById(R.id.fragment_main_recommand_time);
+//        fragment_main_ing_study = (TextView) view.findViewById(R.id.fragment_main_ing_study);
+//        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
+//        english_1 = (TextView) view.findViewById(R.id.english_1);
+//        english_2 = (TextView) view.findViewById(R.id.english_2);
         this._dataList();
 
         return view;
@@ -97,12 +98,12 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<MypageDTO> call, Response<MypageDTO> response) {
                         dialog.dismiss();
                         MypageDTO mypageDTO = response.body();
-                        fragment_main_classes_name.setText(mypageDTO.CLASSES_NAME);
-                        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.CHAPTER_ALL)+"</span>챕터 중 <span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.USER_CHAPTER_COMPLATE)+"</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
+//                        fragment_main_classes_name.setText(mypageDTO.CLASSES_NAME);
+//                        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.CHAPTER_ALL)+"</span>챕터 중 <span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.USER_CHAPTER_COMPLATE)+"</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
 
 
-                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
-                        english_2.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH2+"</span></b>"), TextView.BufferType.SPANNABLE);
+//                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
+//                        english_2.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH2+"</span></b>"), TextView.BufferType.SPANNABLE);
                     }
 
                     @Override
