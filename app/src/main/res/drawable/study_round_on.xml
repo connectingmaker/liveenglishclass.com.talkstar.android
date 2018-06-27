@@ -131,7 +131,11 @@
     <item>
         <shape>
             <solid android:color="@android:color/white" />
-
+            <padding
+                android:bottom="20dp"
+                android:left="15dp"
+                android:right="15dp"
+                android:top="20dp" />
             <corners android:radius="10dp" />
         </shape>
     </item>

@@ -25,6 +25,9 @@ public class StudyDTO {
     @SerializedName("TOTAL_PER")
     private Integer TOTAL_PER = 0;
 
+    @SerializedName("PER_ORDER")
+    private Integer PER_ORDER = 0;
+
 
 
     public String getClassCode()
@@ -79,6 +82,9 @@ public class StudyDTO {
         this.TOTAL_PER = TOTAL_PER;
     }
 
-
+    public Integer getPerOrder()
+    {
+        return this.PER_ORDER;
+    }
 
 }

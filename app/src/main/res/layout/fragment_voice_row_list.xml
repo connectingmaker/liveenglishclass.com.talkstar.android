@@ -61,8 +61,7 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/voicefragment_command_return"
                         android:textSize="16dp"

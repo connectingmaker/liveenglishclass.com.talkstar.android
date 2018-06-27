@@ -27,6 +27,12 @@ public class StudyChapterDTO {
     @SerializedName("LEARNING_NOTES")
     private String LEARNING_NOTES = "";
 
+    @SerializedName("PER_ORDER")
+    private String PER_ORDER = "";
+
+    @SerializedName("USER_CHECK")
+    private String USER_CHECK = "";
+
 
     public String getClassName() {
         return this.CLASSES_NAME;
@@ -53,7 +59,9 @@ public class StudyChapterDTO {
         return this.LEARNING_NOTES;
     }
 
+    public String getPerOrder() { return this.PER_ORDER; }
 
+    public String getUserCheck() { return this.USER_CHECK; }
 
 
 
