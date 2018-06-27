@@ -41,6 +41,9 @@
             android:name=".NoticeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CommandActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".QnaActivity"
             android:screenOrientation="portrait" />
 

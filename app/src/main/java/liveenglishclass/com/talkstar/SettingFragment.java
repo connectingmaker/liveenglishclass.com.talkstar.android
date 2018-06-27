@@ -24,7 +24,7 @@ import liveenglishclass.com.talkstar.util.Util;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
-    private LinearLayout setting_logout, fragment_setting_privacy, fragment_setting_term, fragment_setting_qna, fragment_setting_notice, fragment_setting_version;
+    private LinearLayout setting_logout, fragment_setting_privacy, fragment_setting_term, fragment_setting_qna, fragment_setting_notice, fragment_setting_version,fragment_setting_command;
     private Intent intent;
 
 
@@ -70,6 +70,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         fragment_setting_notice = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_notice);
         fragment_setting_notice.setOnClickListener(this);
 
+        fragment_setting_command = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_command);
+        fragment_setting_command.setOnClickListener(this);
+
 
         fragment_setting_version = (LinearLayout) getActivity().findViewById(R.id.fragment_setting_version);
         fragment_setting_version.setOnClickListener(this);
@@ -114,6 +117,12 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
             case R.id.fragment_setting_notice:
                 intent = new Intent(getActivity(),NoticeActivity.class);
+
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                break;
+            case R.id.fragment_setting_command:
+                intent = new Intent(getActivity(),CommandActivity.class);
 
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);

@@ -49,6 +49,25 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fragment_setting_command"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="15dp"
+                android:drawablePadding="8dp"
+                android:drawableRight="@mipmap/common_btn_next"
+                android:background="@drawable/notice_round"
+                android:hint="음성명령어보기"
+                android:textSize="14dp">
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/fragment_setting_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
