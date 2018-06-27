@@ -30,6 +30,7 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
     private TextView classes_name, question_cnt, study_progressTxt;
     private RatingBar classes_level;
     private ImageView fragment_study_icon;
+    private LinearLayout study_linearLayout;
 
     private ProgressBar pg;
 
@@ -76,10 +77,18 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
         pg.setProgress(item.getTotalPer());
         study_progressTxt.setText(item.getTotalPer().toString() + "%");
 
-        if(item.getPartCnt() == 100) {
+        study_linearLayout = (LinearLayout) convertView.findViewById(R.id.study_linearLayout);
+
+        if(item.getPerOrder() == 1) {
             fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
         } else {
             fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+        }
+
+        if(item.getPerOrder() == 0) {
+            study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+        } else {
+            study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
         }
 
         question_cnt.setText(Html.fromHtml("<span color='#404040'><font size='30'>"+item.getUserQCnt().toString()+"</font><small>/"+item.getPartCnt().toString()+"</small></span>"));
