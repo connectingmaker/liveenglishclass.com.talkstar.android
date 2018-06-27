@@ -41,6 +41,7 @@ import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialog;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialogX;
+import liveenglishclass.com.talkstar.dto.StudyBookMark;
 import liveenglishclass.com.talkstar.dto.StudyFinish;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO_20180620;
@@ -73,7 +74,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
     private ProgressBar studyProgressBar;
     private Button answerBtn;
     private TextView question_random_command, activity_studypart_title;
-    private ImageButton next_btn;
+    private ImageButton next_btn, study_bookmark_btn;
     private LinearLayout add_layout;
     private EditText et_answer;
 
@@ -149,6 +150,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
 
         next_btn = (ImageButton) findViewById(R.id.next_btn);
+        study_bookmark_btn = (ImageButton) findViewById(R.id.study_bookmark_btn);
 
 
         activity_studypart_title.setText("CHAPTER " + chapterOrder);
@@ -334,6 +336,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                             String EnglishString = studyDTO.ENGLISH_STRING;
                             String KoreaString = studyDTO.KOREA_STRING;
                             String Explanation = studyDTO.EXPLANATION;
+                            String bookmarkYN = studyDTO.BOOKMARK_YN;
 
 
                             if(studyDTO.NEXT_STUDY.equals("")) {
@@ -341,6 +344,12 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                             } else {
                                 String nextDataTemp[] = studyDTO.NEXT_STUDY.split("///");
                                 chapterOrder = nextDataTemp[1];
+                            }
+
+                            if(bookmarkYN.equals("Y")) {
+                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                            } else {
+                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
                             }
 
 
@@ -388,6 +397,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
 
         if(voice_type.equals("T")) {
+            study_bookmark_btn.setVisibility(View.GONE);
+
+
             LayoutInflater mInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
             View mAddView = mInflater.inflate(R.layout.activity_study_chapter_question_new_boxlayout_title, null, true);
             TextView tv_explanation = (TextView) mAddView.findViewById(R.id.tv_explanation);
@@ -433,6 +445,19 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 tv_answer.setText("");
             }
 
+
+            if(question_type.equals("Q")){
+                study_bookmark_btn.setVisibility(View.VISIBLE);
+                study_bookmark_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        _bookmarkSave();
+                        //Log.d("test", UID + "///" + studyCode);
+                    }
+                });
+            } else {
+                study_bookmark_btn.setVisibility(View.GONE);
+            }
 
 
             add_layout.removeAllViews();
@@ -528,6 +553,50 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         }
     }
 
+    private void _bookmarkSave()
+    {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                apiService = retrofit.create(ApiService.class);
+                Call<StudyBookMark> call = apiService.StudyBook(UID, studyCode);
+                call.enqueue(new Callback<StudyBookMark>() {
+
+                    @Override
+                    public void onResponse(Call<StudyBookMark> call, Response<StudyBookMark> response) {
+                        StudyBookMark studyDTO = response.body();
+
+                        if(studyDTO.USE_YN.equals("Y")) {
+                            study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                        } else {
+                            study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<StudyBookMark> call, Throwable t) {
+
+                    }
+                });
+
+
+
+
+
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+        }.execute();
+    }
+
     private void _micVoice(String voiceType)
     {
 
@@ -561,6 +630,11 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 break;
             case R.id.textVoiceBtn:
                 et_answer.setVisibility(View.VISIBLE);
+                break;
+            case R.id.study_bookmark_btn:
+
+                //Log.d("test", studyCode + "///" + UID);
+                //studyCode
                 break;
         }
     }

@@ -13,6 +13,8 @@ import liveenglishclass.com.talkstar.dto.MemberDTO;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.MypageDTO;
 import liveenglishclass.com.talkstar.dto.NoticeList;
+import liveenglishclass.com.talkstar.dto.StudyBookMark;
+import liveenglishclass.com.talkstar.dto.StudyBookMarkList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyFinish;
@@ -113,6 +115,13 @@ public interface ApiService {
     /********** 수업다음진행 ***************/
     @GET("study/finish")
     Call<StudyFinish> StudyFinish(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
+
+    @GET("study/bookmark")
+    Call<StudyBookMark> StudyBook(@Query("uid") String uid, @Query("study_code") String study_code);
+
+
+    @GET("study/bookmarklist")
+    Call<StudyBookMarkList> StudyBookMarkList(@Query("uid") String uid);
 
 
     /********** 수업다음진행 ***************/
