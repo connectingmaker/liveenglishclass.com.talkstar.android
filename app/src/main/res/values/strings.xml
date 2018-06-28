@@ -25,12 +25,12 @@
     <string name="qnaTitle">의견보내기</string>
 
     <!-- MYPAGE -->
-    <string name="mainfragmentTitle01">LESSON RESULT</string>
-    <!--<string name="mainfragmentTitle01_btn"></string>-->
-    <string name="mainfragmentTitle02">학습 문장</string>
+    <string name="mainfragmentTitle01">학습결과</string>
+    <string name="mainfragmentTitle01_sub">학습한 난이도와 시간 등에 따라 차등 지급됩니다.</string>
+    <string name="mainfragmentTitle02">어제 나의 획득 스타</string>
     <!--<string name="mainfragmentTitle02_01_btn">크레딧구매내역</string>-->
     <!--<string name="mainfragmentTitle02_02_btn">추가구매하기</string>-->
-    <string name="mainfragmentTitle03">전체 학습시간</string>
+    <string name="mainfragmentTitle03">오늘 나의 획득 별 보기</string>
     <!--<string name="mainfragmentTitle03_01_btn">전체보기</string>-->
 
 

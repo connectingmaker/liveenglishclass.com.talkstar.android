@@ -1,50 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:weightSum="1"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteY="32dp"
         tools:ignore="MissingConstraints">
 
+        <!--  학습 결과  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:isScrollContainer="true"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:weightSum="1"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="63dp"
-            tools:layout_editor_absoluteY="3dp">
-
-            <!-- LESSON RESULT -->
+            android:padding="10dp">
+            <!-- TITLE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,200 +44,140 @@
                         android:layout_weight="0.5">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:paddingLeft="10dp"
                             android:text="@string/mainfragmentTitle01"
                             android:textColor="#3788d4"
-                            android:textSize="18dp">
+                            android:textSize="25dp">
 
                         </TextView>
                     </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!-- CONTENT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="right|center_vertical"></LinearLayout>
+                        android:layout_weight="0.2">
 
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/star" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="8dp"
+                            android:text="@string/mainfragmentTitle01_sub"
+                            android:textSize="13dp">
+
+                        </TextView>
+                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- Progress Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/circular_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="10dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="1"
+                android:progressDrawable="@drawable/circular_progressbar"/>
+        </LinearLayout>
+        <!-- 총 누적 별 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/notice_round"
-                    android:orientation="horizontal">
+                    android:layout_weight="0.5">
 
-                    <LinearLayout
-                        android:layout_width="147dp"
-                        android:layout_height="124dp"
-                        android:orientation="vertical"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="127dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <ProgressBar
-                                android:id="@+id/circular_progress_bar"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="100dp"
-                                android:layout_marginTop="30dp"
-                                android:indeterminate="false"
-                                android:max="48"
-                                android:progress="1"
-                                android:progressDrawable="@drawable/circular_progressbar" />
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"></LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="189dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="10dp">
+                        android:gravity="right|center"
+                        android:paddingTop="10dp"
+                        android:text="총 누적 별 갯수 : "
+                        android:textSize="13dp">
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.2"
-                                android:gravity="right">
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="right"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingTop="10dp"
-                                    android:text="수업완료시간"
-                                    android:textColor="#7997f4"
-                                    android:textSize="16dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                                <TextView
-                                    android:id="@+id/fragment_main_classes_time"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="17"
-                                    android:textColor="#7997f4"
-                                    android:textSize="40dp"></TextView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:text="분"></TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.2"
-                                android:gravity="right">
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingTop="10dp"
-                                    android:text="권장학습시간"
-                                    android:textColor="#8fc9ff"
-                                    android:textSize="16dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                                <TextView
-                                    android:id="@+id/fragment_main_recommand_time"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="20"
-                                    android:textColor="#8fc9ff"
-                                    android:textSize="40dp">
-
-
-                                </TextView>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:text="분"></TextView>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
+                    </TextView>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
 
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/star"/>
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingTop="10dp"
+                        android:text="142" />
+                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+        <!-- 라인 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#cccccc"
+            android:orientation="vertical"></LinearLayout>
 
-            <!-- 학습 문장 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <!-- TITLE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -266,196 +192,57 @@
                         android:layout_weight="0.5">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
-                            android:text="@string/mainfragmentTitle02"
-                            android:textColor="#3788d4"
-                            android:textSize="18dp">
+                            android:text="어제 획득한 별"
+                            android:textSize="15dp">
 
                         </TextView>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="right|center_vertical">
-
-                    </LinearLayout>
-
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/notice_round"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="84dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="62dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="15dp"
-                                android:layout_weight="0.1"
-                                android:text="이번레슨"
-                                android:textColor="#7997f4" />
-
-                            <TextView
-                                android:id="@+id/textView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.1"
-                                android:text="32"
-                                android:textColor="#7997f4"
-                                android:textSize="40dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="25dp"
-                                android:layout_weight="0.1"
-                                android:text="개" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.3"
-                                android:paddingLeft="12dp"
-                                android:text="/"
-                                android:textColor="#dddddd"
-                                android:textSize="55dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="45dp"
-                                android:layout_weight="0.1"
-                                android:text="현과정전체"
-                                android:textColor="#8fc9ff" />
-
-                            <TextView
-                                android:id="@+id/textView3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="20dp"
-                                android:layout_weight="0.1"
-                                android:text="123"
-                                android:textColor="#8fc9ff"
-                                android:textSize="40dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="45dp"
-                                android:layout_weight="0.1"
-                                android:text="개" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"></LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="46dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ProgressBar
-                            style="@android:style/Widget.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:max="100"
-                            android:progress="50"
-                            android:progressDrawable="@drawable/progress_drawable" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"></LinearLayout>
-
-
-                </LinearLayout>
-
-
             </LinearLayout>
-
-            <!-- 전체 학습 시간 -->
+            <!-- CONTENT -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/star" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:text="+3"
+                        android:textSize="13dp">
+
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <!-- TITLE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -470,355 +257,33 @@
                         android:layout_weight="0.5">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:paddingLeft="10dp"
-                            android:text="@string/mainfragmentTitle03"
-                            android:textColor="#3788d4"
-                            android:textSize="18dp">
+                            android:text="와우! 이전보다 더 열심히 하셨네요!"
+                            android:textSize="15dp">
 
                         </TextView>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="right|center_vertical">
-
-                    </LinearLayout>
-
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/notice_round"
-                    android:orientation="vertical">
-
-                    <!-- 총학습시간 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <TextView
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingLeft="20dp"
-                                    android:text="총학습시간"
-                                    android:textColor="#8fc9ff"
-                                    android:textSize="14dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                                <ProgressBar
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:max="100"
-                                    android:progress="40"
-                                    android:progressDrawable="@drawable/progress_drawable1" />
-
-                                <TextView
-                                    android:id="@+id/english_all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="142분">
-
-
-                                </TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                    <!-- 학생 평균 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <TextView
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingLeft="20dp"
-                                    android:text="학생평균"
-                                    android:textColor="#7997f4"
-                                    android:textSize="14dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                                <ProgressBar
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:max="35"
-                                    android:progress="30"
-                                    android:progressDrawable="@drawable/progress_drawable2" />
-
-                                <TextView
-                                    android:id="@+id/english_student"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="122분">
-
-
-                                </TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                    <!-- 이번주 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <TextView
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingLeft="20dp"
-                                    android:text="이번주"
-                                    android:textColor="#8fc9ff"
-                                    android:textSize="14dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-
-                                <ProgressBar
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:max="30"
-                                    android:progress="30"
-                                    android:progressDrawable="@drawable/progress_drawable1" />
-
-                                <TextView
-                                    android:id="@+id/english_3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="100분">
-
-
-                                </TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                    <!-- 오늘 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <TextView
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingLeft="20dp"
-                                    android:text="오늘"
-                                    android:textColor="#8fc9ff"
-                                    android:textSize="14dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-                                <ProgressBar
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:max="30"
-                                    android:progress="30"
-                                    android:progressDrawable="@drawable/progress_drawable1" />
-
-                                <TextView
-                                    android:id="@+id/english_4"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="52분">
-
-
-                                </TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                    <!-- 일평균 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2">
-
-
-                                <TextView
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:letterSpacing="-0.1"
-                                    android:paddingLeft="20dp"
-                                    android:text="일평균"
-                                    android:textColor="#7997f4"
-                                    android:textSize="14dp"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.8"
-                                android:orientation="horizontal">
-
-                                <ProgressBar
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:max="15"
-                                    android:progress="15"
-                                    android:progressDrawable="@drawable/progress_drawable2" />
-
-                                <TextView
-                                    android:id="@+id/english_5"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="27분">
-
-
-                                </TextView>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
             </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="오늘 획득한 별" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 
