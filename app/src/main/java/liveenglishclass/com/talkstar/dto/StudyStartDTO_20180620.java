@@ -43,6 +43,9 @@ public class StudyStartDTO_20180620 {
     @SerializedName("ANSWER_ENGLISH")
     public String ANSWER_ENGLISH = "";
 
+    @SerializedName("BOOKMARK_YN")
+    public String BOOKMARK_YN = "";
+
 
 
 

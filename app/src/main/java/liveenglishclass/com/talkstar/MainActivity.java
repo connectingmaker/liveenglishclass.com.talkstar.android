@@ -47,6 +47,7 @@ import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import liveenglishclass.com.talkstar.util.BackPressCloseHandler;
+import liveenglishclass.com.talkstar.util.Property;
 import liveenglishclass.com.talkstar.util.ScreenUtils;
 import liveenglishclass.com.talkstar.util.Shared;
 import liveenglishclass.com.talkstar.util.Util;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     private VoiceFragment voiceFragment;
     private StudyFragment studyFragment;
-    private CommandFragment commandFragment;
+    private BookmarkFragment bookmarkFragment;
     private SettingFragment settingFragment;
     private HomeFragment homeFragment;
 
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton tab01, tab02, tab03, tab04;
     private VoiceView mVoiceView;
 
+    private Property property;
 
 
 
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         voiceFragment = new VoiceFragment();
         studyFragment = new StudyFragment();
-        commandFragment = new CommandFragment();
+        bookmarkFragment = new BookmarkFragment();
         settingFragment = new SettingFragment();
         homeFragment = new HomeFragment();
 
@@ -142,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
         tab04.setImageResource(R.mipmap.tab_button04_off);
 
         this.setFragment();
-
-
-
 
 
 
@@ -237,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
 
             voiceFragment = new VoiceFragment();
             studyFragment = new StudyFragment();
-            commandFragment = new CommandFragment();
+            bookmarkFragment = new BookmarkFragment();
             settingFragment = new SettingFragment();
             homeFragment = new HomeFragment();
 
@@ -253,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.commit();
                     break;
                 case "command":
-                    fragmentTransaction.replace(R.id.viewFragment, this.commandFragment);
+                    fragmentTransaction.replace(R.id.viewFragment, this.bookmarkFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
@@ -391,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
                 this.fragmentTransaction.commit();
                 break;
             case "command":
-                this.fragmentTransaction.replace(R.id.viewFragment, this.commandFragment);
+                this.fragmentTransaction.replace(R.id.viewFragment, this.bookmarkFragment);
                 this.fragmentTransaction.commit();
                 break;
             case "setting":
