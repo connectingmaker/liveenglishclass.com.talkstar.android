@@ -40,7 +40,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = "http://192.168.0.10:7890/";
+    public static final String API_URL = "http://192.168.0.11:7890/";
     //public static final String API_URL = "http://www.brs.kr:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
@@ -136,7 +136,6 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("study/next_reject")
     Call<StudyStartDTO> StudyNext_Reject(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("part_code") String part_code, @Query("orderid") Integer orderid, @FieldMap Map<String, String> fields);
-
 
 
     @GET("member/mypage")

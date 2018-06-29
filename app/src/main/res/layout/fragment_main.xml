@@ -23,7 +23,7 @@
         <!--  학습 결과  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
             <!-- TITLE -->
@@ -60,228 +60,188 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/star" />
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2">
+                    android:text="@string/mainfragmentTitle01_sub"
+                    android:textSize="13dp"></TextView>
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/star" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:text="@string/mainfragmentTitle01_sub"
-                            android:textSize="13dp">
-
-                        </TextView>
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
-
-        </LinearLayout>
-        <!-- Progress Bar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:orientation="vertical">
-
-            <ProgressBar
-                android:id="@+id/circular_progress_bar"
-                style="?android:attr/progressBarStyleHorizontal"
+            <!-- Progress Bar -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="157dp"
-                android:layout_marginTop="10dp"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="1"
-                android:progressDrawable="@drawable/circular_progressbar"/>
-        </LinearLayout>
-        <!-- 총 누적 별 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.timqi.sectorprogressview.ColorfulRingProgressView
+                    android:id="@+id/circular_progress_bar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    app:bgColor="#e1e1e1"
+                    app:fgColorEnd="#ff4800"
+                    app:fgColorStart="#ffe400"
+                    app:percent="0"
+                    app:startAngle="0"
+                    app:strokeWidth="21dp" />
+
+                <TextView
+                    android:id="@+id/per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="75"
+                    android:textColor="#000"
+                    android:textSize="34sp" />
+
+            </RelativeLayout>
+            <!-- 총 누적 별 -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right|center"
-                        android:paddingTop="10dp"
                         android:text="총 누적 별 갯수 : "
                         android:textSize="13dp">
 
                     </TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
+
 
                     <ImageView
-                        android:id="@+id/imageView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/star"/>
+                        android:paddingTop="8dp"
+                        android:src="@mipmap/star" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/star_count"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingTop="10dp"
+                        android:paddingLeft="5dp"
                         android:text="142" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <!-- 라인 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="10dp"
-            android:background="#cccccc"
-            android:orientation="vertical"></LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-            <!-- TITLE -->
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 라인 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="#cccccc"
+                android:orientation="vertical"></LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:padding="10dp">
+                <!-- TITLE -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="10dp"
-                            android:text="어제 획득한 별"
-                            android:textSize="15dp">
-
-                        </TextView>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <!-- CONTENT -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/star" />
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:text="+3"
-                        android:textSize="13dp">
+                        android:paddingLeft="10dp"
+                        android:text="어제 획득한 별"
+                        android:textSize="15dp">
 
                     </TextView>
                 </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-            <!-- TITLE -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                <!-- CONTENT -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5">
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:src="@mipmap/big_star" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:text="와우! 이전보다 더 열심히 하셨네요!"
-                            android:textSize="15dp">
+                    <TextView
+                        android:id="@+id/star_count_yesterday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:textSize="25dp">
 
-                        </TextView>
-                    </LinearLayout>
+                    </TextView>
                 </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="오늘 획득한 별" />
+                android:orientation="vertical"
+                android:padding="10dp">
+                <!-- TITLE -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/context"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="꾸준히 연습하세요!"
+                        android:textSize="15dp">
+
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/button2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="오늘 획득한 별" />-->
+            <!--</LinearLayout>-->
+
         </LinearLayout>
+
 
     </LinearLayout>
 
