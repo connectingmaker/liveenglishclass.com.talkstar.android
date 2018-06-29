@@ -15,7 +15,7 @@ public class CircularAndroidProgressBar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
 
-        mprogressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+        //mprogressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         ObjectAnimator anim = ObjectAnimator.ofInt(mprogressBar, "progress", 0, 100);
         anim.setDuration(15000);
         anim.setInterpolator(new DecelerateInterpolator());
