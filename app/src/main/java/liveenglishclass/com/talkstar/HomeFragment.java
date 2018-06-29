@@ -64,8 +64,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        fragment_main_classes_time = (TextView) view.findViewById(R.id.fragment_main_classes_time);
-        fragment_main_recommand_time = (TextView) view.findViewById(R.id.fragment_main_recommand_time);
+//        fragment_main_classes_time = (TextView) view.findViewById(R.id.fragment_main_classes_time);
+//        fragment_main_recommand_time = (TextView) view.findViewById(R.id.fragment_main_recommand_time);
 //        fragment_main_ing_study = (TextView) view.findViewById(R.id.fragment_main_ing_study);
 //        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
 //        english_1 = (TextView) view.findViewById(R.id.english_1);
