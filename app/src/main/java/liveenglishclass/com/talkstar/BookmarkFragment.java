@@ -2,12 +2,15 @@ package liveenglishclass.com.talkstar;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +30,7 @@ import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
+import liveenglishclass.com.talkstar.dto.QuestionClass;
 import liveenglishclass.com.talkstar.dto.StudyBookMarkDTO;
 import liveenglishclass.com.talkstar.dto.StudyBookMarkList;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
@@ -48,7 +53,7 @@ public class BookmarkFragment extends Fragment {
     ApiService apiService;
 
 
-    private ListView listView;
+    private ListView bookmark_listView;
     private ArrayList<StudyBookMarkDTO> _bookmarkLists;
     private BookMarkAdapter bookmark_adapter;
 
@@ -57,6 +62,7 @@ public class BookmarkFragment extends Fragment {
 
     private String UID;
 
+    private Thread threadAuto;
 
     private Intent intent;
     @Override
@@ -66,10 +72,47 @@ public class BookmarkFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookmark, container, false);
-        listView = (ListView) view.findViewById(R.id.listView);
+        bookmark_listView = (ListView) view.findViewById(R.id.bookmark_listView);
         _bookmarkLists = new ArrayList<>();
+
+//        _threadAutoInit();
+
+
+        Log.d("test", "호출");
+
+        bookmark_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch(view.getId()) {
+                    case R.id.bookmark_delete_btn:
+                        Log.d("test", "삭제");
+                        break;
+
+
+                    default:
+                        Log.d("test", "VIEW");
+                        break;
+                }
+                Log.d("test", "아이템 클릭");
+                String classesCode = _bookmarkLists.get(position).getCLAESS_CODE();
+                String chapterCode = _bookmarkLists.get(position).getCHAPTER_CODE();
+                String chapterOrder = String.valueOf(_bookmarkLists.get(position).getORDERID());
+                String bookmark = "Y";
+
+                intent = new Intent(getActivity(), StudyChapterQuestionActivity_New.class);
+                intent.putExtra("classesCode", classesCode);
+                intent.putExtra("chapterCode", chapterCode);
+                intent.putExtra("chapterOrder", chapterOrder);
+                intent.putExtra("bookmark", bookmark);
+
+
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+
+            }
+        });
 
 
 
@@ -77,12 +120,21 @@ public class BookmarkFragment extends Fragment {
     }
 
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        Log.d("test", "OK");
         this._dataList();
         super.onActivityCreated(savedInstanceState);
+
+    }
+
+    public void onStart()
+    {
+        this._dataList();
+
+        super.onStart();
+
 
     }
 
@@ -122,7 +174,9 @@ public class BookmarkFragment extends Fragment {
 
 
                         bookmark_adapter = new BookMarkAdapter(getActivity(), _bookmarkLists);
-                        listView.setAdapter(bookmark_adapter);
+                        bookmark_listView.setAdapter(bookmark_adapter);
+
+                        //listView.setOnItemClickListener(mItemClickListener);
 
                     }
 
@@ -146,6 +200,35 @@ public class BookmarkFragment extends Fragment {
         }.execute();
     }
 
+
+//    private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+//        @RequiresApi(api = Build.VERSION_CODES.M)
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position,
+//                                long l_position) {
+//
+//            Log.d("test", "클릭");
+//
+//            String classesCode = _bookmarkLists.get(position-1).getCLAESS_CODE();
+//            String chapterCode = _bookmarkLists.get(position-1).getCHAPTER_CODE();
+//            String chapterOrder = String.valueOf(_bookmarkLists.get(position-1).getORDERID());
+//            String bookmark = "Y";
+//
+//            intent = new Intent(getActivity(), StudyChapterQuestionActivity_New.class);
+//            intent.putExtra("classesCode", classesCode);
+//            intent.putExtra("chapterCode", chapterCode);
+//            intent.putExtra("chapterOrder", chapterOrder);
+//            intent.putExtra("bookmark", bookmark);
+//
+//
+//            startActivity(intent);
+//            getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+//
+//
+//
+//
+//        }
+//    };
 
 
 }

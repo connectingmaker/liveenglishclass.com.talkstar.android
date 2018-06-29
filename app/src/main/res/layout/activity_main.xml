@@ -183,6 +183,38 @@
     </LinearLayout>
 
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:id="@+id/mic_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/mic_active_bg_off"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:onClick="micClickEvent"
+            android:paddingTop="5dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/btn_mic"></ImageButton>
+
+    </RelativeLayout>
+
+    <!--
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -194,6 +226,7 @@
         android:paddingBottom="10dp"
         android:src="@drawable/btn_mic">
     </ImageButton>
+    -->
 
 
 

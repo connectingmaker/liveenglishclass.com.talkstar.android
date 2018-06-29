@@ -111,6 +111,9 @@ public interface ApiService {
     @GET("study/start_20180620")
     Call<StudyStartDTO_20180620> StudyStart_20180620(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId, @Query("studyCode") String studyCode, @Query("questionAnswer") String questionAnswer);
 
+    @GET("study/prev")
+    Call<StudyStartDTO_20180620> StudyPrev(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId);
+
 
     /********** 수업다음진행 ***************/
     @GET("study/finish")

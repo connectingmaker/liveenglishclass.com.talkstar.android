@@ -124,6 +124,8 @@ public class VoiceFragment extends Fragment {
                         command_adapter = new MemberCommandAdapter(getActivity(), _commandLists);
                         listView.setAdapter(command_adapter);
 
+                        listView.setSelection(command_adapter.getCount() - 1);
+
                     }
 
                     @Override

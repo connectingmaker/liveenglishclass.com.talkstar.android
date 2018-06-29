@@ -2,6 +2,7 @@ package liveenglishclass.com.talkstar.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -11,15 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import liveenglishclass.com.talkstar.Application;
+import liveenglishclass.com.talkstar.BookmarkFragment;
 import liveenglishclass.com.talkstar.MainActivity;
 import liveenglishclass.com.talkstar.R;
+import liveenglishclass.com.talkstar.StudyChapterQuestionActivity_New;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.dto.CommandDTO;
+import liveenglishclass.com.talkstar.dto.QuestionClass;
 import liveenglishclass.com.talkstar.dto.StudyBookMark;
 import liveenglishclass.com.talkstar.dto.StudyBookMarkDTO;
 import liveenglishclass.com.talkstar.dto.StudyBookMarkList;
@@ -48,6 +53,8 @@ public class BookMarkAdapter extends ArrayAdapter<StudyBookMarkDTO>
     private Integer _position = -1;
 
     private Property property;
+
+    public Boolean removeCheck = false;
 
 
     // Constructors
@@ -86,26 +93,50 @@ public class BookMarkAdapter extends ArrayAdapter<StudyBookMarkDTO>
 
 
         TextView english_string = (TextView) convertView.findViewById(R.id.english_string);
-        ImageButton study_bookmark_btn = (ImageButton) convertView.findViewById(R.id.study_bookmark_btn);
-//        study_bookmark_btn.setOnClickListener((View.OnClickListener) context);
-        study_bookmark_btn.setTag(position);
-
-
-
-
         english_string.setText(item.getENGLISH_STRING());
-        //study_bookmark_btn.setOnClickListener(this);
-        study_bookmark_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StudyBookMarkDTO item = getItem((Integer) v.getTag());
 
-                studyCode = item.getSTUDY_CODE();
-                _position = (Integer) v.getTag();
-                _bookmarkSave();
-                //Log.d("test", v.getTag().toString());
-            }
-        });
+//        LinearLayout study_bookmark_btn = (LinearLayout) convertView.findViewById(R.id.study_bookmark_btn);
+//        LinearLayout bookmark_linearlayout = (LinearLayout) convertView.findViewById(R.id.bookmark_linearlayout);
+//
+//        study_bookmark_btn.setTag(position);
+//        bookmark_linearlayout.setTag(position);
+//
+//
+//
+//        bookmark_linearlayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                StudyBookMarkDTO item = getItem((Integer) v.getTag());
+//
+//                String classesCode = item.getCLAESS_CODE();
+//                String chapterCode = item.getCHAPTER_CODE();
+//                String chapterOrder = String.valueOf(item.getORDERID());
+//                String bookmark = "Y";
+//
+//                Intent intent = new Intent(getContext(), StudyChapterQuestionActivity_New.class);
+//                intent.putExtra("classesCode", classesCode);
+//                intent.putExtra("chapterCode", chapterCode);
+//                intent.putExtra("chapterOrder", chapterOrder);
+//                intent.putExtra("bookmark", bookmark);
+//
+//
+//                getContext().startActivity(intent);
+//                ((Activity) context).overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+//            }
+//        });
+//
+//
+//        study_bookmark_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                StudyBookMarkDTO item = getItem((Integer) v.getTag());
+//
+//                studyCode = item.getSTUDY_CODE();
+//                _position = (Integer) v.getTag();
+//                _bookmarkSave();
+//                //Log.d("test", v.getTag().toString());
+//            }
+//        });
 
 
 
@@ -113,57 +144,56 @@ public class BookMarkAdapter extends ArrayAdapter<StudyBookMarkDTO>
 
     }
 
-    private void _bookmarkSave()
-    {
-        /******** UID 값 가져오기 ***************/
-
-
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
-                apiService = retrofit.create(ApiService.class);
-                Call<StudyBookMark> call = apiService.StudyBook(UID, studyCode);
-                call.enqueue(new Callback<StudyBookMark>() {
-
-                    @Override
-                    public void onResponse(Call<StudyBookMark> call, Response<StudyBookMark> response) {
-                        StudyBookMark studyDTO = response.body();
-
-                        if(studyDTO.USE_YN.equals("Y")) {
-                            Log.d("test", "OK");
-                        } else {
-                            //StudyBookMarkDTO item = getItem(_position);
-                            commandList.remove(_position);
-                            notifyDataSetChanged();
-                            //commandList.notify();
-                            _position = -1;
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<StudyBookMark> call, Throwable t) {
-
-                    }
-                });
-
-
-
-
-
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-            }
-
-        }.execute();
-    }
+//    private void _bookmarkSave()
+//    {
+//        /******** UID 값 가져오기 ***************/
+//
+//
+//        new AsyncTask<Void, Void, String>() {
+//            @Override
+//            protected String doInBackground(Void... params) {
+//                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+//                apiService = retrofit.create(ApiService.class);
+//                Call<StudyBookMark> call = apiService.StudyBook(UID, studyCode);
+//                call.enqueue(new Callback<StudyBookMark>() {
+//
+//                    @Override
+//                    public void onResponse(Call<StudyBookMark> call, Response<StudyBookMark> response) {
+//                        StudyBookMark studyDTO = response.body();
+//                        Log.d("test", String.valueOf(commandList.size()));
+//                        if(studyDTO.USE_YN.equals("Y")) {
+//                            Log.d("test", "삭제 안함");
+//                        } else {
+//                            //StudyBookMarkDTO item = getItem(_position);
+//                            commandList.remove(_position);
+//
+//                            //BookmarkFragment.bookmark_adapter.notifyDataSetChanged();
+//                            Log.d("test", "삭제");
+//                            //
+//                            // QuestionClass.setRemoveCheck(true);
+//                            removeCheck = true;
+//                            _position = -1;
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<StudyBookMark> call, Throwable t) {
+//
+//                    }
+//                });
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                super.onPostExecute(s);
+//            }
+//
+//        }.execute();
+//    }
 
 
  }

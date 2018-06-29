@@ -207,6 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:onClick="btnEvent"
                     android:src="@mipmap/activity_study_chapter_question_prev_btn_off" />
 
 
@@ -216,9 +217,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-
                 android:gravity="center_horizontal">
 
+                <!--
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -226,6 +227,39 @@
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp"
                     android:src="@mipmap/activity_study_chapter_question_mic_off" />
+                    -->
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/mic_linear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/mic_active_bg_off"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="horizontal">
+
+
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/mic_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/transparent"
+                        android:paddingTop="5dp"
+                        android:layout_centerInParent="true"
+                        android:onClick="btnEvent"
+                        android:src="@drawable/btn_mic"></ImageButton>
+
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -236,6 +270,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
                 android:paddingTop="15dp">
+
 
                 <ImageButton
                     android:id="@+id/next_btn"

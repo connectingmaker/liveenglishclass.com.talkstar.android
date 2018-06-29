@@ -1,11 +1,24 @@
 package liveenglishclass.com.talkstar.dto;
 
 public class QuestionClass {
+    public static Boolean removeCheck = false;
+
+
     private String questionValue;
     private String nextStudy;
     private String prevStudy;
     private String answerValue;
     private Boolean voiceCheck = false;
+
+    public static Boolean getRemoveCheck(){
+        return removeCheck;
+    }
+
+    public static void setRemoveCheck(Boolean remove){
+        removeCheck = remove;
+    }
+
+
 
     public String get_quetionValue() {
         return this.questionValue;

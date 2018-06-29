@@ -35,6 +35,10 @@ public class StudyStartDTO_20180620 {
     @SerializedName("EXPLANATION")
     public String EXPLANATION = "";
 
+    @SerializedName("PREV_STUDY")
+    public String PREV_STUDY = "";
+
+
     @SerializedName("NEXT_STUDY")
     public String NEXT_STUDY = "";
 
@@ -45,6 +49,9 @@ public class StudyStartDTO_20180620 {
 
     @SerializedName("BOOKMARK_YN")
     public String BOOKMARK_YN = "";
+
+    @SerializedName("PER")
+    public Integer PER = 0;
 
 
 

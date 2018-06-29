@@ -20,10 +20,13 @@ import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +49,7 @@ import liveenglishclass.com.talkstar.dto.StudyBookMark;
 import liveenglishclass.com.talkstar.dto.StudyFinish;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO_20180620;
+import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,21 +68,33 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
     /********** 변수 **************************/
     private String UID, classesCode, chapterCode, chapterOrder, AutoNext  = "";
+    private String prev_chapterOrder = "";
     private String answerData = "";
     private String questionAnswer = "";
     private String studyCode = "";
     private Boolean voiceFinish = false;
+    private String bookmarkYN_check = "N";
+
+    private String _voiceFile = "";
+    private String _explanation = "";
+    private String _voiceType = "";
+    private String _questionType = "";
+    private String _englishString = "";
+    private String _koreaString = "";
     private HashMap<String, String> questionData;
+    private Boolean _voiceStart = false;
 
 
     /********* LAYOUT MODULE ***********/
     private ProgressBar studyProgressBar;
     private Button answerBtn;
     private TextView question_random_command, activity_studypart_title;
-    private ImageButton next_btn, study_bookmark_btn;
+    private ImageButton next_btn, study_bookmark_btn, prev_btn;
     private LinearLayout add_layout;
     private EditText et_answer;
-
+    private LinearLayout mic_linear;
+    private TextView tv_answer;
+    private ImageButton micEnVoiceBtn;
 
     /******** TTS ***********************/
     private TextToSpeech myTTS_EN;
@@ -101,6 +118,8 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
     private CustomAnswerCheckDialog customDialogO;
     private CustomAnswerCheckDialogX customDialogX;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,9 +135,16 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
         if(b!=null)
         {
+
             classesCode =(String) b.get("classesCode");
             chapterCode = (String) b.get("chapterCode");
             chapterOrder = (String) b.get("chapterOrder");
+            if(b.get("bookmark").equals("") == false) {
+                bookmarkYN_check = (String) b.get("bookmark");
+            } else {
+                bookmarkYN_check = "N";
+            }
+
         }
 
 
@@ -150,13 +176,13 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         activity_studypart_title = (TextView) findViewById(R.id.activity_studypart_title);
 
         next_btn = (ImageButton) findViewById(R.id.next_btn);
+        prev_btn = (ImageButton) findViewById(R.id.prev_btn);
         study_bookmark_btn = (ImageButton) findViewById(R.id.study_bookmark_btn);
 
 
         activity_studypart_title.setText("CHAPTER " + chapterOrder);
 
         add_layout = (LinearLayout) findViewById(R.id.add_layout);
-        next_btn = (ImageButton) findViewById(R.id.next_btn);
 
         customDialogO = new CustomAnswerCheckDialog(this);
         customDialogO.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -165,6 +191,17 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         customDialogX = new CustomAnswerCheckDialogX(this);
         customDialogX.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         customDialogX.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        mic_linear = (LinearLayout) findViewById(R.id.mic_linear);
+
+        if(bookmarkYN_check.equals("Y")) {
+            //prev_
+            next_btn.setVisibility(View.GONE);
+            prev_btn.setVisibility(View.GONE);
+        } else {
+            next_btn.setVisibility(View.VISIBLE);
+            prev_btn.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -244,7 +281,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                             if(voiceFinish) {
 
                                 //Log.d("test", "완료 === 다음페이지");
-                                _studyData();
+                                //_studyData();
                                 voiceFinish = false;
                             }
                         }
@@ -258,12 +295,131 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         threadAuto.start();
     }
 
+    private void _prevData()
+    {
+        _ttsStop();
+        _killMediaPlayer();
+
+        threadAutoRunning = false;
+
+        questionData = new HashMap<>();
+
+        if(prev_chapterOrder.equals("")) {
+            Toast toast = Toast.makeText(getApplicationContext(), "첫페이지 입니다.", Toast.LENGTH_LONG); toast.show();
+        } else {
+
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                    apiService = retrofit.create(ApiService.class);
+                    Call<StudyStartDTO_20180620> call = apiService.StudyPrev(UID, classesCode, chapterCode, prev_chapterOrder);
+                    call.enqueue(new Callback<StudyStartDTO_20180620>() {
+
+                        @Override
+                        public void onResponse(Call<StudyStartDTO_20180620> call, Response<StudyStartDTO_20180620> response) {
+                            StudyStartDTO_20180620 studyDTO = response.body();
+
+                            Log.d("test", studyDTO.STUDY_CODE);
+
+
+                            String Study_Code = studyDTO.STUDY_CODE;
+                            Integer OrderId = studyDTO.ORDERID;
+                            String QuestionType = studyDTO.QUESTION_TYPE;
+                            String VoiceType = studyDTO.VOICE_TYPE;
+                            String VoiceFile = studyDTO.VOICE_FILE;
+                            String EnglishString = studyDTO.ENGLISH_STRING;
+                            String KoreaString = studyDTO.KOREA_STRING;
+                            String Explanation = studyDTO.EXPLANATION;
+                            String bookmarkYN = studyDTO.BOOKMARK_YN;
+                            Integer Per = studyDTO.PER;
+
+                            _questionType = QuestionType;
+                            _englishString = EnglishString;
+                            _koreaString = KoreaString;
+                            _voiceType = VoiceType;
+                            _voiceFile = VoiceFile;
+                            _explanation = Explanation;
+
+
+
+                            if(studyDTO.PREV_STUDY.equals("")) {
+                                prev_chapterOrder = "";
+                            } else {
+                                String nextDataTemp[] = studyDTO.PREV_STUDY.split("///");
+                                prev_chapterOrder = nextDataTemp[1];
+                            }
+
+
+
+                            if(studyDTO.NEXT_STUDY.equals("")) {
+                                chapterOrder = "";
+                            } else {
+                                String nextDataTemp[] = studyDTO.NEXT_STUDY.split("///");
+                                chapterOrder = nextDataTemp[1];
+                            }
+
+                            //chapterOrder = String.valueOf(OrderId);
+
+
+
+                            if(bookmarkYN.equals("Y")) {
+                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                            } else {
+                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
+                            }
+
+
+
+                            studyProgressBar.setProgress(Per);
+
+                            AutoNext = studyDTO.QUESTION_TYPE;
+
+
+                            answerData = studyDTO.ANSWER_ENGLISH;
+                            studyCode = Study_Code;
+
+
+                            _voice(QuestionType, VoiceType, VoiceFile, EnglishString, KoreaString, Explanation);
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<StudyStartDTO_20180620> call, Throwable t) {
+
+                        }
+                    });
+
+
+
+
+
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                }
+
+            }.execute();
+        }
+
+    }
+
     private void _studyData()
     {
         _ttsStop();
         _killMediaPlayer();
 
+        threadAutoRunning = true;
+
+        Log.d("test", "다음="+chapterOrder);
+
         questionData = new HashMap<>();
+
 
         if (chapterOrder.equals("")) {
 
@@ -311,83 +467,223 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
             }.execute();
         } else {
+            if(_questionType.equals("E")) {
 
-            Log.d("test", UID + "///" + classesCode + "///" + chapterCode + "///" + chapterOrder);
-            new AsyncTask<Void, Void, String>() {
-                @Override
-                protected String doInBackground(Void... params) {
-                    retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
-                    apiService = retrofit.create(ApiService.class);
-                    Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer);
-                    call.enqueue(new Callback<StudyStartDTO_20180620>() {
+                if(questionAnswer.equals("")) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        String utteranceId=this.hashCode() + "";
+                        myTTS_KR.speak("음성 및 텍스트로 답변해주세요", TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                    } else {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                        myTTS_KR.speak("음성 및 텍스트로 답변해주세요", TextToSpeech.QUEUE_FLUSH, map);
+                    }
 
+                    Toast.makeText(getApplicationContext(), "음성 및 텍스트로 답변해주세요.", Toast.LENGTH_LONG).show();
+                } else {
+                    new AsyncTask<Void, Void, String>() {
                         @Override
-                        public void onResponse(Call<StudyStartDTO_20180620> call, Response<StudyStartDTO_20180620> response) {
-                            StudyStartDTO_20180620 studyDTO = response.body();
+                        protected String doInBackground(Void... params) {
+                            retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                            apiService = retrofit.create(ApiService.class);
+                            Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer);
+                            call.enqueue(new Callback<StudyStartDTO_20180620>() {
 
-                            Log.d("test", studyDTO.STUDY_CODE);
+                                @Override
+                                public void onResponse(Call<StudyStartDTO_20180620> call, Response<StudyStartDTO_20180620> response) {
+                                    StudyStartDTO_20180620 studyDTO = response.body();
 
-
-                            String Study_Code = studyDTO.STUDY_CODE;
-                            Integer OrderId = studyDTO.ORDERID;
-                            String QuestionType = studyDTO.QUESTION_TYPE;
-                            String VoiceType = studyDTO.VOICE_TYPE;
-                            String VoiceFile = studyDTO.VOICE_FILE;
-                            String EnglishString = studyDTO.ENGLISH_STRING;
-                            String KoreaString = studyDTO.KOREA_STRING;
-                            String Explanation = studyDTO.EXPLANATION;
-                            String bookmarkYN = studyDTO.BOOKMARK_YN;
+                                    Log.d("test", studyDTO.STUDY_CODE);
 
 
-                            if(studyDTO.NEXT_STUDY.equals("")) {
-                                chapterOrder = "";
-                            } else {
-                                String nextDataTemp[] = studyDTO.NEXT_STUDY.split("///");
-                                chapterOrder = nextDataTemp[1];
-                            }
+                                    String Study_Code = studyDTO.STUDY_CODE;
+                                    Integer OrderId = studyDTO.ORDERID;
+                                    String QuestionType = studyDTO.QUESTION_TYPE;
+                                    String VoiceType = studyDTO.VOICE_TYPE;
+                                    String VoiceFile = studyDTO.VOICE_FILE;
+                                    String EnglishString = studyDTO.ENGLISH_STRING;
+                                    String KoreaString = studyDTO.KOREA_STRING;
+                                    String Explanation = studyDTO.EXPLANATION;
+                                    String bookmarkYN = studyDTO.BOOKMARK_YN;
+                                    Integer Per = studyDTO.PER;
 
-                            if(bookmarkYN.equals("Y")) {
-                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
-                            } else {
-                                study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
-                            }
-
-
-
+                                    _questionType = QuestionType;
+                                    _englishString = EnglishString;
 
 
-                            AutoNext = studyDTO.QUESTION_TYPE;
+                                    studyProgressBar.setProgress(Per);
+
+                                    _questionType = QuestionType;
+                                    _englishString = EnglishString;
+                                    _koreaString = KoreaString;
+                                    _voiceType = VoiceType;
+                                    _voiceFile = VoiceFile;
+                                    _explanation = Explanation;
 
 
-                            answerData = studyDTO.ANSWER_ENGLISH;
-                            studyCode = Study_Code;
+
+                                    if(studyDTO.PREV_STUDY.equals("")) {
+                                        prev_chapterOrder = "";
+                                    } else {
+                                        String nextDataTemp[] = studyDTO.PREV_STUDY.split("///");
+                                        prev_chapterOrder = nextDataTemp[1];
+                                    }
 
 
-                            _voice(QuestionType, VoiceType, VoiceFile, EnglishString, KoreaString, Explanation);
+                                    if(studyDTO.NEXT_STUDY.equals("")) {
+                                        chapterOrder = "";
+                                    } else {
+                                        String nextDataTemp[] = studyDTO.NEXT_STUDY.split("///");
+                                        chapterOrder = nextDataTemp[1];
+                                    }
+
+                                    if(bookmarkYN.equals("Y")) {
+                                        study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                                    } else {
+                                        study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
+                                    }
 
 
+
+
+
+                                    AutoNext = studyDTO.QUESTION_TYPE;
+
+
+                                    answerData = studyDTO.ANSWER_ENGLISH;
+                                    studyCode = Study_Code;
+
+
+                                    _voice(QuestionType, VoiceType, VoiceFile, EnglishString, KoreaString, Explanation);
+                                    questionAnswer = "";
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<StudyStartDTO_20180620> call, Throwable t) {
+
+                                }
+                            });
+
+
+
+
+
+
+                            return null;
                         }
 
                         @Override
-                        public void onFailure(Call<StudyStartDTO_20180620> call, Throwable t) {
-
+                        protected void onPostExecute(String s) {
+                            super.onPostExecute(s);
                         }
-                    });
 
-
-
-
-
-
-                    return null;
+                    }.execute();
                 }
 
-                @Override
-                protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
-                }
 
-            }.execute();
+            } else {
+                new AsyncTask<Void, Void, String>() {
+                    @Override
+                    protected String doInBackground(Void... params) {
+                        retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                        apiService = retrofit.create(ApiService.class);
+                        Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer);
+                        call.enqueue(new Callback<StudyStartDTO_20180620>() {
+
+                            @Override
+                            public void onResponse(Call<StudyStartDTO_20180620> call, Response<StudyStartDTO_20180620> response) {
+                                StudyStartDTO_20180620 studyDTO = response.body();
+
+                                Log.d("test", studyDTO.STUDY_CODE);
+
+
+                                String Study_Code = studyDTO.STUDY_CODE;
+                                Integer OrderId = studyDTO.ORDERID;
+                                String QuestionType = studyDTO.QUESTION_TYPE;
+                                String VoiceType = studyDTO.VOICE_TYPE;
+                                String VoiceFile = studyDTO.VOICE_FILE;
+                                String EnglishString = studyDTO.ENGLISH_STRING;
+                                String KoreaString = studyDTO.KOREA_STRING;
+                                String Explanation = studyDTO.EXPLANATION;
+                                String bookmarkYN = studyDTO.BOOKMARK_YN;
+                                Integer Per = studyDTO.PER;
+
+                                _questionType = QuestionType;
+                                _englishString = EnglishString;
+
+
+                                studyProgressBar.setProgress(Per);
+
+                                _questionType = QuestionType;
+                                _englishString = EnglishString;
+                                _koreaString = KoreaString;
+                                _voiceType = VoiceType;
+                                _voiceFile = VoiceFile;
+                                _explanation = Explanation;
+
+
+
+                                if(studyDTO.PREV_STUDY.equals("")) {
+                                    prev_chapterOrder = "";
+                                } else {
+                                    String nextDataTemp[] = studyDTO.PREV_STUDY.split("///");
+                                    prev_chapterOrder = nextDataTemp[1];
+                                }
+
+
+                                if(studyDTO.NEXT_STUDY.equals("")) {
+                                    chapterOrder = "";
+                                } else {
+                                    String nextDataTemp[] = studyDTO.NEXT_STUDY.split("///");
+                                    chapterOrder = nextDataTemp[1];
+                                }
+
+                                if(bookmarkYN.equals("Y")) {
+                                    study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                                } else {
+                                    study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
+                                }
+
+
+
+
+
+                                AutoNext = studyDTO.QUESTION_TYPE;
+
+
+                                answerData = studyDTO.ANSWER_ENGLISH;
+                                studyCode = Study_Code;
+
+
+                                _voice(QuestionType, VoiceType, VoiceFile, EnglishString, KoreaString, Explanation);
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<StudyStartDTO_20180620> call, Throwable t) {
+
+                            }
+                        });
+
+
+
+
+
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                    }
+
+                }.execute();
+            }
+
         }
 
     }
@@ -412,7 +708,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             mAddView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
             //nodeView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));//JR - fix for MATCH_PARENT
             TextView tv_explanation = (TextView) mAddView.findViewById(R.id.tv_explanation);
-            TextView tv_answer = (TextView) mAddView.findViewById(R.id.tv_answer);
+            tv_answer = (TextView) mAddView.findViewById(R.id.tv_answer);
             et_answer = (EditText) mAddView.findViewById(R.id.et_answer);
             if(voice_type.equals("KR")) {
                 tv_explanation.setText(korea_string);
@@ -420,13 +716,19 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 tv_explanation.setText(english_string);
             }
 
-            ImageButton micEnVoiceBtn = (ImageButton) mAddView.findViewById(R.id.micEnVoiceBtn);
+            micEnVoiceBtn = (ImageButton) mAddView.findViewById(R.id.micEnVoiceBtn);
             ImageButton textVoiceBtn = (ImageButton) mAddView.findViewById(R.id.textVoiceBtn);
             micEnVoiceBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     micVoiceType = "EN";
+                    //micEnVoiceBtn.
+
+                    _voiceStart = false;
+                    Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_mic_sub);
+                    micEnVoiceBtn.startAnimation(startAnimation);
                     _micVoice(micVoiceType);
+
                 }
             });
 
@@ -444,6 +746,89 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             } else {
                 tv_answer.setText("");
             }
+
+            et_answer.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                        String[] answerValueTemp = answerData.split("///");
+                        Boolean answerCheck = false;
+                        for(int j = 0; j<answerValueTemp.length; j++) {
+                            if(answerValueTemp[j].trim().toLowerCase().matches(et_answer.getText().toString().toLowerCase().trim())) {
+                                //Log.d("test", "정답 데이터 ====== " + answerValueTemp[j] + "///" + mResult.get(i).toLowerCase());
+                                questionAnswer = answerValueTemp[j] + "///" + et_answer.getText().toString() + "///1";
+                                answerCheck = true;
+                                break;
+                            }
+                        }
+
+                        if(answerCheck == false){
+                            questionAnswer = answerValueTemp[0] + "///" + et_answer.getText().toString() + "///2";
+                            customDialogX.show();
+
+                        } else {
+                            customDialogO.show();
+
+
+                        }
+
+                        final Boolean finalAnswerCheck = answerCheck;
+                        answerRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                //cacd.dismiss();
+                                if(finalAnswerCheck == false) {
+                                    //customDialogX.dismiss();
+
+                                    ImageButton answer_x_close = (ImageButton) customDialogX.findViewById(R.id.answer_x_close);
+                                    ImageButton answer_x_next_btn = (ImageButton) customDialogX.findViewById(R.id.answer_x_next_btn);
+                                    ImageButton answer_retry = (ImageButton) customDialogX.findViewById(R.id.answer_retry);
+
+                                    answer_x_close.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            customDialogX.dismiss();
+                                        }
+                                    });
+                                    answer_x_next_btn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            customDialogX.dismiss();
+                                            _studyData();
+                                        }
+                                    });
+
+                                    answer_retry.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            customDialogX.dismiss();
+                                            //this.answerCheck = true;
+                                        }
+                                    });
+
+
+
+
+                                } else {
+                                    customDialogO.dismiss();
+                                    _studyData();
+                                }
+
+
+
+                            }
+                        };
+
+                        mHandler = new Handler();
+                        mHandler.postDelayed(answerRunnable, 1000);
+
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
 
 
             if(question_type.equals("Q")){
@@ -553,6 +938,95 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         }
     }
 
+    private void _voiceMsg(String voice_type, String voice_file, String korea_string, String english_string, String explanation)
+    {
+
+
+        //Log.d("test", voice_type + "///" + voice_file + "///" + korea_string +"///" + english_string + "///" + explanation);
+        switch(voice_type) {
+
+
+            case "T":
+
+                if(voice_file.equals("")) {
+                    /********* TTS **********/
+                    _ttsStop();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        String utteranceId=this.hashCode() + "";
+                        myTTS_KR.speak(explanation, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                    } else {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                        myTTS_KR.speak(explanation, TextToSpeech.QUEUE_FLUSH, map);
+                    }
+
+
+                } else {
+                    /********* MP3 **********/
+                    voiceFinish = false;
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(ApiService.API_URL + voice_file));
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            voiceFinish = true;
+                            //mp.release();
+                            _killMediaPlayer();
+                        }
+                    });
+
+                    mediaPlayer.start();
+                }
+
+                break;
+
+            default:
+
+
+
+
+                if(voice_file.equals("")) {
+                    if(voice_type.equals("KR")) {
+                        /********* TTS **********/
+                        _ttsStop();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            String utteranceId=this.hashCode() + "";
+                            myTTS_KR.speak(korea_string, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                        } else {
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                            myTTS_KR.speak(korea_string, TextToSpeech.QUEUE_FLUSH, map);
+                        }
+                    } else {
+                        /********* TTS **********/
+                        _ttsStop();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            String utteranceId=this.hashCode() + "";
+                            myTTS_EN.speak(english_string, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                        } else {
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                            myTTS_EN.speak(english_string, TextToSpeech.QUEUE_FLUSH, map);
+                        }
+                    }
+                } else {
+                    voiceFinish = false;
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(ApiService.API_URL + voice_file));
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            voiceFinish = true;
+                            //mp.release();
+                            _killMediaPlayer();
+                        }
+                    });
+
+                    mediaPlayer.start();
+                }
+                break;
+
+        }
+    }
+
     private void _bookmarkSave()
     {
         new AsyncTask<Void, Void, String>() {
@@ -569,8 +1043,10 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
                         if(studyDTO.USE_YN.equals("Y")) {
                             study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
+                            Toast.makeText(getApplicationContext(), "북마크가 설정되었습니다.", Toast.LENGTH_LONG).show();
                         } else {
                             study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
+                            Toast.makeText(getApplicationContext(), "북마크가 해제되었습니다.", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -599,7 +1075,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
     private void _micVoice(String voiceType)
     {
-
+        _killMediaPlayer();
         switch (voiceType) {
             case "KR":
                 intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -608,6 +1084,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
                 break;
             case "EN":
+
                 intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
@@ -625,9 +1102,38 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
     public void btnEvent(View v) {
         switch(v.getId()) {
+            case R.id.prev_btn:
+                _prevData();
+                break;
             case R.id.next_btn:
                 _studyData();
                 break;
+            case R.id.mic_btn:
+                micVoiceType = "KR";
+                _micVoice("KR");
+
+                Log.d("test", "애니메이션");
+
+                Animation default_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mic_default);
+                mic_linear.setAnimation(default_anim);
+                mic_linear.startAnimation(default_anim);
+                mic_linear.setBackgroundResource(R.mipmap.mic_active_bg);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_mic_rotate);
+                Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mic_fadein);
+                Animation scale = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_scale);
+
+                //mic_linear.setAlpha();
+
+                AnimationSet s = new AnimationSet(false);
+                s.addAnimation(scale);
+                s.addAnimation(fadeIn);
+                s.addAnimation(animation);
+                //mic_linear.setAnimation(fadeIn);
+                //mic_linear.setAnimation(animation);
+                mic_linear.startAnimation(s);
+
+                break;
+
             case R.id.textVoiceBtn:
                 et_answer.setVisibility(View.VISIBLE);
                 break;
@@ -642,6 +1148,8 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
     public RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
+
+            _ttsStop();
             Log.d("test", "onReadyForSpeech");
         }
 
@@ -667,93 +1175,274 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
         @Override
         public void onError(int error) {
+            if(_voiceStart == false) {
+                _voiceStart = true;
+            } else {
+                if(micVoiceType.equals("EN")) {
+                    micEnVoiceBtn.clearAnimation();
+                    micEnVoiceBtn.animate().cancel();
+                } else {
+                    mic_linear.setBackgroundResource(R.mipmap.mic_active_bg_off);
+                    mic_linear.clearAnimation();
+                    mic_linear.animate().cancel();
+                }
+            }
+
+
+//            Log.d("test", micVoiceType);
+//            if(micVoiceType.equals("EN")) {
+//                micEnVoiceBtn.clearAnimation();
+//                micEnVoiceBtn.animate().cancel();
+//            } else {
+//                mic_linear.setBackgroundResource(R.mipmap.mic_active_bg_off);
+//                mic_linear.clearAnimation();
+//                mic_linear.animate().cancel();
+//            }
+
+
+
             Log.d("test", "onError");
             //Toast toast = Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG); toast.show();
         }
 
         @Override
         public void onResults(Bundle results) {
-            String key = "";
-            Boolean answerCheck = false;
-            key = SpeechRecognizer.RESULTS_RECOGNITION;
-            ArrayList<String> mResult = results.getStringArrayList(key);
-            String[] rs = new String[mResult.size()];
-            mResult.toArray(rs);
+            _voiceStart = false;
+            if(micVoiceType.equals("EN")) {
 
-            String searchName = rs[0];
-            questionAnswer = "";
-            String[] answerValueTemp = answerData.split("///");
+                micEnVoiceBtn.clearAnimation();
+                micEnVoiceBtn.animate().cancel();
+                String key = "";
+                Boolean answerCheck = false;
+                key = SpeechRecognizer.RESULTS_RECOGNITION;
+                ArrayList<String> mResult = results.getStringArrayList(key);
+                String[] rs = new String[mResult.size()];
+                mResult.toArray(rs);
 
-            for(int i=0;i<mResult.size();i++) {
+                String searchName = rs[0];
+                questionAnswer = "";
+                String dataAnswer = "";
+                String[] answerValueTemp = answerData.split("///");
 
-                for(int j = 0; j<answerValueTemp.length; j++) {
-                    if(answerValueTemp[j].trim().toLowerCase().matches(mResult.get(i).trim().toLowerCase())) {
-                        Log.d("test", "정답 데이터 ====== " + answerValueTemp[j] + "///" + mResult.get(i).toLowerCase());
-                        questionAnswer = answerValueTemp[j] + "///" + mResult.get(i) + "///1";
-                        answerCheck = true;
-                        break;
+                for(int i=0;i<mResult.size();i++) {
+
+                    for(int j = 0; j<answerValueTemp.length; j++) {
+                        if(answerValueTemp[j].trim().toLowerCase().matches(mResult.get(i).trim().toLowerCase())) {
+                            Log.d("test", "정답 데이터 ====== " + answerValueTemp[j] + "///" + mResult.get(i).toLowerCase());
+                            questionAnswer = answerValueTemp[j] + "///" + mResult.get(i) + "///1";
+                            dataAnswer = mResult.get(i);
+
+                            answerCheck = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if(answerCheck == false){
-                questionAnswer = answerValueTemp[0] + "///" + searchName + "///2";
-                customDialogX.show();
-            } else {
-                customDialogO.show();
+                if(answerCheck == false){
+                    tv_answer.setText(searchName);
+                    questionAnswer = answerValueTemp[0] + "///" + searchName + "///2";
+                    customDialogX.show();
+                } else {
+                    customDialogO.show();
+
+                    tv_answer.setText(dataAnswer);
 
 
-            }
+                }
 
-            final Boolean finalAnswerCheck = answerCheck;
-            answerRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    //cacd.dismiss();
-                    if(finalAnswerCheck == false) {
-                        //customDialogX.dismiss();
+                final Boolean finalAnswerCheck = answerCheck;
+                answerRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        //cacd.dismiss();
+                        if(finalAnswerCheck == false) {
+                            //customDialogX.dismiss();
 
-                        ImageButton answer_x_close = (ImageButton) customDialogX.findViewById(R.id.answer_x_close);
-                        ImageButton answer_x_next_btn = (ImageButton) customDialogX.findViewById(R.id.answer_x_next_btn);
-                        ImageButton answer_retry = (ImageButton) customDialogX.findViewById(R.id.answer_retry);
+                            ImageButton answer_x_close = (ImageButton) customDialogX.findViewById(R.id.answer_x_close);
+                            ImageButton answer_x_next_btn = (ImageButton) customDialogX.findViewById(R.id.answer_x_next_btn);
+                            ImageButton answer_retry = (ImageButton) customDialogX.findViewById(R.id.answer_retry);
 
-                        answer_x_close.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                customDialogX.dismiss();
-                            }
-                        });
-                        answer_x_next_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                customDialogX.dismiss();
+                            answer_x_close.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogX.dismiss();
+                                }
+                            });
+                            answer_x_next_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogX.dismiss();
+//                                    _studyData();
+                                    if(bookmarkYN_check.equals("N")) {
+                                        _studyData();
+                                    }
+                                }
+                            });
+
+                            answer_retry.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    customDialogX.dismiss();
+                                    //this.answerCheck = true;
+                                }
+                            });
+
+
+
+
+                        } else {
+                            customDialogO.dismiss();
+                            if(bookmarkYN_check.equals("N")) {
                                 _studyData();
                             }
-                        });
+                        }
 
-                        answer_retry.setOnClickListener(new View.OnClickListener() {
+
+
+                    }
+                };
+
+                mHandler = new Handler();
+                mHandler.postDelayed(answerRunnable, 1000);
+            } else {
+                mic_linear.setBackgroundResource(R.mipmap.mic_active_bg_off);
+                mic_linear.clearAnimation();
+                mic_linear.animate().cancel();
+                String key = "";
+                key = SpeechRecognizer.RESULTS_RECOGNITION;
+                ArrayList<String> mResult = results.getStringArrayList(key);
+                String[] rs = new String[mResult.size()];
+                mResult.toArray(rs);
+
+                final String searchName = rs[0];
+                Log.d("test", searchName);
+
+
+
+
+
+                new AsyncTask<Void, Void, String>() {
+                    @Override
+                    protected String doInBackground(Void... params) {
+                        retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                        apiService = retrofit.create(ApiService.class);
+
+                        //loading.show();
+                        Log.d("test", "전송");
+
+                        Call<VoiceSearchDTO> call = apiService.voiceSearch(UID, searchName);
+                        call.enqueue(new Callback<VoiceSearchDTO>() {
                             @Override
-                            public void onClick(View v) {
-                                customDialogX.dismiss();
-                                //this.answerCheck = true;
+                            public void onResponse(Call<VoiceSearchDTO> call, Response<VoiceSearchDTO> response) {
+
+
+                                VoiceSearchDTO voiceSearchDTO = response.body();
+
+
+
+
+                                switch(voiceSearchDTO.ACTION_CODE) {
+                                    case "A001":
+                                        _voiceMsg(_voiceType, _voiceFile, _koreaString, _englishString, _explanation);
+                                        Toast.makeText(getApplicationContext(), "반복", Toast.LENGTH_LONG).show();
+                                        break;
+
+                                    case "A002":
+                                        _studyData();
+                                        //Toast.makeText(MainActivity.this, "다음 프로세스 진행", Toast.LENGTH_LONG).show();
+
+                                        break;
+
+
+
+                                    case "A003":
+                                        _ttsStop();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            String utteranceId=this.hashCode() + "";
+                                            myTTS_EN.speak(voiceSearchDTO.COMMAND_RETURN, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                                        } else {
+                                            HashMap<String, String> map = new HashMap<>();
+                                            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                                            myTTS_EN.speak(voiceSearchDTO.COMMAND_RETURN, TextToSpeech.QUEUE_FLUSH, map);
+                                        }
+
+                                        Toast.makeText(getApplicationContext(), "영어 = " + voiceSearchDTO.COMMAND_RETURN, Toast.LENGTH_LONG).show();
+                                        break;
+
+                                    case "A004":
+
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            String utteranceId=this.hashCode() + "";
+                                            myTTS_KR.speak("수업을 중단합니다", TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                                        } else {
+                                            HashMap<String, String> map = new HashMap<>();
+                                            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                                            myTTS_KR.speak("수업을 중단합니다", TextToSpeech.QUEUE_FLUSH, map);
+                                        }
+
+                                        finish();
+                                        //Toast.makeText(getApplicationContext(), "수업중단", Toast.LENGTH_LONG).show();
+                                        break;
+
+                                    case "A005":
+                                        if(_questionType.equals("Q") || _questionType.equals("E")) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                                String utteranceId=this.hashCode() + "";
+                                                myTTS_EN.speak(_englishString, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                                            } else {
+                                                HashMap<String, String> map = new HashMap<>();
+                                                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                                                myTTS_EN.speak(_englishString, TextToSpeech.QUEUE_FLUSH, map);
+                                            }
+
+                                            Toast.makeText(getApplicationContext(), _englishString, Toast.LENGTH_LONG).show();
+                                        } else {
+
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                                String utteranceId=this.hashCode() + "";
+                                                myTTS_KR.speak("문제 부분만 가능합니다.", TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                                            } else {
+                                                HashMap<String, String> map = new HashMap<>();
+                                                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+                                                myTTS_KR.speak("문제 부분만 가능합니다.", TextToSpeech.QUEUE_FLUSH, map);
+                                            }
+
+
+                                            Toast.makeText(getApplicationContext(), "문제 부분만 가능합니다.", Toast.LENGTH_LONG).show();
+                                        }
+
+                                        //Toast.makeText(MainActivity.this, "답이 궁금할 떄", Toast.LENGTH_LONG).show();
+                                        break;
+
+                                    case "A999":
+
+                                        break;
+
+
+                                    default:
+
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<VoiceSearchDTO> call, Throwable t) {
+                                Log.d("test", "실패");
                             }
                         });
 
 
-
-
-                    } else {
-                        customDialogO.dismiss();
-                        _studyData();
+                        return null;
                     }
 
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                    }
 
+                }.execute();
+            }
 
-                }
-            };
-
-            mHandler = new Handler();
-            mHandler.postDelayed(answerRunnable, 1000);
 
         }
 
@@ -819,6 +1508,10 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void studyClickEvent(View v) {
+        finish();
     }
 
     @Override

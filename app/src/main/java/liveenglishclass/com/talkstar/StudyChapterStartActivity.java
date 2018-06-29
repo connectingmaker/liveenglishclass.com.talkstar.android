@@ -64,6 +64,7 @@ public class StudyChapterStartActivity extends AppCompatActivity {
                 intent.putExtra("classesCode", classesCode);
                 intent.putExtra("chapterCode", chapterCode);
                 intent.putExtra("chapterOrder", chapterOrder);
+                intent.putExtra("bookmark", "N");
 
                 startActivity(intent);
                 break;

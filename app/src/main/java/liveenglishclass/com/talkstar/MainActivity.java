@@ -6,12 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,40 +17,29 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
-import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
-import liveenglishclass.com.talkstar.dto.Contributor;
-import liveenglishclass.com.talkstar.dto.MemberLoginDTO;
 import liveenglishclass.com.talkstar.dto.VoiceSearchDTO;
 import liveenglishclass.com.talkstar.util.BackPressCloseHandler;
 import liveenglishclass.com.talkstar.util.Property;
-import liveenglishclass.com.talkstar.util.ScreenUtils;
 import liveenglishclass.com.talkstar.util.Shared;
-import liveenglishclass.com.talkstar.util.Util;
 
 
 import liveenglishclass.com.talkstar.util.VoiceView;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     private boolean mIsRecording = false;
     private Handler mHandler;
     private ViewVoice mViewVoice;
@@ -100,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ImageButton tab01, tab02, tab03, tab04;
+    private LinearLayout mic_linear;
     private VoiceView mVoiceView;
 
     private Property property;
@@ -121,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         tab02 = (ImageButton) findViewById(R.id.tab02);
         tab03 = (ImageButton) findViewById(R.id.tab03);
         tab04 = (ImageButton) findViewById(R.id.tab04);
+
+        mic_linear = (LinearLayout) findViewById(R.id.mic_linear);
 
 
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -352,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.setFragment();
 
+
+
         if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
@@ -370,6 +361,26 @@ public class MainActivity extends AppCompatActivity {
             mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
             mRecognizer.setRecognitionListener(listener);
             mRecognizer.startListening(intent);
+
+
+            Animation default_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mic_default);
+            mic_linear.setAnimation(default_anim);
+            mic_linear.startAnimation(default_anim);
+            mic_linear.setBackgroundResource(R.mipmap.mic_active_bg);
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_mic_rotate);
+            Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mic_fadein);
+            Animation scale = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_scale);
+
+            //mic_linear.setAlpha();
+
+            AnimationSet s = new AnimationSet(false);
+            s.addAnimation(scale);
+            s.addAnimation(fadeIn);
+            s.addAnimation(animation);
+            //mic_linear.setAnimation(fadeIn);
+            //mic_linear.setAnimation(animation);
+            mic_linear.startAnimation(s);
+
         }
 
 
@@ -412,6 +423,9 @@ public class MainActivity extends AppCompatActivity {
         public void onReadyForSpeech(Bundle params) {
             Log.d("test", "onReadyForSpeech");
 
+
+
+
         }
 
         @Override
@@ -438,10 +452,17 @@ public class MainActivity extends AppCompatActivity {
         public void onError(int error) {
             Log.d("test", "onError");
             //Toast toast = Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG); toast.show();
+            mic_linear.setBackgroundResource(R.mipmap.mic_active_bg_off);
+            mic_linear.clearAnimation();
+            mic_linear.animate().cancel();
         }
 
         @Override
         public void onResults(Bundle results) {
+
+            mic_linear.setBackgroundResource(R.mipmap.mic_active_bg_off);
+            mic_linear.clearAnimation();
+            mic_linear.animate().cancel();
             String key = "";
             key = SpeechRecognizer.RESULTS_RECOGNITION;
             ArrayList<String> mResult = results.getStringArrayList(key);
@@ -451,8 +472,7 @@ public class MainActivity extends AppCompatActivity {
             final String searchName = rs[0];
             Log.d("test", searchName);
 
-//            final CustormLoadingDialog loading = new CustormLoadingDialog(MainActivity.this);
-//            loading.show();
+
 
 
 
