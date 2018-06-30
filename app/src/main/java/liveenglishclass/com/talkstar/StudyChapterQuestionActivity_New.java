@@ -194,6 +194,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
         mic_linear = (LinearLayout) findViewById(R.id.mic_linear);
 
+        /*
         if(bookmarkYN_check.equals("Y")) {
             //prev_
             next_btn.setVisibility(View.GONE);
@@ -202,6 +203,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             next_btn.setVisibility(View.VISIBLE);
             prev_btn.setVisibility(View.VISIBLE);
         }
+        */
 
     }
 
@@ -313,7 +315,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 protected String doInBackground(Void... params) {
                     retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                     apiService = retrofit.create(ApiService.class);
-                    Call<StudyStartDTO_20180620> call = apiService.StudyPrev(UID, classesCode, chapterCode, prev_chapterOrder);
+                    Call<StudyStartDTO_20180620> call = apiService.StudyPrev(UID, classesCode, chapterCode, prev_chapterOrder,bookmarkYN_check);
                     call.enqueue(new Callback<StudyStartDTO_20180620>() {
 
                         @Override
@@ -437,12 +439,20 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                         public void onResponse(Call<StudyFinish> call, Response<StudyFinish> response) {
                             StudyFinish studyDTO = response.body();
 
+                            if(bookmarkYN_check.equals("N")) {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                intent.putExtra("fragment_move", "study");
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                intent.putExtra("fragment_move", "command");
+                                startActivity(intent);
+                                finish();
+                            }
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            intent.putExtra("fragment_move", "study");
-                            startActivity(intent);
-                            finish();
 
                         }
 
@@ -486,7 +496,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                         protected String doInBackground(Void... params) {
                             retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                             apiService = retrofit.create(ApiService.class);
-                            Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer);
+                            Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer, bookmarkYN_check);
                             call.enqueue(new Callback<StudyStartDTO_20180620>() {
 
                                 @Override
@@ -589,7 +599,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                     protected String doInBackground(Void... params) {
                         retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
                         apiService = retrofit.create(ApiService.class);
-                        Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer);
+                        Call<StudyStartDTO_20180620> call = apiService.StudyStart_20180620(UID, classesCode, chapterCode, chapterOrder, studyCode, questionAnswer, bookmarkYN_check);
                         call.enqueue(new Callback<StudyStartDTO_20180620>() {
 
                             @Override
@@ -1273,9 +1283,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                                 public void onClick(View v) {
                                     customDialogX.dismiss();
 //                                    _studyData();
-                                    if(bookmarkYN_check.equals("N")) {
-                                        _studyData();
-                                    }
+//                                    if(bookmarkYN_check.equals("N")) {
+//                                        _studyData();
+//                                    }
                                 }
                             });
 
@@ -1292,9 +1302,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
                         } else {
                             customDialogO.dismiss();
-                            if(bookmarkYN_check.equals("N")) {
-                                _studyData();
-                            }
+//                            if(bookmarkYN_check.equals("N")) {
+//                                _studyData();
+//                            }
                         }
 
 

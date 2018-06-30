@@ -15,23 +15,24 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/study_linearLayout"
+            android:id="@+id/study_bookmark_btn"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0.2"
-            android:background="@drawable/study_round_btn">
+            android:focusable="false"
+            android:background="@drawable/bookmark_round_btn">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="0dp"
+                android:paddingTop="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingBottom="0dp"
-                android:layout_weight="0.6"
+                android:paddingBottom="20dp"
+                android:layout_weight="0.8"
                 >
 
 
@@ -89,19 +90,19 @@
 
 
             <LinearLayout
-                android:id="@+id/bookmark_delete_btn"
-                android:layout_width="30dp"
+                android:id="@+id/bookmark_linearlayout"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="right|center_vertical|center_horizontal">
-<!--
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:focusable="false"
                     android:src="@mipmap/bookmark_out_btn_off" />
-                    -->
+
 
             </LinearLayout>
 

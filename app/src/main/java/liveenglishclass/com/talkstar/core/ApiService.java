@@ -40,8 +40,8 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-    public static final String API_URL = "http://192.168.0.11:7890/";
-    //public static final String API_URL = "http://www.brs.kr:7890/";
+//    public static final String API_URL = "http://192.168.0.10:7890/";
+    public static final String API_URL = "http://www.brs.kr:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -109,10 +109,10 @@ public interface ApiService {
     Call<StudyStartDTO> StudyStart(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code);
 
     @GET("study/start_20180620")
-    Call<StudyStartDTO_20180620> StudyStart_20180620(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId, @Query("studyCode") String studyCode, @Query("questionAnswer") String questionAnswer);
+    Call<StudyStartDTO_20180620> StudyStart_20180620(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId, @Query("studyCode") String studyCode, @Query("questionAnswer") String questionAnswer, @Query("bookmarkYN_check") String bookmarkYN_check);
 
     @GET("study/prev")
-    Call<StudyStartDTO_20180620> StudyPrev(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId);
+    Call<StudyStartDTO_20180620> StudyPrev(@Query("uid") String uid, @Query("classes_code") String classes_code, @Query("chapter_code") String chapter_code, @Query("orderId") String orderId, @Query("bookmarkYN_check") String bookmarkYN_check);
 
 
     /********** 수업다음진행 ***************/

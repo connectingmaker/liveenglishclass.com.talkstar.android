@@ -77,42 +77,44 @@ public class BookmarkFragment extends Fragment {
         bookmark_listView = (ListView) view.findViewById(R.id.bookmark_listView);
         _bookmarkLists = new ArrayList<>();
 
+
 //        _threadAutoInit();
 
 
-        Log.d("test", "호출");
+//        Log.d("test", "호출");
 
-        bookmark_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(view.getId()) {
-                    case R.id.bookmark_delete_btn:
-                        Log.d("test", "삭제");
-                        break;
-
-
-                    default:
-                        Log.d("test", "VIEW");
-                        break;
-                }
-                Log.d("test", "아이템 클릭");
-                String classesCode = _bookmarkLists.get(position).getCLAESS_CODE();
-                String chapterCode = _bookmarkLists.get(position).getCHAPTER_CODE();
-                String chapterOrder = String.valueOf(_bookmarkLists.get(position).getORDERID());
-                String bookmark = "Y";
-
-                intent = new Intent(getActivity(), StudyChapterQuestionActivity_New.class);
-                intent.putExtra("classesCode", classesCode);
-                intent.putExtra("chapterCode", chapterCode);
-                intent.putExtra("chapterOrder", chapterOrder);
-                intent.putExtra("bookmark", bookmark);
-
-
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
-
-            }
-        });
+//        bookmark_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("test", "list view 클릭");
+////                switch(view.getId()) {
+////                    case R.id.bookmark_delete_btn:
+////                        Log.d("test", "삭제");
+////                        break;
+////
+////
+////                    default:
+////                        Log.d("test", "VIEW");
+////                        break;
+////                }
+////                Log.d("test", "아이템 클릭");
+////                String classesCode = _bookmarkLists.get(position).getCLAESS_CODE();
+////                String chapterCode = _bookmarkLists.get(position).getCHAPTER_CODE();
+////                String chapterOrder = String.valueOf(_bookmarkLists.get(position).getORDERID());
+////                String bookmark = "Y";
+////
+////                intent = new Intent(getActivity(), StudyChapterQuestionActivity_New.class);
+////                intent.putExtra("classesCode", classesCode);
+////                intent.putExtra("chapterCode", chapterCode);
+////                intent.putExtra("chapterOrder", chapterOrder);
+////                intent.putExtra("bookmark", bookmark);
+////
+////
+////                startActivity(intent);
+////                getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+//
+//            }
+//        });
 
 
 
@@ -174,7 +176,10 @@ public class BookmarkFragment extends Fragment {
 
 
                         bookmark_adapter = new BookMarkAdapter(getActivity(), _bookmarkLists);
+
+
                         bookmark_listView.setAdapter(bookmark_adapter);
+
 
                         //listView.setOnItemClickListener(mItemClickListener);
 
@@ -229,6 +234,16 @@ public class BookmarkFragment extends Fragment {
 //
 //        }
 //    };
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+
+        @Override
+
+        public void onClick(View v) {
+            Log.d("test", "클릭이벤트");
+        }
+
+    };
 
 
 }
