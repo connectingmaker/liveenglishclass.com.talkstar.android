@@ -123,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        fragmentCheck = "voice";
+        fragmentCheck = "study";
 
         this.fragmentManager = getFragmentManager();
         this.fragmentTransaction = fragmentManager.beginTransaction();
-        tab01.setImageResource(R.mipmap.tab_button01_on);
-        tab02.setImageResource(R.mipmap.tab_button02_off);
+        tab01.setImageResource(R.mipmap.tab_button01_off);
+        tab02.setImageResource(R.mipmap.tab_button02_on);
         tab03.setImageResource(R.mipmap.tab_button03_off);
         tab04.setImageResource(R.mipmap.tab_button04_off);
 

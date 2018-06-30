@@ -3,6 +3,7 @@ package liveenglishclass.com.talkstar;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +29,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,6 +47,7 @@ import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialog;
 import liveenglishclass.com.talkstar.custom.CustomAnswerCheckDialogX;
+import liveenglishclass.com.talkstar.dto.CommandRandomDTO;
 import liveenglishclass.com.talkstar.dto.StudyBookMark;
 import liveenglishclass.com.talkstar.dto.StudyFinish;
 import liveenglishclass.com.talkstar.dto.StudyStartDTO;
@@ -83,6 +86,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
     private String _koreaString = "";
     private HashMap<String, String> questionData;
     private Boolean _voiceStart = false;
+    private Boolean _textMode = false;
 
 
     /********* LAYOUT MODULE ***********/
@@ -274,7 +278,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
     private void _threadAutoInit()
     {
+        _command();
         threadAuto = new Thread() {
+            Integer timer = 0;
             @Override
             public void run() {
                 try {
@@ -287,6 +293,15 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                                 voiceFinish = false;
                             }
                         }
+
+                        timer++;
+
+                        if(timer == 50 || timer == 0) {
+                            _command();
+                            timer = 1;
+                        }
+
+
                         sleep(100);
                     }
                 } catch (InterruptedException e) {
@@ -295,6 +310,47 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             }
         };
         threadAuto.start();
+    }
+
+    private void _command()
+    {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                apiService = retrofit.create(ApiService.class);
+                Call<CommandRandomDTO> call = apiService.commandRandom();
+                call.enqueue(new Callback<CommandRandomDTO>() {
+
+                    @Override
+                    public void onResponse(Call<CommandRandomDTO> call, Response<CommandRandomDTO> response) {
+                        CommandRandomDTO dto = response.body();
+
+                        Log.d("test", dto.COMMAND_NAME);
+
+                        question_random_command.setText(dto.COMMAND_NAME);
+                    }
+
+                    @Override
+                    public void onFailure(Call<CommandRandomDTO> call, Throwable t) {
+
+                    }
+                });
+
+
+
+
+
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+
+        }.execute();
     }
 
     private void _prevData()
@@ -726,6 +782,16 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 tv_explanation.setText(english_string);
             }
 
+            if(_textMode == true) {
+                et_answer.setVisibility(View.VISIBLE);
+                et_answer.requestFocus();
+
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+
             micEnVoiceBtn = (ImageButton) mAddView.findViewById(R.id.micEnVoiceBtn);
             ImageButton textVoiceBtn = (ImageButton) mAddView.findViewById(R.id.textVoiceBtn);
             micEnVoiceBtn.setOnClickListener(new View.OnClickListener() {
@@ -1053,10 +1119,10 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
                         if(studyDTO.USE_YN.equals("Y")) {
                             study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_on);
-                            Toast.makeText(getApplicationContext(), "북마크가 설정되었습니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "선택하신 문장이 북마크 되었습니다", Toast.LENGTH_LONG).show();
                         } else {
                             study_bookmark_btn.setImageResource(R.mipmap.sclap_btn_off);
-                            Toast.makeText(getApplicationContext(), "북마크가 해제되었습니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "선택하신 문장이 북마크에서 해재 되었습니다.", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -1122,6 +1188,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 micVoiceType = "KR";
                 _micVoice("KR");
 
+                _textMode = false;
+                et_answer.setVisibility(View.GONE);
+
                 Log.d("test", "애니메이션");
 
                 Animation default_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.mic_default);
@@ -1142,10 +1211,25 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                 //mic_linear.setAnimation(animation);
                 mic_linear.startAnimation(s);
 
+
                 break;
 
             case R.id.textVoiceBtn:
+
+                _textMode = true;
+
+
                 et_answer.setVisibility(View.VISIBLE);
+                et_answer.requestFocus();
+
+                //키보드 보이게 하는 부분
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+
+
                 break;
             case R.id.study_bookmark_btn:
 

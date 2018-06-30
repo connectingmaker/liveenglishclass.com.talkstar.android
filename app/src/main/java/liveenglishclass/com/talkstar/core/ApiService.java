@@ -7,6 +7,7 @@ import java.util.Map;
 
 import liveenglishclass.com.talkstar.dto.CommandDTO;
 import liveenglishclass.com.talkstar.dto.CommandList;
+import liveenglishclass.com.talkstar.dto.CommandRandomDTO;
 import liveenglishclass.com.talkstar.dto.Contributor;
 import liveenglishclass.com.talkstar.dto.MemberCommandList;
 import liveenglishclass.com.talkstar.dto.MemberDTO;
@@ -40,8 +41,8 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //접근 URL
-//    public static final String API_URL = "http://192.168.0.10:7890/";
-    public static final String API_URL = "http://www.brs.kr:7890/";
+    public static final String API_URL = "http://192.168.0.10:7890/";
+//    public static final String API_URL = "http://www.brs.kr:7890/";
 
     @GET("repos/{owner}/{repo}/contributors")
     Call<List<Contributor>> contributors(@Path("owner") String owner, @Path("repo") String repo);
@@ -78,6 +79,9 @@ public interface ApiService {
 
     Call<MemberLoginDTO> MemberLogin_Process(String login_et_id, String login_et_pw);
 
+    @GET("study/commandRandom")
+        //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
+    Call<CommandRandomDTO> commandRandom();
 
     @GET("study/list")
     //Call<List<StudyDTO>> listStudy(@Query("uid") String uid);
