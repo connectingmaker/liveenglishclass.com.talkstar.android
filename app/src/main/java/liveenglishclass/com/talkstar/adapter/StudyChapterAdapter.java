@@ -69,13 +69,40 @@ public class StudyChapterAdapter extends ArrayAdapter<StudyChapterDTO> {
         chapter_sentence.setText(item.getSentence());
         chapter_learning.setText(item.getLearningNotes());
 
-        if(item.getUserCheck().equals("Y")) {
-            study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
-            study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+
+        if(pos == 0) {
+            if(item.getUserCheck().equals("Y")) {
+                study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
+                study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+            } else {
+                study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+            }
         } else {
-            study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
-            study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+            Integer position_temp = pos - 1;
+
+            StudyChapterDTO item_temp = getItem(position_temp);
+
+            if(item.getUserCheck().equals("Y")) {
+                study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
+                study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+            } else {
+                if(item_temp.getUserCheck().equals("Y") && item.getUserCheck().equals("Y")) {
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
+                    study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                } else if(item_temp.getUserCheck().equals("Y") && item.getUserCheck().equals("N")) {
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                    study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                } else {
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                    study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+                }
+            }
         }
+
+
+
+
 /*
         study_linearLayout = convertView.findViewById(R.id.study_linearLayout);
 

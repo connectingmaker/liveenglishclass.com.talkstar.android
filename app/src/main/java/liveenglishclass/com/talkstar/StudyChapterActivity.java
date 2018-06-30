@@ -194,6 +194,8 @@ public class StudyChapterActivity extends AppCompatActivity {
             chapterName = _studyLists.get(position-1).getChapterName();
             chapterLearning = _studyLists.get(position-1).getLearningNotes();
 
+            Log.d("test", "선택" + String.valueOf(position));
+
             if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(
@@ -202,7 +204,7 @@ public class StudyChapterActivity extends AppCompatActivity {
                 return;
             } else {
 
-                if(position == 0) {
+                if(position == 1) {
                     positionData = position;
                     intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
                     intent.putExtra("classesCode", classesCode);
@@ -217,7 +219,7 @@ public class StudyChapterActivity extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
                 } else {
-                    Integer positionTemp = position - 1;
+                    Integer positionTemp = position - 2;
 
                     String userCheck = _studyLists.get(positionTemp).getUserCheck();
 

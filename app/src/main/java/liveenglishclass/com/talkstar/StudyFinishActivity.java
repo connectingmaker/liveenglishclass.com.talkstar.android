@@ -1,35 +1,25 @@
 package liveenglishclass.com.talkstar;
 
-import android.app.Fragment;
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.timqi.sectorprogressview.ColorfulRingProgressView;
-import com.timqi.sectorprogressview.SectorProgressView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-
-import liveenglishclass.com.talkstar.adapter.MemberCommandAdapter;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
-import liveenglishclass.com.talkstar.dto.MemberCommandDTO;
-import liveenglishclass.com.talkstar.dto.MemberCommandList;
 import liveenglishclass.com.talkstar.dto.MypageDTO;
 import liveenglishclass.com.talkstar.util.Shared;
 import retrofit2.Call;
@@ -38,12 +28,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by kwangheejung on 2018. 3. 5..
- */
-
-public class HomeFragment extends Fragment {
-
+public class StudyFinishActivity extends AppCompatActivity {
     private final String debugTag = "HomeFragment";
     private Retrofit retrofit;
     ApiService apiService;
@@ -55,47 +40,59 @@ public class HomeFragment extends Fragment {
     private String UID;
 
     private ColorfulRingProgressView circular_progress_bar;
-    private TextView  star_count,star_count_yesterday,context,per;
+    private TextView star_count,star_count_yesterday,context,per;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_study_finish);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        per = (TextView) findViewById(R.id.per);
+        star_count = (TextView) findViewById(R.id.star_count);
+        star_count_yesterday = (TextView) findViewById(R.id.star_count_yesterday);
+        context = (TextView) findViewById(R.id.context);
+        circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
 
-          per = (TextView) view.findViewById(R.id.per);
-          star_count = (TextView) view.findViewById(R.id.star_count);
-          star_count_yesterday = (TextView) view.findViewById(R.id.star_count_yesterday);
-          context = (TextView) view.findViewById(R.id.context);
-          circular_progress_bar = (ColorfulRingProgressView) view.findViewById(R.id.circular_progress_bar);
-
-//        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-//        english_1 = (TextView) view.findViewById(R.id.english_1);
-//        english_2 = (TextView) view.findViewById(R.id.english_2);
-        this._dataList();
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        this._dataList();
-        super.onActivityCreated(savedInstanceState);
+        _dataList();
 
     }
+//    Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
+//    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//    //intent.putExtra("fragment_move", "mypage");
+//    startActivity(intent);
+//    finish();
+
+    public void btnClickEvent(View v) {
+        switch (v.getId()) {
+            case R.id.activity_notice_prev_btn:
+
+                onBackPressed();
+                break;
+
+        }
+    }
+
+    public void onBackPressed() {
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("fragment_move", "study");
+        startActivity(intent);
+        finish();
+
+        super.onBackPressed();
+    }
+
 
     private void _dataList() {
 
-        final CustormLoadingDialog dialog = new CustormLoadingDialog(getActivity());
+        final CustormLoadingDialog dialog = new CustormLoadingDialog(this);
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-        UID = Shared.getPerferences(getActivity(), "SESS_UID");
+        UID = Shared.getPerferences(this, "SESS_UID");
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -162,4 +159,5 @@ public class HomeFragment extends Fragment {
 
         }.execute();
     }
+
 }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import liveenglishclass.com.talkstar.R;
+import liveenglishclass.com.talkstar.dto.StudyChapterDTO;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 
 public class StudyAdapter extends ArrayAdapter<StudyDTO> {
@@ -81,15 +82,34 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
 
         if(item.getPerOrder() == 1) {
             fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+            study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
         } else {
-            fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+
+            if(pos == 0) {
+                if(item.getPerOrder() == 1) {
+                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
+                } else {
+                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                }
+            } else {
+                Integer position_temp = pos - 1;
+
+                StudyDTO item_temp = getItem(position_temp);
+                if(item_temp.getPerOrder() == 1) {
+                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                } else {
+                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                }
+            }
+
+
+
         }
 
-        if(item.getPerOrder() == 0) {
-            study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
-        } else {
-            study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
-        }
 
         question_cnt.setText(Html.fromHtml("<span color='#404040'><font size='30'>"+item.getUserQCnt().toString()+"</font><small>/"+item.getPartCnt().toString()+"</small></span>"));
 

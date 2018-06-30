@@ -494,14 +494,17 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyFinish> call, Response<StudyFinish> response) {
                             StudyFinish studyDTO = response.body();
-
                             if(bookmarkYN_check.equals("N")) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                intent.putExtra("fragment_move", "study");
+                                Log.d("test", "완료");
+
+
+                                Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //intent.putExtra("fragment_move", "mypage");
                                 startActivity(intent);
                                 finish();
                             } else {
+                                Log.d("test", "완료2");
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 intent.putExtra("fragment_move", "command");
@@ -534,7 +537,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             }.execute();
         } else {
             if(_questionType.equals("E")) {
-
+//                _questionType = "Q";
                 if(questionAnswer.equals("")) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         String utteranceId=this.hashCode() + "";
@@ -1174,6 +1177,10 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
 
+        _textMode = false;
+
+        et_answer.setVisibility(View.GONE);
+
     }
 
     public void btnEvent(View v) {
@@ -1392,6 +1399,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
                         } else {
                             customDialogO.dismiss();
+                            _studyData();
 //                            if(bookmarkYN_check.equals("N")) {
 //                                _studyData();
 //                            }

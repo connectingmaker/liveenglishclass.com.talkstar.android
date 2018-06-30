@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
     private VoiceView mVoiceView;
 
     private Property property;
+    private Thread threadAuto;
+    private Boolean fragmentChange = false;
 
 
 
@@ -156,6 +158,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void onStart()
+    {
+        super.onStart();
+
+    }
+
+    private void _threadAutoInit()
+    {
+        threadAuto = new Thread() {
+            Integer timer = 0;
+            @Override
+            public void run() {
+                while(true) {
+                    if(fragmentChange == true) {
+                        setFragment();
+                    }
+                }
+            }
+        };
+        threadAuto.start();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -229,31 +252,35 @@ public class MainActivity extends AppCompatActivity {
             settingFragment = new SettingFragment();
             homeFragment = new HomeFragment();
 
+
+
+            Log.d("test", fragmentCheck+"///fragmentCheck=페이지 이동");
             switch(fragmentCheck) {
                 case "voice":
                     fragmentTransaction.replace(R.id.viewFragment, this.voiceFragment);
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case "study":
                     fragmentTransaction.replace(R.id.viewFragment, this.studyFragment);
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case "command":
                     fragmentTransaction.replace(R.id.viewFragment, this.bookmarkFragment);
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
                 case "setting":
                     fragmentTransaction.replace(R.id.viewFragment, this.settingFragment);
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
 
                 case "mypage":
+                    Log.d("test", "변환완료");
                     this.fragmentTransaction.replace(R.id.viewFragment, this.homeFragment);
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     break;
             }

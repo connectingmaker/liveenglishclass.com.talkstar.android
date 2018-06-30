@@ -87,12 +87,12 @@ public class StudyFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
                 } else {
                     Integer position_temp = position - 1;
-
+                    Integer checkPer_main = _studyLists.get(position).getPerOrder();
                     Integer checkPer = _studyLists.get(position_temp).getPerOrder();
 
                     Log.d("test", String.valueOf(checkPer));
 
-                    if(checkPer == 0) {
+                    if(checkPer == 0 && checkPer_main == 0) {
                         Toast.makeText(getContext(), "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
 
                     } else {

@@ -73,7 +73,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name=".NoticeViewActivity" />
-        <activity android:name=".StudyChapterQuestionActivity_New"></activity>
+        <activity android:name=".StudyChapterQuestionActivity_New" />
+        <activity
+            android:name=".StudyFinishActivity"
+            android:label="@string/title_activity_study_finish"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
