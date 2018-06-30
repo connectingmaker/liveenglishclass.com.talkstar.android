@@ -202,19 +202,43 @@ public class StudyChapterActivity extends AppCompatActivity {
                 return;
             } else {
 
-                positionData = position;
-                intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
-                intent.putExtra("classesCode", classesCode);
-                intent.putExtra("chapterCode", chapterCode);
-                intent.putExtra("chapterName", chapterName);
-                intent.putExtra("chapterLearning", chapterLearning);
+                if(position == 0) {
+                    positionData = position;
+                    intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                    intent.putExtra("classesCode", classesCode);
+                    intent.putExtra("chapterCode", chapterCode);
+                    intent.putExtra("chapterName", chapterName);
+                    intent.putExtra("chapterLearning", chapterLearning);
 
 //                intent.putExtra("chapterOrder", positionData.toString());
 
-                intent.putExtra("chapterOrder", "1");
+                    intent.putExtra("chapterOrder", "1");
 
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                } else {
+                    Integer positionTemp = position - 1;
+
+                    String userCheck = _studyLists.get(positionTemp).getUserCheck();
+
+                    if(userCheck.equals("Y")) {
+                        intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                        intent.putExtra("classesCode", classesCode);
+                        intent.putExtra("chapterCode", chapterCode);
+                        intent.putExtra("chapterName", chapterName);
+                        intent.putExtra("chapterLearning", chapterLearning);
+
+
+                        intent.putExtra("chapterOrder", "1");
+
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                    } else {
+                        Toast.makeText(getApplication(), "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
+                    }
+                }
+
 
 
             }

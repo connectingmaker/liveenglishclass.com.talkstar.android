@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.widget.Toast.*;
 
 /**
  * Created by kwangheejung on 2018. 3. 5..
@@ -68,17 +72,45 @@ public class StudyFragment extends Fragment {
         _studyLists = new ArrayList<>();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String classesCode = _studyLists.get(position).getClassCode();
-                String classesName = _studyLists.get(position).getClassName();
+                if(position == 0) {
+                    String classesCode = _studyLists.get(position).getClassCode();
+                    String classesName = _studyLists.get(position).getClassName();
 
-                intent = new Intent(getActivity(), StudyChapterActivity.class);
-                intent.putExtra("classesCode", classesCode);
-                intent.putExtra("classesName", classesName);
+                    intent = new Intent(getActivity(), StudyChapterActivity.class);
+                    intent.putExtra("classesCode", classesCode);
+                    intent.putExtra("classesName", classesName);
 
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+                } else {
+                    Integer position_temp = position - 1;
+
+                    Integer checkPer = _studyLists.get(position_temp).getPerOrder();
+
+                    Log.d("test", String.valueOf(checkPer));
+
+                    if(checkPer == 0) {
+                        Toast.makeText(getContext(), "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        String classesCode = _studyLists.get(position).getClassCode();
+                        String classesName = _studyLists.get(position).getClassName();
+
+                        intent = new Intent(getActivity(), StudyChapterActivity.class);
+                        intent.putExtra("classesCode", classesCode);
+                        intent.putExtra("classesName", classesName);
+
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+
+                    }
+
+
+                }
+
                 //Log.d(debugTag, _studyLists.get(position).getClassName());
             }
         });
@@ -138,7 +170,7 @@ public class StudyFragment extends Fragment {
                             //listView.setAdapter(study_adapter);
 
                         } else {
-                            Toast.makeText(getActivity(), "오류발생", Toast.LENGTH_LONG).show();
+                            makeText(getActivity(), "오류발생", LENGTH_LONG).show();
                         }
 
                     }
