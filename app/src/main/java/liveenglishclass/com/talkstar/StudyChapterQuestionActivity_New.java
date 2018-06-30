@@ -1184,6 +1184,12 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
             case R.id.next_btn:
                 _studyData();
                 break;
+            case R.id.question_random_command:
+                intent = new Intent(this, CommandActivity.class);
+                //overridePendingTransition(R.anim.);
+                startActivity(intent);
+                //overridePendingTransition(R.anim.anim_slide_out_left, R.anim.anim_slide_in_right);
+                break;
             case R.id.mic_btn:
                 micVoiceType = "KR";
                 _micVoice("KR");
