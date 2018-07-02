@@ -19,6 +19,7 @@ import liveenglishclass.com.talkstar.dto.StudyBookMarkList;
 import liveenglishclass.com.talkstar.dto.StudyChapterList;
 import liveenglishclass.com.talkstar.dto.StudyDTO;
 import liveenglishclass.com.talkstar.dto.StudyFinish;
+import liveenglishclass.com.talkstar.dto.StudyFinishResultDTO;
 import liveenglishclass.com.talkstar.dto.StudyList;
 import liveenglishclass.com.talkstar.dto.QnaDTO;
 import liveenglishclass.com.talkstar.dto.StudyNextDTO;
@@ -145,6 +146,8 @@ public interface ApiService {
     @GET("member/mypage")
     Call<MypageDTO> Mypage(@Query("uid") String uid);
 
+    @GET("member/studyfinishresult")
+    Call<StudyFinishResultDTO> StudyFinishResult(@Query("classesCode") String classesCode, @Query("chapterCode") String chapterCode);
 
 //    @FormUrlEncoded
 //    @POST("study/next")

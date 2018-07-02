@@ -111,17 +111,17 @@ public class HomeFragment extends Fragment {
                         dialog.dismiss();
                         MypageDTO mypageDTO = response.body();
 
-                        per.setText(String.valueOf(mypageDTO.PER));
+                        per.setText(Html.fromHtml("<span style='font-size:10dp;'>전체 달성률</span> <br> <b><span style='color:#5b76eb;'> "+String.valueOf(mypageDTO.PER)+" % </b>"));
                         star_count.setText(String.valueOf(mypageDTO.STAR_COUNT));
 
                         if(mypageDTO.STAR_COUNT_YESTERDAY2 - mypageDTO.STAR_COUNT_YESTERDAY > 0){
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY+"</b>")));
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
                             context.setText("학습량이 줄었는데 분발하세요!");
                         }else if(mypageDTO.STAR_COUNT_YESTERDAY2 - mypageDTO.STAR_COUNT_YESTERDAY < 0){
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#b01c1c;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY+"</b>")));
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#b01c1c;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
                             context.setText("와우! 이전보다 더 열심히 하셨네요! ");
                         }else{
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#353333;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY+"</b>")));
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#353333;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
                             context.setText("꾸준히 연습하세요!");
                         }
 
