@@ -72,7 +72,7 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
         study_progressTxt = (TextView) convertView.findViewById(R.id.study_progressTxt);
 
 
-        Log.d("test", item.getClassName());
+        //Log.d("test", item.getClassName());
         classes_name.setText(item.getClassName());
         classes_level.setRating(Float.parseFloat(item.getClassLevel()));
         pg.setProgress(item.getTotalPer());

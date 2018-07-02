@@ -1,5 +1,6 @@
 package liveenglishclass.com.talkstar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
+import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.MypageDTO;
@@ -33,6 +35,8 @@ public class StudyFinishActivity extends AppCompatActivity {
     private final String debugTag = "HomeFragment";
     private Retrofit retrofit;
     ApiService apiService;
+
+    private ActivityManager actManager = ActivityManager.getInstance();
 
     private Handler mHandler;
     private Runnable mRunnable;
@@ -51,6 +55,9 @@ public class StudyFinishActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_finish);
+
+        actManager.addActivity(this);
+
 
 //        per = (TextView) findViewById(R.id.per);
 //        star_count = (TextView) findViewById(R.id.star_count);
@@ -90,11 +97,15 @@ public class StudyFinishActivity extends AppCompatActivity {
 
     public void onBackPressed() {
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("fragment_move", "study");
+        actManager.finishAllActivity();
+
+        Intent intent = new Intent(StudyFinishActivity.this, MainActivity.class);
+        intent.putExtra("fragment_move", "mypage");
         startActivity(intent);
-        finish();
+        //finish();
+
+        //HomeFragment homeFragment = new HomeFragment();
+
 
         super.onBackPressed();
     }

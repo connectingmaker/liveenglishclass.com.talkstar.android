@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import liveenglishclass.com.talkstar.core.ActivityManager;
+
 public class StudyChapterStartActivity extends AppCompatActivity {
     private Intent intent;
 
@@ -17,7 +19,7 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     private String chapterLearning = "";
     private String chapterOrder = "";
 
-
+    private ActivityManager actManager = ActivityManager.getInstance();
 
 
 
@@ -27,6 +29,8 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_chapter_start);
+
+        actManager.addActivity(this);
 
         activity_study_chapter_title = (TextView) findViewById(R.id.activity_study_chapter_title);
         activity_study_chapter_learning = (TextView) findViewById(R.id.activity_study_chapter_learning);
@@ -59,6 +63,7 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     public void chapterOnClick(View v) {
         switch(v.getId()) {
             case R.id.activity_studychapterstart_start_btn:
+
                 intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity_New.class);
 
                 intent.putExtra("classesCode", classesCode);
@@ -67,7 +72,22 @@ public class StudyChapterStartActivity extends AppCompatActivity {
                 intent.putExtra("bookmark", "N");
 
                 startActivity(intent);
+
+//                Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
+//                intent.putExtra("classesCode", classesCode);
+//                intent.putExtra("chapterCode", chapterCode);
+//
+//
+//                startActivity(intent);
+//                finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        actManager.removeActivity(this);
     }
 }

@@ -171,7 +171,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     }
 
     public void studyClickEvent(View v) {
-        Log.d("test", "OK");
+        //Log.d("test", "OK");
 
         switch(v.getId()) {
             case R.id.activity_study_topLeft_btn:
