@@ -69,6 +69,8 @@ public class StudyFinishActivity extends AppCompatActivity {
 
         }
 
+        Log.d("test", "OK");
+
 
 
         _dataList();
