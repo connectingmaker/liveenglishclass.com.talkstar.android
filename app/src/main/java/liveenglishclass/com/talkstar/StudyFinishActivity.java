@@ -60,12 +60,12 @@ public class StudyFinishActivity extends AppCompatActivity {
 
         actManager.addActivity(this);
 
-
-//        per = (TextView) findViewById(R.id.per);
-//        star_count = (TextView) findViewById(R.id.star_count);
         star_count_now = (TextView) findViewById(R.id.star_count_now);
-//        context = (TextView) findViewById(R.id.context);
-//        circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
+        per = (TextView) findViewById(R.id.per);
+        star_count = (TextView) findViewById(R.id.star_count);
+        star_count_yesterday = (TextView) findViewById(R.id.star_count_yesterday);
+        context = (TextView) findViewById(R.id.context);
+        circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -86,22 +86,7 @@ public class StudyFinishActivity extends AppCompatActivity {
 
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        per = (TextView) view.findViewById(R.id.per);
-        star_count = (TextView) view.findViewById(R.id.star_count);
-        star_count_yesterday = (TextView) view.findViewById(R.id.star_count_yesterday);
-        context = (TextView) view.findViewById(R.id.context);
-        circular_progress_bar = (ColorfulRingProgressView) view.findViewById(R.id.circular_progress_bar);
-
-//        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-//        english_1 = (TextView) view.findViewById(R.id.english_1);
-//        english_2 = (TextView) view.findViewById(R.id.english_2);
-        this._dataList();
-
-        return view;
-    }
 
     public void btnClickEvent(View v) {
         switch (v.getId()) {

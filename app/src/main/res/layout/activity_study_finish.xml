@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.1"
-                    android:text="학습결과1"
+                    android:text="학습결과"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
 
@@ -63,25 +63,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="10">
-
-
-            <ListView
-                android:id="@+id/notice_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:footerDividersEnabled="false"
-                android:listSelector="@android:color/transparent"
-                android:divider="@null"></ListView>
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,11 +71,11 @@
             android:background="#ffffff"
             android:isScrollContainer="true"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="10dp"
             android:weightSum="1"
+            tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="32dp"
-            tools:ignore="MissingConstraints">
+            tools:layout_editor_absoluteY="32dp">
             <!--  학습 결과  -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -294,8 +275,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="75"
                         android:gravity="center"
+                        android:text="75"
                         android:textColor="#000"
                         android:textSize="15dp" />
 
@@ -435,9 +416,7 @@
                 <!--</LinearLayout>-->
 
 
-
             </LinearLayout>
-
 
 
         </LinearLayout>
