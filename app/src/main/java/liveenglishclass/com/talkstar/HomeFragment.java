@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
         fragment_main_classes_name = (TextView) view.findViewById(R.id.fragment_main_classes_name);
         fragment_main_ing_study = (TextView) view.findViewById(R.id.fragment_main_ing_study);
         fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-        english_1 = (TextView) view.findViewById(R.id.english_1);
+//        english_1 = (TextView) view.findViewById(R.id.english_1);
         english_2 = (TextView) view.findViewById(R.id.english_2);
         this._dataList();
 
@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
                         fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.CHAPTER_ALL)+"</span>챕터 중 <span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.USER_CHAPTER_COMPLATE)+"</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
 
 
-                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
+//                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
                         english_2.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH2+"</span></b>"), TextView.BufferType.SPANNABLE);
                     }
 
