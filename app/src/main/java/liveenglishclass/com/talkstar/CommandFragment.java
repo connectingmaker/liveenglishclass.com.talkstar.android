@@ -64,8 +64,6 @@ public class CommandFragment extends Fragment {
         _commandLists = new ArrayList<>();
 
 
-
-
         return view;
     }
 

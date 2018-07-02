@@ -539,6 +539,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
             }.execute();
         } else {
+            _questionType = "Q";
             if(_questionType.equals("E")) {
 //                _questionType = "Q";
                 if(questionAnswer.equals("")) {
