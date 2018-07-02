@@ -1,247 +1,457 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#ffffff"
-        android:isScrollContainer="true"
-        android:orientation="vertical"
-        android:padding="20dp"
         android:weightSum="1"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="32dp"
-        tools:ignore="MissingConstraints">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <!--  학습 결과  -->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-            <!-- TITLE -->
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="학습과정"
+                        android:textColor="@color/homefragmentTitle"
+                        android:textSize="14dp"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+
+                    <!--
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                    </Button>
+                    -->
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/fragment_main_classes_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:letterSpacing="-0.1"
+                        android:text="기초문장편"></TextView>
+
+                    <RatingBar
+                        android:id="@+id/fragment_main_classes_level"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:max="5"
+                        android:numStars="5"
+                        android:rating="1" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dbdbdb"></LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:text="@string/mainfragmentTitle01"
-                            android:textColor="#3788d4"
-                            android:textSize="25dp">
-
-                        </TextView>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <!-- CONTENT -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/star" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mainfragmentTitle01_sub"
-                    android:textSize="13dp"></TextView>
-
-
-            </LinearLayout>
-            <!-- Progress Bar -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.timqi.sectorprogressview.ColorfulRingProgressView
-                    android:id="@+id/circular_progress_bar"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    app:bgColor="#e1e1e1"
-                    app:fgColorEnd="#ff4800"
-                    app:fgColorStart="#ffe400"
-                    app:percent="0"
-                    app:startAngle="0"
-                    app:strokeWidth="21dp" />
-
-                <TextView
-                    android:id="@+id/per"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="75"
-                    android:gravity="center"
-                    android:textColor="#000"
-                    android:textSize="15dp" />
-
-            </RelativeLayout>
-            <!-- 총 누적 별 -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right|center"
-                        android:text="총 누적 별 갯수 : "
-                        android:textSize="13dp">
-
-                    </TextView>
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:src="@mipmap/star" />
-
-                    <TextView
-                        android:id="@+id/star_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:text="142" />
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_weight="0.2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="진행사항"
+                                android:textSize="14dp"
+                                android:letterSpacing="-0.1"
+                                android:textColor="#636365"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="0.8"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/fragment_main_ing_study"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="챕터 중 13챕터">
+
+
+                            </TextView>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <!--
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="진행사항"></TextView>
+                        -->
                 </LinearLayout>
 
             </LinearLayout>
+        </LinearLayout>
 
-            <!-- 라인 -->
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/homefragmentTitle"
+                        android:text="@string/mainfragmentTitle02"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle02_01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                    </Button>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#cccccc"
-                android:orientation="vertical"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-                <!-- TITLE -->
+                android:background="@drawable/notice_round">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="어제 획득한 별"
-                        android:textSize="15dp">
+                        android:text="최근 학습 내용"
+                        android:textColor="@color/homefragmentTitle"
+                        android:textSize="14dp"
+                        android:textStyle="bold">
 
                     </TextView>
                 </LinearLayout>
-                <!-- CONTENT -->
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal">
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:src="@mipmap/big_star" />
-
-                    <TextView
-                        android:id="@+id/star_count_yesterday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:textSize="25dp">
-
-                    </TextView>
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-                <!-- TITLE -->
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:padding="10dp">
 
-                    <TextView
-                        android:id="@+id/context"
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:text="꾸준히 연습하세요!"
-                        android:textSize="15dp">
+                        android:layout_height="wrap_content">
 
-                    </TextView>
+                        <LinearLayout
+                            android:layout_weight="0.2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:letterSpacing="-0.1"
+                                android:text="학습단어"
+                                android:textColor="#636365"
+                                android:textSize="14dp"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="0.8"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/english_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="챕터 중 13챕터">
+
+
+                            </TextView>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_weight="0.2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:letterSpacing="-0.1"
+                                android:text="학습문장"
+                                android:textColor="#636365"
+                                android:textSize="14dp"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="0.8"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/english_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="챕터 중 13챕터">
+
+
+                            </TextView>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical">-->
 
-                <!--<Button-->
-                    <!--android:id="@+id/button2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="오늘 획득한 별" />-->
-            <!--</LinearLayout>-->
 
         </LinearLayout>
+
+
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/homefragmentTitle"
+                        android:text="@string/mainfragmentTitle04"
+                        android:textStyle="bold">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right|center_vertical">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:background="@drawable/btn_smallsize"
+                        android:text="@string/mainfragmentTitle04_01_btn"
+                        android:textSize="8dp"
+                        android:clickable="true"
+                        android:focusable="true">
+                    </Button>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/notice_round">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기초문장편"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        -->
+
+
 
 
     </LinearLayout>

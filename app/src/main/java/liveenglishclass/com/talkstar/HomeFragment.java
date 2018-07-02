@@ -54,8 +54,10 @@ public class HomeFragment extends Fragment {
 
     private String UID;
 
-    private ColorfulRingProgressView circular_progress_bar;
-    private TextView  star_count,star_count_yesterday,context,per;
+
+    private TextView  fragment_main_classes_name;
+    private TextView fragment_main_ing_study;
+    private TextView english_1, english_2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,26 +69,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-          per = (TextView) view.findViewById(R.id.per);
-          star_count = (TextView) view.findViewById(R.id.star_count);
-          star_count_yesterday = (TextView) view.findViewById(R.id.star_count_yesterday);
-          context = (TextView) view.findViewById(R.id.context);
-          circular_progress_bar = (ColorfulRingProgressView) view.findViewById(R.id.circular_progress_bar);
 
-//        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-//        english_1 = (TextView) view.findViewById(R.id.english_1);
-//        english_2 = (TextView) view.findViewById(R.id.english_2);
+        fragment_main_classes_name = (TextView) view.findViewById(R.id.fragment_main_classes_name);
+        fragment_main_ing_study = (TextView) view.findViewById(R.id.fragment_main_ing_study);
+        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
+        english_1 = (TextView) view.findViewById(R.id.english_1);
+        english_2 = (TextView) view.findViewById(R.id.english_2);
         this._dataList();
 
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        this._dataList();
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
     private void _dataList() {
 
@@ -110,44 +103,17 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<MypageDTO> call, Response<MypageDTO> response) {
                         dialog.dismiss();
                         MypageDTO mypageDTO = response.body();
-
-                        per.setText(Html.fromHtml("<span style='font-size:10dp;'>전체 달성률</span> <br> <b><span style='color:#5b76eb;'> "+String.valueOf(mypageDTO.PER)+" % </b>"));
-                        star_count.setText(String.valueOf(mypageDTO.STAR_COUNT));
-
-                        if(mypageDTO.STAR_COUNT_YESTERDAY2 - mypageDTO.STAR_COUNT_YESTERDAY > 0){
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
-                            context.setText("학습량이 줄었는데 분발하세요!");
-                        }else if(mypageDTO.STAR_COUNT_YESTERDAY2 - mypageDTO.STAR_COUNT_YESTERDAY < 0){
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#b01c1c;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
-                            context.setText("와우! 이전보다 더 열심히 하셨네요! ");
-                        }else{
-                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#353333;'> + "+String.valueOf(mypageDTO.STAR_COUNT_YESTERDAY)+"</b>"));
-                            context.setText("꾸준히 연습하세요!");
-                        }
-
-                        //circular_progress_bar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
-                        //circular_progress_bar.setProgress(mypageDTO.PER);
-
-                        circular_progress_bar.setPercent(mypageDTO.PER);
-                        circular_progress_bar.setStartAngle(0);
-                        circular_progress_bar.setFgColorStart(0xffffe400);
-                        circular_progress_bar.setFgColorEnd(0xffff4800);
-                        circular_progress_bar.setStrokeWidthDp(21);
+                        fragment_main_classes_name.setText(mypageDTO.CLASSES_NAME);
+                        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.CHAPTER_ALL)+"</span>챕터 중 <span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.USER_CHAPTER_COMPLATE)+"</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
 
 
-
-//                        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.CHAPTER_ALL)+"</span>챕터 중 <span style='color:#5b76eb;'>"+String.valueOf(mypageDTO.USER_CHAPTER_COMPLATE)+"</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
-
-
-//                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
-//                        english_2.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH2+"</span></b>"), TextView.BufferType.SPANNABLE);
+                        english_1.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH1+"</span></b>"), TextView.BufferType.SPANNABLE);
+                        english_2.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>"+mypageDTO.ENGLISH2+"</span></b>"), TextView.BufferType.SPANNABLE);
                     }
 
                     @Override
                     public void onFailure(Call<MypageDTO> call, Throwable t) {
-                        Log.d("test", "오류");
-                        dialog.dismiss();
+
                     }
                 });
 

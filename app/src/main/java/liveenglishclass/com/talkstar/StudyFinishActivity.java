@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -42,6 +44,7 @@ public class StudyFinishActivity extends AppCompatActivity {
 
     private ColorfulRingProgressView circular_progress_bar;
     private TextView star_count,star_count_now,per;
+    private TextView  star_count_yesterday,context;
 
     private String classesCode;
     private String chapterCode;
@@ -52,11 +55,6 @@ public class StudyFinishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_finish);
 
-//        per = (TextView) findViewById(R.id.per);
-//        star_count = (TextView) findViewById(R.id.star_count);
-        star_count_now = (TextView) findViewById(R.id.star_count_now);
-//        context = (TextView) findViewById(R.id.context);
-//        circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -73,6 +71,23 @@ public class StudyFinishActivity extends AppCompatActivity {
 
         _dataList();
 
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        per = (TextView) view.findViewById(R.id.per);
+        star_count = (TextView) view.findViewById(R.id.star_count);
+        star_count_yesterday = (TextView) view.findViewById(R.id.star_count_yesterday);
+        context = (TextView) view.findViewById(R.id.context);
+        circular_progress_bar = (ColorfulRingProgressView) view.findViewById(R.id.circular_progress_bar);
+
+//        fragment_main_ing_study.setText(Html.fromHtml("<b><span style='color:#5b76eb;'>20</span>챕터 중 <span style='color:#5b76eb;'>13</span>챕터 진행 완료</b>"), TextView.BufferType.SPANNABLE);
+//        english_1 = (TextView) view.findViewById(R.id.english_1);
+//        english_2 = (TextView) view.findViewById(R.id.english_2);
+        this._dataList();
+
+        return view;
     }
 
     public void btnClickEvent(View v) {
@@ -106,7 +121,7 @@ public class StudyFinishActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-//        UID = Shared.getPerferences(this, "SESS_UID");
+        UID = Shared.getPerferences(this, "SESS_UID");
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -114,25 +129,36 @@ public class StudyFinishActivity extends AppCompatActivity {
                 apiService = retrofit.create(ApiService.class);
 
 
-
-                Call<StudyFinishResultDTO> call = apiService.StudyFinishResult(classesCode,chapterCode);
+                Call<StudyFinishResultDTO> call = apiService.StudyFinishResult(UID,classesCode,chapterCode);
                 call.enqueue(new Callback<StudyFinishResultDTO>() {
                     @Override
                     public void onResponse(Call<StudyFinishResultDTO> call, Response<StudyFinishResultDTO> response) {
                         dialog.dismiss();
                         StudyFinishResultDTO studyFinishResultDTO = response.body();
 
-//                        per.setText(Html.fromHtml("<span style='font-size:10dp;'>전체 달성률</span> <br> <b><span style='color:#5b76eb;'> "+String.valueOf(mypageDTO.PER)+" % </b>"));
-//                        star_count.setText(String.valueOf(mypageDTO.STAR_COUNT));
+                        per.setText(Html.fromHtml("<span style='font-size:10dp;'>전체 달성률</span> <br> <b><span style='color:#5b76eb;'> "+String.valueOf(studyFinishResultDTO.PER)+" % </b>"));
+                        star_count.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT));
                         star_count_now.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT_NOW));
 
 
 
-//                        circular_progress_bar.setPercent(mypageDTO.PER);
-//                        circular_progress_bar.setStartAngle(0);
-//                        circular_progress_bar.setFgColorStart(0xffffe400);
-//                        circular_progress_bar.setFgColorEnd(0xffff4800);
-//                        circular_progress_bar.setStrokeWidthDp(21);
+                        if(studyFinishResultDTO.STAR_COUNT_YESTERDAY2 - studyFinishResultDTO.STAR_COUNT_YESTERDAY > 0){
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(studyFinishResultDTO.STAR_COUNT_YESTERDAY)+"</b>"));
+                            context.setText("학습량이 줄었는데 분발하세요!");
+                        }else if(studyFinishResultDTO.STAR_COUNT_YESTERDAY2 - studyFinishResultDTO.STAR_COUNT_YESTERDAY < 0){
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#b01c1c;'> + "+String.valueOf(studyFinishResultDTO.STAR_COUNT_YESTERDAY)+"</b>"));
+                            context.setText("와우! 이전보다 더 열심히 하셨네요! ");
+                        }else{
+                            star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#353333;'> + "+String.valueOf(studyFinishResultDTO.STAR_COUNT_YESTERDAY)+"</b>"));
+                            context.setText("꾸준히 연습하세요!");
+                        }
+
+
+                        circular_progress_bar.setPercent(studyFinishResultDTO.PER);
+                        circular_progress_bar.setStartAngle(0);
+                        circular_progress_bar.setFgColorStart(0xffffe400);
+                        circular_progress_bar.setFgColorEnd(0xffff4800);
+                        circular_progress_bar.setStrokeWidthDp(21);
 
                     }
 
