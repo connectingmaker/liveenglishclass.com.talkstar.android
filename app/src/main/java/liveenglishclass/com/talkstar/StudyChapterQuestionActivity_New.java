@@ -355,7 +355,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
     private void _prevData()
     {
-        _ttsStop();
+        //_ttsStop();
         _killMediaPlayer();
 
         threadAutoRunning = false;
@@ -500,7 +500,10 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
                                 Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
                                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                //intent.putExtra("fragment_move", "mypage");
+                                intent.putExtra("classesCode", classesCode);
+                                intent.putExtra("chapterCode", chapterCode);
+
+
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -933,8 +936,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
         Log.d("test", "실행");
         Log.d("test", voice_type);
         /********* 설명 ********/
-        switch(voice_type) {
+        _killMediaPlayer();
 
+        switch(voice_type) {
 
             case "T":
 
@@ -1609,6 +1613,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
         if (mediaPlayer != null) {
             try {
+                mediaPlayer.stop();
                 mediaPlayer.reset();
                 mediaPlayer.release();
                 mediaPlayer = null;

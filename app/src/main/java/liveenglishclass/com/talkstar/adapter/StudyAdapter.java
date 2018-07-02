@@ -90,8 +90,8 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
                     fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
                     study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
                 } else {
-                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
-                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                    fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
                 }
             } else {
                 Integer position_temp = pos - 1;
@@ -99,7 +99,7 @@ public class StudyAdapter extends ArrayAdapter<StudyDTO> {
                 StudyDTO item_temp = getItem(position_temp);
                 if(item_temp.getPerOrder() == 1) {
                     fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
-                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
                 } else {
                     fragment_study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
                     study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);

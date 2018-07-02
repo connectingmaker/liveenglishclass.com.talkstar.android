@@ -91,8 +91,8 @@ public class StudyChapterAdapter extends ArrayAdapter<StudyChapterDTO> {
                     study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
                     study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
                 } else if(item_temp.getUserCheck().equals("Y") && item.getUserCheck().equals("N")) {
-                    study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
-                    study_icon.setImageResource(R.mipmap.fragment_study_icon_on);
+                    study_linearLayout.setBackgroundResource(R.drawable.study_round_disabled);
+                    study_icon.setImageResource(R.mipmap.fragment_study_icon_off);
                 } else {
                     study_linearLayout.setBackgroundResource(R.drawable.study_round_btn);
                     study_icon.setImageResource(R.mipmap.fragment_study_icon_off);

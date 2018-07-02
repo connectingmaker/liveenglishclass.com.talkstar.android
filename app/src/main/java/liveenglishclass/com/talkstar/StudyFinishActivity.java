@@ -42,6 +42,9 @@ public class StudyFinishActivity extends AppCompatActivity {
     private ColorfulRingProgressView circular_progress_bar;
     private TextView star_count,star_count_yesterday,context,per;
 
+    private String classesCode;
+    private String chapterCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,20 @@ public class StudyFinishActivity extends AppCompatActivity {
         star_count_yesterday = (TextView) findViewById(R.id.star_count_yesterday);
         context = (TextView) findViewById(R.id.context);
         circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+
+            classesCode =(String) b.get("classesCode");
+            chapterCode = (String) b.get("chapterCode");
+
+
+        }
+
+
 
         _dataList();
 

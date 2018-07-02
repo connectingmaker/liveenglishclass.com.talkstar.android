@@ -195,15 +195,57 @@ public class StudyChapterActivity extends AppCompatActivity {
             chapterLearning = _studyLists.get(position-1).getLearningNotes();
 
             Log.d("test", "선택" + String.valueOf(position));
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(
+                            new String[] { android.Manifest.permission.RECORD_AUDIO },
+                            1000);
+                    return;
+                } else {
 
-            if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(
-                        new String[] { android.Manifest.permission.RECORD_AUDIO },
-                        1000);
-                return;
+                    if(position == 1) {
+                        positionData = position;
+                        intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                        intent.putExtra("classesCode", classesCode);
+                        intent.putExtra("chapterCode", chapterCode);
+                        intent.putExtra("chapterName", chapterName);
+                        intent.putExtra("chapterLearning", chapterLearning);
+
+//                intent.putExtra("chapterOrder", positionData.toString());
+
+                        intent.putExtra("chapterOrder", "1");
+
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                    } else {
+                        Integer positionTemp = position - 2;
+
+                        String userCheck = _studyLists.get(positionTemp).getUserCheck();
+
+                        if(userCheck.equals("Y")) {
+                            intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
+                            intent.putExtra("classesCode", classesCode);
+                            intent.putExtra("chapterCode", chapterCode);
+                            intent.putExtra("chapterName", chapterName);
+                            intent.putExtra("chapterLearning", chapterLearning);
+
+
+                            intent.putExtra("chapterOrder", "1");
+
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                        } else {
+                            Toast.makeText(getApplication(), "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(this, "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+
+
+                }
+
             } else {
-
                 if(position == 1) {
                     positionData = position;
                     intent = new Intent(StudyChapterActivity.this, StudyChapterStartActivity.class);
@@ -240,9 +282,6 @@ public class StudyChapterActivity extends AppCompatActivity {
                         //Toast.makeText(this, "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();
                     }
                 }
-
-
-
             }
 
 
@@ -254,6 +293,7 @@ public class StudyChapterActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+
         switch (requestCode) {
             case 1000: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
