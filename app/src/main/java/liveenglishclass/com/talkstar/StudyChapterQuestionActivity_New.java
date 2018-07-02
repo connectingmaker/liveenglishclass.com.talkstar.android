@@ -1460,6 +1460,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                                         break;
 
                                     case "A002":
+                                        _questionType = "Q";
                                         _studyData();
                                         //Toast.makeText(MainActivity.this, "다음 프로세스 진행", Toast.LENGTH_LONG).show();
 

@@ -77,7 +77,7 @@ public class VoiceFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        Log.d("test", "OK");
+        //Log.d("test", "OK");
 
         super.onActivityCreated(savedInstanceState);
 

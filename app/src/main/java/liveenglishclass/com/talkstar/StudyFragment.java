@@ -90,7 +90,7 @@ public class StudyFragment extends Fragment {
                     Integer checkPer_main = _studyLists.get(position).getPerOrder();
                     Integer checkPer = _studyLists.get(position_temp).getPerOrder();
 
-                    Log.d("test", String.valueOf(checkPer));
+                    //Log.d("test", String.valueOf(checkPer));
 
                     if(checkPer == 0 && checkPer_main == 0) {
                         Toast.makeText(getContext(), "이전 단계를 완료하신 후 수업이 가능합니다", Toast.LENGTH_LONG).show();

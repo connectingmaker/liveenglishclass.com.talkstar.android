@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
         actManager.addActivity(this);
 
+        //Log.d("test", "MinActivity 호출");
+
 
         tab01 = (ImageButton) findViewById(R.id.tab01);
         tab02 = (ImageButton) findViewById(R.id.tab02);
@@ -125,7 +127,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        fragmentCheck = "study";
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            fragmentCheck = (String) b.get("fragment_move");;
+
+
+        } else {
+            fragmentCheck = "study";
+        }
+
+        Log.d("test", "create = " + fragmentCheck);
+
 
         this.fragmentManager = getFragmentManager();
         this.fragmentTransaction = fragmentManager.beginTransaction();
@@ -160,6 +176,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStart()
     {
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            fragmentCheck = (String) b.get("fragment_move");;
+
+
+        } else {
+            fragmentCheck = "study";
+        }
+
+
+        Log.d("test", fragmentCheck);
         super.onStart();
 
     }
@@ -197,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
                     this.setFragment();
 
-                    Log.d("test", Locale.US.toString());
+                    //Log.d("test", Locale.US.toString());
                     intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                     intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA.toString());
@@ -242,48 +272,53 @@ public class MainActivity extends AppCompatActivity {
 
             fragmentCheck = intent.getStringExtra("fragment_move");
 
-
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            voiceFragment = new VoiceFragment();
-            studyFragment = new StudyFragment();
-            bookmarkFragment = new BookmarkFragment();
-            settingFragment = new SettingFragment();
-            homeFragment = new HomeFragment();
-
-
-
-            Log.d("test", fragmentCheck+"///fragmentCheck=페이지 이동");
-            switch(fragmentCheck) {
-                case "voice":
-                    fragmentTransaction.replace(R.id.viewFragment, this.voiceFragment);
-//                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    break;
-                case "study":
-                    fragmentTransaction.replace(R.id.viewFragment, this.studyFragment);
-//                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    break;
-                case "command":
-                    fragmentTransaction.replace(R.id.viewFragment, this.bookmarkFragment);
-//                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    break;
-                case "setting":
-                    fragmentTransaction.replace(R.id.viewFragment, this.settingFragment);
-//                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    break;
-
-                case "mypage":
-                    Log.d("test", "변환완료");
-                    this.fragmentTransaction.replace(R.id.viewFragment, this.homeFragment);
-//                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    break;
-            }
+//
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//            voiceFragment = new VoiceFragment();
+//            studyFragment = new StudyFragment();
+//            bookmarkFragment = new BookmarkFragment();
+//            settingFragment = new SettingFragment();
+//            homeFragment = new HomeFragment();
+//
+//
+//
+//            tab01.setImageResource(R.mipmap.tab_button01_off);
+//            tab02.setImageResource(R.mipmap.tab_button02_off);
+//            tab03.setImageResource(R.mipmap.tab_button03_off);
+//            tab04.setImageResource(R.mipmap.tab_button04_off);
+//
+//            Log.d("test", fragmentCheck+"///fragmentCheck=페이지 이동");
+//            switch(fragmentCheck) {
+//                case "voice":
+//                    fragmentTransaction.replace(R.id.viewFragment, voiceFragment);
+////                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    break;
+//                case "study":
+//                    fragmentTransaction.replace(R.id.viewFragment, studyFragment);
+////                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    break;
+//                case "command":
+//                    fragmentTransaction.replace(R.id.viewFragment, bookmarkFragment);
+////                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    break;
+//                case "setting":
+//                    fragmentTransaction.replace(R.id.viewFragment, settingFragment);
+////                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    break;
+//
+//                case "mypage":
+//                    Log.d("test", "변환완료");
+//                    fragmentTransaction.replace(R.id.viewFragment, homeFragment);
+////                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+//                    break;
+            //}
 
 
         }

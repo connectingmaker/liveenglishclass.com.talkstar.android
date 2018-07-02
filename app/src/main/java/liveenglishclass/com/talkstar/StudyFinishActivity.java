@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
+import liveenglishclass.com.talkstar.core.ActivityManager;
 import liveenglishclass.com.talkstar.core.ApiService;
 import liveenglishclass.com.talkstar.custom.CustormLoadingDialog;
 import liveenglishclass.com.talkstar.dto.MypageDTO;
@@ -35,6 +36,8 @@ public class StudyFinishActivity extends AppCompatActivity {
     private final String debugTag = "HomeFragment";
     private Retrofit retrofit;
     ApiService apiService;
+
+    private ActivityManager actManager = ActivityManager.getInstance();
 
     private Handler mHandler;
     private Runnable mRunnable;
@@ -55,6 +58,14 @@ public class StudyFinishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_finish);
 
+        actManager.addActivity(this);
+
+
+//        per = (TextView) findViewById(R.id.per);
+//        star_count = (TextView) findViewById(R.id.star_count);
+        star_count_now = (TextView) findViewById(R.id.star_count_now);
+//        context = (TextView) findViewById(R.id.context);
+//        circular_progress_bar = (ColorfulRingProgressView) findViewById(R.id.circular_progress_bar);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -67,6 +78,8 @@ public class StudyFinishActivity extends AppCompatActivity {
 
 
         }
+
+        Log.d("test", "OK");
 
 
         _dataList();
@@ -103,11 +116,15 @@ public class StudyFinishActivity extends AppCompatActivity {
 
     public void onBackPressed() {
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("fragment_move", "study");
+        actManager.finishAllActivity();
+
+        Intent intent = new Intent(StudyFinishActivity.this, MainActivity.class);
+        intent.putExtra("fragment_move", "mypage");
         startActivity(intent);
-        finish();
+        //finish();
+
+        //HomeFragment homeFragment = new HomeFragment();
+
 
         super.onBackPressed();
     }
