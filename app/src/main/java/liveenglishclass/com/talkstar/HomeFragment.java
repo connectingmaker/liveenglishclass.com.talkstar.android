@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
     private Integer PER;
 
     private String classesCode = "";
+    private String classesName = "";
     private String chapterName = "";
     private String chapterCode = "";
     private String learningNotes = "";
@@ -98,18 +99,19 @@ public class HomeFragment extends Fragment {
         last_study.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), StudyChapterStartActivity.class);
+                Intent intent = new Intent(getActivity(), StudyChapterActivity.class);
                 intent.putExtra("classesCode", classesCode);
-                intent.putExtra("chapterCode", chapterCode);
-                intent.putExtra("chapterName", chapterName);
-                intent.putExtra("chapterLearning", learningNotes);
+                intent.putExtra("chapterCode", classesName);
+
 
 //                intent.putExtra("chapterOrder", positionData.toString());
 
                 intent.putExtra("chapterOrder", "1");
 
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+//                getActivity().overridePendingTransition(R.anim.anim_slide_in_down, R.anim.anim_slide_out_up);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left);
+
             }
         });
 //        english_1 = (TextView) view.findViewById(R.id.english_1);
@@ -150,6 +152,7 @@ public class HomeFragment extends Fragment {
                         per.setText(Html.fromHtml("<span style='font-size:10dp;'>전체 달성률</span> <br> <b><span style='color:#5b76eb;'> "+String.valueOf(mypageDTO.PER)+" % </b>"));
 
                         classesCode = mypageDTO.CLASSES_CODE;
+                        classesName = mypageDTO.CLASSES_NAME;
                         chapterCode = mypageDTO.CHAPTER_CODE;
                         chapterName = mypageDTO.CHAPTER_NAME;
 
