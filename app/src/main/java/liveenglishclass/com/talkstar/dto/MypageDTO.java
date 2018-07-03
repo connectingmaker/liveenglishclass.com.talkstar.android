@@ -1,9 +1,18 @@
 package liveenglishclass.com.talkstar.dto;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class MypageDTO {@SerializedName("CLASSES_NAME")
 public String CLASSES_NAME = "";
+
+    @SerializedName("CLASSES_CODE")
+    public String CLASSES_CODE = "";
+
+    @SerializedName("CHAPTER_CODE")
+    public String CHAPTER_CODE = "";
 
     @SerializedName("CHAPTER_NAME")
     public String CHAPTER_NAME = "";
@@ -29,6 +38,22 @@ public String CLASSES_NAME = "";
 
     @SerializedName("ENGLISH2")
     public String ENGLISH2 = "";
+
+    @SerializedName("PER")
+    public Integer PER = 0;
+
+    @SerializedName("SENTENCE")
+    public String SENTENCE = "";
+
+    @SerializedName("LEARNING_NOTES")
+    public String LEARNING_NOTES = "";
+
+
+
+
+    @SerializedName("data")
+    @Expose
+    private ArrayList<StudyStartDTO_20180620> data = new ArrayList<>();
 
 
 

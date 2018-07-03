@@ -79,6 +79,9 @@ public class StudyFinishActivity extends AppCompatActivity {
         {
             classesCode =(String) b.get("classesCode");
             chapterCode = (String) b.get("chapterCode");
+
+            Log.d("test", classesCode + "///" + chapterCode);
+
         }
 
         Log.d("test", "OK");
@@ -120,7 +123,8 @@ public class StudyFinishActivity extends AppCompatActivity {
         actManager.finishAllActivity();
 
         Intent intent = new Intent(StudyFinishActivity.this, MainActivity.class);
-        intent.putExtra("fragment_move", "mypage");
+//        intent.putExtra("fragment_move", "mypage");
+        intent.putExtra("fragment_move", "study");
         startActivity(intent);
         //finish();
 

@@ -62,21 +62,21 @@ public class StudyChapterStartActivity extends AppCompatActivity {
         switch(v.getId()) {
             case R.id.activity_studychapterstart_start_btn:
 
-//                intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity_New.class);
-//
-//                intent.putExtra("classesCode", classesCode);
-//                intent.putExtra("chapterCode", chapterCode);
-//                intent.putExtra("chapterOrder", chapterOrder);
-//                intent.putExtra("bookmark", "N");
-//
-//                startActivity(intent);
+                intent = new Intent(StudyChapterStartActivity.this, StudyChapterQuestionActivity_New.class);
 
-                Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
                 intent.putExtra("classesCode", classesCode);
                 intent.putExtra("chapterCode", chapterCode);
-
+                intent.putExtra("chapterOrder", "1");
+                intent.putExtra("bookmark", "N");
 
                 startActivity(intent);
+
+//                Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
+//                intent.putExtra("classesCode", classesCode);
+//                intent.putExtra("chapterCode", chapterCode);
+//
+//
+//                startActivity(intent);
 //                finish();
                 break;
         }

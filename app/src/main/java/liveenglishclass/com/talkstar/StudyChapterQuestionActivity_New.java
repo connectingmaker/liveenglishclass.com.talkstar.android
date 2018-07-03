@@ -495,7 +495,9 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
                         public void onResponse(Call<StudyFinish> call, Response<StudyFinish> response) {
                             StudyFinish studyDTO = response.body();
                             if(bookmarkYN_check.equals("N")) {
-                                Log.d("test", "완료");
+                                Log.d("test", classesCode + "///" + chapterCode);
+
+
 
 
                                 Intent intent = new Intent(getApplicationContext(), StudyFinishActivity.class);
@@ -539,7 +541,7 @@ public class StudyChapterQuestionActivity_New extends AppCompatActivity {
 
             }.execute();
         } else {
-            _questionType = "Q";
+            //_questionType = "Q";
             if(_questionType.equals("E")) {
 //                _questionType = "Q";
                 if(questionAnswer.equals("")) {
