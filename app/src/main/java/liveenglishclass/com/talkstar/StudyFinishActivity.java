@@ -160,11 +160,11 @@ public class StudyFinishActivity extends AppCompatActivity {
                         star_count.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT));
                         star_count_now.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT_NOW));
 
-                        classesCode_next = String.valueOf(studyFinishResultDTO.CLASSES_CODE);
-                        chapterCode_next = String.valueOf(studyFinishResultDTO.CHAPTER_CODE);
-                        classesName = String.valueOf(studyFinishResultDTO.CLASSES_NAME);
-                        chapterName = String.valueOf(studyFinishResultDTO.CHAPTER_NAME);
-                        chapterLearning = String.valueOf(studyFinishResultDTO.LEARNING_NOTES);
+                        classesCode_next = studyFinishResultDTO.CLASSES_CODE;
+                        chapterCode_next = studyFinishResultDTO.CHAPTER_CODE;
+                        classesName = studyFinishResultDTO.CLASSES_NAME;
+                        chapterName = studyFinishResultDTO.CHAPTER_NAME;
+                        chapterLearning = studyFinishResultDTO.LEARNING_NOTES;
 
                         if(studyFinishResultDTO.STAR_COUNT_YESTERDAY2 - studyFinishResultDTO.STAR_COUNT_YESTERDAY > 0){
                             star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(studyFinishResultDTO.STAR_COUNT_YESTERDAY)+"</b>"));

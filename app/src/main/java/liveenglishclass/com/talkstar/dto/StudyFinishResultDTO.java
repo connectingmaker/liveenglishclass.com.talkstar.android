@@ -25,10 +25,10 @@ public class StudyFinishResultDTO {
     public Integer PER = 0;
 
     @SerializedName("CLASSES_CODE")
-    public Integer CLASSES_CODE = 0;
+    public String CLASSES_CODE = "";
 
     @SerializedName("CHAPTER_CODE")
-    public Integer CHAPTER_CODE = 0;
+    public String CHAPTER_CODE = "";
 
     @SerializedName("CLASSES_NAME")
     public String CLASSES_NAME = "";
