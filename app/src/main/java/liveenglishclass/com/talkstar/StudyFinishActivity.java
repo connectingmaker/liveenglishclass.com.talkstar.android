@@ -51,6 +51,11 @@ public class StudyFinishActivity extends AppCompatActivity {
 
     private String classesCode;
     private String chapterCode;
+    private String classesCode_next;
+    private String chapterCode_next;
+    private String classesName;
+    private String chapterName;
+    private String chapterLearning;
 
 
     @Override
@@ -72,11 +77,8 @@ public class StudyFinishActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-
             classesCode =(String) b.get("classesCode");
             chapterCode = (String) b.get("chapterCode");
-
-
         }
 
         Log.d("test", "OK");
@@ -95,6 +97,20 @@ public class StudyFinishActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
 
+            case R.id.NextChapter:
+
+                Log.d("test", classesCode_next+"///" + chapterCode_next + "///" + chapterName + "///" + chapterLearning);
+                Intent intent = new Intent(StudyFinishActivity.this, StudyChapterStartActivity.class);
+                intent.putExtra("classesCode", classesCode_next);
+                intent.putExtra("chapterCode", chapterCode_next);
+                intent.putExtra("classesName", classesName);
+                intent.putExtra("chapterName", chapterName);
+                intent.putExtra("chapterLearning", chapterLearning);
+
+                startActivity(intent);
+
+                finish();
+                break;
 
         }
     }
@@ -113,8 +129,6 @@ public class StudyFinishActivity extends AppCompatActivity {
 
         super.onBackPressed();
     }
-
-
 
     private void _dataList() {
 
@@ -142,7 +156,11 @@ public class StudyFinishActivity extends AppCompatActivity {
                         star_count.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT));
                         star_count_now.setText(String.valueOf(studyFinishResultDTO.STAR_COUNT_NOW));
 
-
+                        classesCode_next = String.valueOf(studyFinishResultDTO.CLASSES_CODE);
+                        chapterCode_next = String.valueOf(studyFinishResultDTO.CHAPTER_CODE);
+                        classesName = String.valueOf(studyFinishResultDTO.CLASSES_NAME);
+                        chapterName = String.valueOf(studyFinishResultDTO.CHAPTER_NAME);
+                        chapterLearning = String.valueOf(studyFinishResultDTO.LEARNING_NOTES);
 
                         if(studyFinishResultDTO.STAR_COUNT_YESTERDAY2 - studyFinishResultDTO.STAR_COUNT_YESTERDAY > 0){
                             star_count_yesterday.setText(Html.fromHtml("<b><span style='color:#5b76eb;'> + "+String.valueOf(studyFinishResultDTO.STAR_COUNT_YESTERDAY)+"</b>"));

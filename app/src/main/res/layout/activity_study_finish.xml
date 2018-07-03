@@ -403,17 +403,18 @@
 
                 </LinearLayout>
 
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical">-->
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <!--<Button-->
-                <!--android:id="@+id/button2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="오늘 획득한 별" />-->
-                <!--</LinearLayout>-->
+                    <Button
+                        android:id="@+id/NextChapter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="btnClickEvent"
+                        android:text="다음챕터 진행" />
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -426,7 +427,6 @@
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

@@ -17,7 +17,6 @@ public class StudyChapterStartActivity extends AppCompatActivity {
     private String chapterCode = "";
     private String chapterName = "";
     private String chapterLearning = "";
-    private String chapterOrder = "";
 
     private ActivityManager actManager = ActivityManager.getInstance();
 
@@ -45,7 +44,6 @@ public class StudyChapterStartActivity extends AppCompatActivity {
             chapterCode = (String) b.get("chapterCode");
             chapterName = (String) b.get("chapterName");
             chapterLearning = (String) b.get("chapterLearning");
-            chapterOrder = (String) b.get("chapterOrder");
 
             activity_study_chapter_title.setText(chapterName);
             activity_study_chapter_learning.setText(chapterLearning);
